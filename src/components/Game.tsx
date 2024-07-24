@@ -75,18 +75,27 @@ const reducer = (state: State, action: Action): State => {
 };
 
 const updatePlayer = (keysDown: Set<string>, player: Player): Player => {
-  if (keysDown.has("ArrowLeft")) {
-    return { ...player, x: Math.max(0, player.x - 1) };
-  }
-  if (keysDown.has("ArrowRight")) {
-    return { ...player, x: Math.min(boxSize * (boxSize - 1), player.x + 1) };
-  }
-  if (keysDown.has("ArrowUp")) {
-    return { ...player, y: Math.max(0, player.y - 1) };
-  }
-  if (keysDown.has("ArrowDown")) {
-    return { ...player, y: Math.min(boxSize * (boxSize - 1), player.y + 1) };
-  }
+  const x = ((): number => {
+    if (keysDown.has("ArrowLeft")) {
+      return Math.max(0, player.x - 1);
+    }
+    if (keysDown.has("ArrowRight")) {
+      return Math.min(boxSize * (boxSize - 1), player.x + 1);
+    }
+    return player.x;
+  })();
+
+  const y = ((): number => {
+    if (keysDown.has("ArrowUp")) {
+      return Math.max(0, player.y - 1);
+    }
+    if (keysDown.has("ArrowDown")) {
+      return Math.min(boxSize * (boxSize - 1), player.y + 1);
+    }
+    return player.y;
+  })();
+
+  if (x !== player.x || y !== player.y) return { x, y };
   return player;
 };
 
