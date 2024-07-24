@@ -45,6 +45,18 @@ const gameMapToPlayer = (gameMap: GameMap): Player => {
   );
 };
 
+const gameMapToWalls = (gameMap: GameMap): XY[] => {
+  return gameMap
+    .flatMap((row, y) => {
+      return row.flatMap((box, x) => {
+        return box === "#" ? { x: x * boxSize, y: y * boxSize } : undefined;
+      });
+    })
+    .filter(Boolean);
+};
+
+const walls: XY[] = gameMapToWalls(gameMap);
+
 const initPlayer: Player = gameMapToPlayer(gameMap);
 
 const initState: State = { keysDown: new Set(), player: initPlayer };
@@ -95,8 +107,28 @@ const updatePlayer = (keysDown: Set<string>, player: Player): Player => {
     return player.y;
   })();
 
-  if (x !== player.x || y !== player.y) return { x, y };
+  if (x === player.x && y === player.y) {
+    return player;
+  }
+  if (!walls.some((wall) => isOverlapping({ x, y }, wall))) {
+    return { x, y };
+  }
+  if (!walls.some((wall) => isOverlapping({ x, y: player.y }, wall))) {
+    return { x, y: player.y };
+  }
+  if (!walls.some((wall) => isOverlapping({ x: player.x, y }, wall))) {
+    return { x: player.x, y };
+  }
   return player;
+};
+
+const isOverlapping = (a: XY, b: XY): boolean => {
+  return (
+    a.x + boxSize > b.x &&
+    a.x < b.x + boxSize &&
+    a.y + boxSize > b.y &&
+    a.y < b.y + boxSize
+  );
 };
 
 export const Game = () => {
