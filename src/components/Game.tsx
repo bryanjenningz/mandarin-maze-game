@@ -6,25 +6,27 @@ type XY = { x: number; y: number };
 
 type Player = XY;
 
-type State = { keysDown: Set<string>; player: Player };
+type Monster = XY;
+
+type State = { keysDown: Set<string>; player: Player; monsters: Monster[] };
 
 const boxSize = 20;
 
 const gameMap: GameMap = [
   "#EEEE###############",
   "#    #             #",
-  "#    #             #",
+  "#    #       X     #",
   "#    #             #",
   "#    #    ####     #",
-  "#                  #",
+  "#  X            X  #",
   "#                  #",
   "######         #   #",
   "#              #   #",
-  "#       ####       #",
+  "#  X    ####       #",
   "#                  #",
   "#                  #",
   "#            #     #",
-  "######       #     #",
+  "######       #  X  #",
   "#  P #       #     #",
   "#    #       #     #",
   "#    #             #",
@@ -55,11 +57,24 @@ const gameMapToWalls = (gameMap: GameMap): XY[] => {
     .filter(Boolean);
 };
 
+const gameMapToMonsters = (gameMap: GameMap): Monster[] => {
+  return gameMap
+    .flatMap((row, y) => {
+      return row.flatMap((box, x) => {
+        return box === "X" ? { x: x * boxSize, y: y * boxSize } : undefined;
+      });
+    })
+    .filter(Boolean);
+};
+
 const walls: XY[] = gameMapToWalls(gameMap);
-
 const initPlayer: Player = gameMapToPlayer(gameMap);
-
-const initState: State = { keysDown: new Set(), player: initPlayer };
+const initMonsters: Monster[] = gameMapToMonsters(gameMap);
+const initState: State = {
+  keysDown: new Set(),
+  player: initPlayer,
+  monsters: initMonsters,
+};
 
 type Action =
   | { type: "TICK" }
@@ -179,6 +194,7 @@ export const Game = () => {
                           case " ":
                           case "E":
                           case "P":
+                          case "X":
                             return "bg-black";
                           default:
                             return "";
@@ -199,6 +215,19 @@ export const Game = () => {
             top: (state.player.y / (boxSize * boxSize)) * 100 + "%",
           }}
         ></div>
+
+        {state.monsters.map((monster, i) => {
+          return (
+            <div
+              key={i}
+              className="absolute bg-red-700 w-[5%] h-[5%]"
+              style={{
+                left: (monster.x / (boxSize * boxSize)) * 100 + "%",
+                top: (monster.y / (boxSize * boxSize)) * 100 + "%",
+              }}
+            ></div>
+          );
+        })}
       </div>
     </div>
   );
