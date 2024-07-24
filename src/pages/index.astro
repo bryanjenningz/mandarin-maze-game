@@ -1,5 +1,8 @@
 ---
+import { Game } from "../components/Game";
 import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout title="2D Maze Game" />
+<Layout title="2D Maze Game">
+  <Game client:load />
+</Layout>
