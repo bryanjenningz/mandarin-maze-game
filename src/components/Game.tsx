@@ -35,36 +35,28 @@ const gameMap: GameMap = [
   "####################",
 ].map((row) => row.split(""));
 
+const gameMapBoxLocations = (gameMap: GameMap, targetBox: string): XY[] => {
+  return gameMap
+    .flatMap((row, y) => {
+      return row.flatMap((box, x) => {
+        return box === targetBox
+          ? { x: x * boxSize, y: y * boxSize }
+          : undefined;
+      });
+    })
+    .filter(Boolean);
+};
+
 const gameMapToPlayer = (gameMap: GameMap): Player => {
-  return (
-    gameMap
-      .flatMap((row, y) => {
-        return row.flatMap((box, x) => {
-          return box === "P" ? { x: x * boxSize, y: y * boxSize } : undefined;
-        });
-      })
-      .filter(Boolean)[0] ?? { x: 0, y: 0 }
-  );
+  return gameMapBoxLocations(gameMap, "P")[0] ?? { x: 0, y: 0 };
 };
 
 const gameMapToWalls = (gameMap: GameMap): XY[] => {
-  return gameMap
-    .flatMap((row, y) => {
-      return row.flatMap((box, x) => {
-        return box === "#" ? { x: x * boxSize, y: y * boxSize } : undefined;
-      });
-    })
-    .filter(Boolean);
+  return gameMapBoxLocations(gameMap, "#");
 };
 
 const gameMapToMonsters = (gameMap: GameMap): Monster[] => {
-  return gameMap
-    .flatMap((row, y) => {
-      return row.flatMap((box, x) => {
-        return box === "X" ? { x: x * boxSize, y: y * boxSize } : undefined;
-      });
-    })
-    .filter(Boolean);
+  return gameMapBoxLocations(gameMap, "X");
 };
 
 const walls: XY[] = gameMapToWalls(gameMap);
