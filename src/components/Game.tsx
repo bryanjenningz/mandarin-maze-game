@@ -1,3 +1,3 @@
 export const Game = () => {
-  return <div>Game</div>;
+  return <div className="text-center">2D Maze Game</div>;
 };
