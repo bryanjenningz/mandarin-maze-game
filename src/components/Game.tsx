@@ -8,7 +8,7 @@ type Player = XY;
 
 type Monster = XY & { target: XY | null };
 
-type MonsterRandomness = { dx: number; dy: number; override: boolean };
+type MonsterRandomness = { dx: number; dy: number; targetOverride: boolean };
 
 type State = { keysDown: Set<string>; player: Player; monsters: Monster[] };
 
@@ -135,14 +135,14 @@ const range = (lower: number, upper: number): number[] => {
 };
 
 const generateMonsterTargets = (monsterCount: number): MonsterRandomness[] => {
-  return range(0, monsterCount).map(() => {
+  return range(0, monsterCount).map((): MonsterRandomness => {
     const randomValue = Math.floor(Math.random() * 25);
     const randomDeltaX = (randomValue % 5) - 2;
     const randomDeltaY = Math.floor(randomValue / 5) - 2;
     return {
       dx: randomDeltaX * boxSize,
       dy: randomDeltaY * boxSize,
-      override: Math.random() < 0.05,
+      targetOverride: Math.random() < 0.05,
     };
   });
 };
@@ -151,16 +151,16 @@ const updateMonsters = (
   monsters: Monster[],
   monsterRandomness: MonsterRandomness[]
 ): Monster[] => {
-  return monsters.map((monster, i) => {
-    const { dx, dy, override } = monsterRandomness[i] ?? {
+  return monsters.map((monster, i): Monster => {
+    const { dx, dy, targetOverride } = monsterRandomness[i] ?? {
       dx: 0,
       dy: 0,
-      override: false,
+      targetOverride: false,
     };
     if (dx === 0 && dy === 0) return { ...monster, target: null };
     const target = (() => {
       const newTarget = { x: monster.x + dx, y: monster.y + dy };
-      if (override) return newTarget;
+      if (targetOverride) return newTarget;
       return monster.target ?? newTarget;
     })();
     const x = clamp(-1, target.x - monster.x, 1) + monster.x;
@@ -209,7 +209,7 @@ const isOverlapping = (a: XY, b: XY): boolean => {
   );
 };
 
-export const Game = () => {
+export const Game = (): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, initState);
 
   useEffect(() => {
