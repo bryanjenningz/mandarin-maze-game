@@ -165,17 +165,35 @@ const updateMonsters = (
     })();
     const x = clamp(-1, target.x - monster.x, 1) + monster.x;
     const y = clamp(-1, target.y - monster.y, 1) + monster.y;
-    if (!walls.some((wall) => isOverlapping({ x, y }, wall))) {
+    if (
+      !walls.some((wall) => isOverlapping({ x, y }, wall)) &&
+      isInBounds({ x, y })
+    ) {
       return { x, y, target };
     }
-    if (!walls.some((wall) => isOverlapping({ x, y: monster.y }, wall))) {
+    if (
+      !walls.some((wall) => isOverlapping({ x, y: monster.y }, wall)) &&
+      isInBounds({ x, y: monster.y })
+    ) {
       return { x, y: monster.y, target };
     }
-    if (!walls.some((wall) => isOverlapping({ x: monster.x, y }, wall))) {
+    if (
+      !walls.some((wall) => isOverlapping({ x: monster.x, y }, wall)) &&
+      isInBounds({ x: monster.x, y })
+    ) {
       return { x: monster.x, y, target };
     }
     return { ...monster, target: null };
   });
+};
+
+const isInBounds = ({ x, y }: XY): boolean => {
+  return (
+    x >= 0 &&
+    x <= boxSize * (boxSize - 1) &&
+    y >= 0 &&
+    y <= boxSize * (boxSize - 1)
+  );
 };
 
 const clamp = (lower: number, value: number, upper: number): number => {
