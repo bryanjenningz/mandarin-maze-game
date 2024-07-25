@@ -142,7 +142,7 @@ const generateMonsterTargets = (monsterCount: number): MonsterTarget[] => {
     return {
       dx: randomDeltaX * boxSize,
       dy: randomDeltaY * boxSize,
-      override: Math.random() < 0.1,
+      override: Math.random() < 0.05,
     };
   });
 };
