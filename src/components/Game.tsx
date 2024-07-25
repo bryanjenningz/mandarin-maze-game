@@ -8,7 +8,7 @@ type Player = XY;
 
 type Monster = XY & { target: XY | null };
 
-type MonsterTarget = { dx: number; dy: number; override: boolean };
+type MonsterRandomness = { dx: number; dy: number; override: boolean };
 
 type State = { keysDown: Set<string>; player: Player; monsters: Monster[] };
 
@@ -71,7 +71,7 @@ const initState: State = {
 };
 
 type Action =
-  | { type: "TICK"; time: number; monsterTargets: MonsterTarget[] }
+  | { type: "TICK"; monsterRandomness: MonsterRandomness[] }
   | { type: "KEY_DOWN"; key: string }
   | { type: "KEY_UP"; key: string };
 
@@ -79,7 +79,7 @@ const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "TICK": {
       const player = updatePlayer(state.keysDown, state.player);
-      const monsters = updateMonsters(state.monsters, action.monsterTargets);
+      const monsters = updateMonsters(state.monsters, action.monsterRandomness);
       return { ...state, player, monsters };
     }
     case "KEY_DOWN": {
@@ -134,7 +134,7 @@ const range = (lower: number, upper: number): number[] => {
   return result;
 };
 
-const generateMonsterTargets = (monsterCount: number): MonsterTarget[] => {
+const generateMonsterTargets = (monsterCount: number): MonsterRandomness[] => {
   return range(0, monsterCount).map(() => {
     const randomValue = Math.floor(Math.random() * 25);
     const randomDeltaX = (randomValue % 5) - 2;
@@ -149,10 +149,10 @@ const generateMonsterTargets = (monsterCount: number): MonsterTarget[] => {
 
 const updateMonsters = (
   monsters: Monster[],
-  monsterTargets: MonsterTarget[]
+  monsterRandomness: MonsterRandomness[]
 ): Monster[] => {
   return monsters.map((monster, i) => {
-    const { dx, dy, override } = monsterTargets[i] ?? {
+    const { dx, dy, override } = monsterRandomness[i] ?? {
       dx: 0,
       dy: 0,
       override: false,
@@ -231,8 +231,7 @@ export const Game = () => {
       if (stop) return;
       dispatch({
         type: "TICK",
-        time: Date.now(),
-        monsterTargets: generateMonsterTargets(initMonsters.length),
+        monsterRandomness: generateMonsterTargets(initMonsters.length),
       });
       requestAnimationFrame(tick);
     };
