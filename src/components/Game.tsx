@@ -138,7 +138,7 @@ const generateMonsterTargets = (monsterCount: number): MonsterTarget[] => {
   return range(0, monsterCount).map(() => {
     const randomValue = Math.floor(Math.random() * 25);
     const randomDeltaX = (randomValue % 5) - 2;
-    const randomDeltaY = Math.floor(randomValue / 5);
+    const randomDeltaY = Math.floor(randomValue / 5) - 2;
     return {
       dx: randomDeltaX * boxSize,
       dy: randomDeltaY * boxSize,
