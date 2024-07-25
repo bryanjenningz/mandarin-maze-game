@@ -71,7 +71,7 @@ const initState: State = {
 };
 
 type Action =
-  | { type: "TICK"; monsterTargets: MonsterTarget[] }
+  | { type: "TICK"; time: number; monsterTargets: MonsterTarget[] }
   | { type: "KEY_DOWN"; key: string }
   | { type: "KEY_UP"; key: string };
 
@@ -231,6 +231,7 @@ export const Game = () => {
       if (stop) return;
       dispatch({
         type: "TICK",
+        time: Date.now(),
         monsterTargets: generateMonsterTargets(initMonsters.length),
       });
       requestAnimationFrame(tick);
