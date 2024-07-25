@@ -6,7 +6,9 @@ type XY = { x: number; y: number };
 
 type Player = XY;
 
-type Monster = XY;
+type Monster = XY & { target: XY | null };
+
+type DeltaXY = { dx: number; dy: number };
 
 type State = { keysDown: Set<string>; player: Player; monsters: Monster[] };
 
@@ -39,9 +41,7 @@ const gameMapBoxLocations = (gameMap: GameMap, targetBox: string): XY[] => {
   return gameMap
     .flatMap((row, y) => {
       return row.flatMap((box, x) => {
-        return box === targetBox
-          ? { x: x * boxSize, y: y * boxSize }
-          : undefined;
+        return box === targetBox ? { x: x * boxSize, y: y * boxSize } : null;
       });
     })
     .filter(Boolean);
@@ -56,7 +56,9 @@ const gameMapToWalls = (gameMap: GameMap): XY[] => {
 };
 
 const gameMapToMonsters = (gameMap: GameMap): Monster[] => {
-  return gameMapBoxLocations(gameMap, "X");
+  return gameMapBoxLocations(gameMap, "X").map((monster) => {
+    return { ...monster, target: null };
+  });
 };
 
 const walls: XY[] = gameMapToWalls(gameMap);
@@ -69,7 +71,7 @@ const initState: State = {
 };
 
 type Action =
-  | { type: "TICK" }
+  | { type: "TICK"; monsterTargets: DeltaXY[] }
   | { type: "KEY_DOWN"; key: string }
   | { type: "KEY_UP"; key: string };
 
@@ -77,8 +79,8 @@ const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "TICK": {
       const player = updatePlayer(state.keysDown, state.player);
-      if (player === state.player) return state;
-      return { ...state, player };
+      const monsters = updateMonsters(state.monsters, action.monsterTargets);
+      return { ...state, player, monsters };
     }
     case "KEY_DOWN": {
       const keysDown = new Set([...state.keysDown, action.key]);
@@ -114,9 +116,6 @@ const updatePlayer = (keysDown: Set<string>, player: Player): Player => {
     return player.y;
   })();
 
-  if (x === player.x && y === player.y) {
-    return player;
-  }
   if (!walls.some((wall) => isOverlapping({ x, y }, wall))) {
     return { x, y };
   }
@@ -127,6 +126,50 @@ const updatePlayer = (keysDown: Set<string>, player: Player): Player => {
     return { x: player.x, y };
   }
   return player;
+};
+
+const range = (lower: number, upper: number): number[] => {
+  const result: number[] = [];
+  for (let i = lower; i < upper; i += 1) result.push(i);
+  return result;
+};
+
+const generateMonsterTargets = (monsterCount: number): DeltaXY[] => {
+  return range(0, monsterCount).map(() => {
+    const randomValue = Math.floor(Math.random() * 25);
+    const randomDeltaX = (randomValue % 5) - 2;
+    const randomDeltaY = Math.floor(randomValue / 5);
+    return { dx: randomDeltaX * boxSize, dy: randomDeltaY * boxSize };
+  });
+};
+
+const updateMonsters = (
+  monsters: Monster[],
+  monsterTargets: DeltaXY[]
+): Monster[] => {
+  return monsters.map((monster, i) => {
+    const { dx, dy } = monsterTargets[i] ?? { dx: 0, dy: 0 };
+    const target = monster.target ?? {
+      x: monster.x + dx,
+      y: monster.y + dy,
+    };
+    const x = clamp(-1, target.x - monster.x, 1) + monster.x;
+    const y = clamp(-1, target.y - monster.y, 1) + monster.y;
+    if (!walls.some((wall) => isOverlapping({ x, y }, wall))) {
+      return { x, y, target };
+    }
+    if (!walls.some((wall) => isOverlapping({ x, y: monster.y }, wall))) {
+      return { x, y: monster.y, target };
+    }
+    if (!walls.some((wall) => isOverlapping({ x: monster.x, y }, wall))) {
+      return { x: monster.x, y, target };
+    }
+    return { ...monster, target: null };
+  });
+};
+
+const clamp = (lower: number, value: number, upper: number): number => {
+  return Math.max(lower, Math.min(upper, value));
 };
 
 const isOverlapping = (a: XY, b: XY): boolean => {
@@ -158,7 +201,10 @@ export const Game = () => {
     let stop = false;
     const tick = () => {
       if (stop) return;
-      dispatch({ type: "TICK" });
+      dispatch({
+        type: "TICK",
+        monsterTargets: generateMonsterTargets(initMonsters.length),
+      });
       requestAnimationFrame(tick);
     };
     tick();
