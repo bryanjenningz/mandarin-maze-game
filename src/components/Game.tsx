@@ -8,7 +8,7 @@ type Player = XY;
 
 type Monster = XY & { target: XY | null };
 
-type DeltaXY = { dx: number; dy: number };
+type MonsterTarget = { dx: number; dy: number; override: boolean };
 
 type State = { keysDown: Set<string>; player: Player; monsters: Monster[] };
 
@@ -71,7 +71,7 @@ const initState: State = {
 };
 
 type Action =
-  | { type: "TICK"; monsterTargets: DeltaXY[] }
+  | { type: "TICK"; monsterTargets: MonsterTarget[] }
   | { type: "KEY_DOWN"; key: string }
   | { type: "KEY_UP"; key: string };
 
@@ -134,25 +134,35 @@ const range = (lower: number, upper: number): number[] => {
   return result;
 };
 
-const generateMonsterTargets = (monsterCount: number): DeltaXY[] => {
+const generateMonsterTargets = (monsterCount: number): MonsterTarget[] => {
   return range(0, monsterCount).map(() => {
     const randomValue = Math.floor(Math.random() * 25);
     const randomDeltaX = (randomValue % 5) - 2;
     const randomDeltaY = Math.floor(randomValue / 5);
-    return { dx: randomDeltaX * boxSize, dy: randomDeltaY * boxSize };
+    return {
+      dx: randomDeltaX * boxSize,
+      dy: randomDeltaY * boxSize,
+      override: Math.random() < 0.1,
+    };
   });
 };
 
 const updateMonsters = (
   monsters: Monster[],
-  monsterTargets: DeltaXY[]
+  monsterTargets: MonsterTarget[]
 ): Monster[] => {
   return monsters.map((monster, i) => {
-    const { dx, dy } = monsterTargets[i] ?? { dx: 0, dy: 0 };
-    const target = monster.target ?? {
-      x: monster.x + dx,
-      y: monster.y + dy,
+    const { dx, dy, override } = monsterTargets[i] ?? {
+      dx: 0,
+      dy: 0,
+      override: false,
     };
+    if (dx === 0 && dy === 0) return { ...monster, target: null };
+    const target = (() => {
+      const newTarget = { x: monster.x + dx, y: monster.y + dy };
+      if (override) return newTarget;
+      return monster.target ?? newTarget;
+    })();
     const x = clamp(-1, target.x - monster.x, 1) + monster.x;
     const y = clamp(-1, target.y - monster.y, 1) + monster.y;
     if (!walls.some((wall) => isOverlapping({ x, y }, wall))) {
