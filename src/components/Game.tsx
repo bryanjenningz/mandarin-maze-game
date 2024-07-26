@@ -338,7 +338,7 @@ export const Game = (): JSX.Element => {
           return (
             <div
               key={i}
-              className="absolute bg-blue-600 w-[1%] h-[1%]"
+              className="absolute bg-cyan-600 w-[1%] h-[1%]"
               style={{
                 left: (bullet.x / (boxSize * boxSize)) * 100 + "%",
                 top: (bullet.y / (boxSize * boxSize)) * 100 + "%",
