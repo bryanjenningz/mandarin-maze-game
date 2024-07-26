@@ -4,6 +4,8 @@ type GameMap = string[][];
 
 type XY = { x: number; y: number };
 
+type Box = XY & { size: number };
+
 type Player = XY;
 
 type Monster = XY & { target: XY | null };
@@ -21,6 +23,8 @@ type State = {
 };
 
 const boxSize = 20;
+
+const bulletSize = boxSize / 5;
 
 const gameMap: GameMap = [
   "#EEEE###############",
@@ -184,19 +188,19 @@ const updateMonsters = (
     const y = clamp(-1, target.y - monster.y, 1) + monster.y;
     if (
       !walls.some((wall) => isOverlapping({ x, y }, wall)) &&
-      isInBounds({ x, y })
+      isInBounds({ x, y, size: boxSize })
     ) {
       return { x, y, target };
     }
     if (
       !walls.some((wall) => isOverlapping({ x, y: monster.y }, wall)) &&
-      isInBounds({ x, y: monster.y })
+      isInBounds({ x, y: monster.y, size: boxSize })
     ) {
       return { x, y: monster.y, target };
     }
     if (
       !walls.some((wall) => isOverlapping({ x: monster.x, y }, wall)) &&
-      isInBounds({ x: monster.x, y })
+      isInBounds({ x: monster.x, y, size: boxSize })
     ) {
       return { x: monster.x, y, target };
     }
@@ -215,7 +219,9 @@ const updateBullets = (
     .map((bullet) => {
       return { ...bullet, x: bullet.x + bullet.dx, y: bullet.y + bullet.dy };
     })
-    .filter(isInBounds);
+    .filter((bullet) =>
+      isInBounds({ x: bullet.x, y: bullet.y, size: bulletSize })
+    );
   let dx = 0;
   let dy = 0;
   const bulletSpeed = 2;
@@ -233,12 +239,12 @@ const updateBullets = (
   };
 };
 
-const isInBounds = ({ x, y }: XY): boolean => {
+const isInBounds = ({ x, y, size }: Box): boolean => {
   return (
     x >= 0 &&
-    x <= boxSize * (boxSize - 1) &&
+    x <= boxSize * boxSize - size &&
     y >= 0 &&
-    y <= boxSize * (boxSize - 1)
+    y <= boxSize * boxSize - size
   );
 };
 
