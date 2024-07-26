@@ -10,7 +10,14 @@ type Monster = XY & { target: XY | null };
 
 type MonsterRandomness = { dx: number; dy: number; targetOverride: boolean };
 
-type State = { keysDown: Set<string>; player: Player; monsters: Monster[] };
+type Bullet = { x: number; y: number; dx: number; dy: number };
+
+type State = {
+  keysDown: Set<string>;
+  player: Player;
+  monsters: Monster[];
+  bullets: Bullet[];
+};
 
 const boxSize = 20;
 
@@ -68,6 +75,7 @@ const initState: State = {
   keysDown: new Set(),
   player: initPlayer,
   monsters: initMonsters,
+  bullets: [],
 };
 
 type Action =
@@ -80,7 +88,12 @@ const reducer = (state: State, action: Action): State => {
     case "TICK": {
       const player = updatePlayer(state.keysDown, state.player);
       const monsters = updateMonsters(state.monsters, action.monsterRandomness);
-      return { ...state, player, monsters };
+      const bullets = updateBullets(
+        state.keysDown,
+        state.player,
+        state.bullets
+      );
+      return { ...state, player, monsters, bullets };
     }
     case "KEY_DOWN": {
       const keysDown = new Set([...state.keysDown, action.key]);
@@ -187,6 +200,27 @@ const updateMonsters = (
   });
 };
 
+const updateBullets = (
+  keysDown: Set<string>,
+  player: Player,
+  bullets: Bullet[]
+): Bullet[] => {
+  const newBullets = bullets
+    .map((bullet) => {
+      return { ...bullet, x: bullet.x + bullet.dx, y: bullet.y + bullet.dy };
+    })
+    .filter(isInBounds);
+  let dx = 0;
+  let dy = 0;
+  const bulletSpeed = 2;
+  if (keysDown.has("w")) dy -= bulletSpeed;
+  if (keysDown.has("s")) dy += bulletSpeed;
+  if (keysDown.has("a")) dx -= bulletSpeed;
+  if (keysDown.has("d")) dx += bulletSpeed;
+  if (dx === 0 && dy === 0) return newBullets;
+  return [...newBullets, { x: player.x, y: player.y, dx, dy }];
+};
+
 const isInBounds = ({ x, y }: XY): boolean => {
   return (
     x >= 0 &&
@@ -282,6 +316,19 @@ export const Game = (): JSX.Element => {
               style={{
                 left: (monster.x / (boxSize * boxSize)) * 100 + "%",
                 top: (monster.y / (boxSize * boxSize)) * 100 + "%",
+              }}
+            ></div>
+          );
+        })}
+
+        {state.bullets.map((bullet, i) => {
+          return (
+            <div
+              key={i}
+              className="absolute bg-blue-600 w-[1%] h-[1%]"
+              style={{
+                left: (bullet.x / (boxSize * boxSize)) * 100 + "%",
+                top: (bullet.y / (boxSize * boxSize)) * 100 + "%",
               }}
             ></div>
           );
