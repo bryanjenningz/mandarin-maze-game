@@ -8,7 +8,7 @@ type Box = XY & { size: number };
 
 type Player = XY;
 
-type Monster = XY & { target: XY | null };
+type Monster = XY & { target: XY | null; health: number };
 
 type MonsterRandomness = { dx: number; dy: number; targetOverride: boolean };
 
@@ -71,7 +71,7 @@ const gameMapToWalls = (gameMap: GameMap): Box[] => {
 
 const gameMapToMonsters = (gameMap: GameMap): Monster[] => {
   return gameMapBoxLocations(gameMap, "X").map((monster) => {
-    return { ...monster, target: null };
+    return { ...monster, target: null, health: 100 };
   });
 };
 
@@ -95,13 +95,18 @@ const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "TICK": {
       const player = updatePlayer(state.keysDown, state.player);
-      const monsters = updateMonsters(state.monsters, action.monsterRandomness);
+      const monsters = updateMonsters(
+        state.monsters,
+        action.monsterRandomness,
+        state.bullets
+      );
       const { lastBulletShotTime, bullets } = updateBullets(
         state.keysDown,
         state.player,
         action.time,
         state.lastBulletShotTime,
-        state.bullets
+        state.bullets,
+        state.monsters
       );
       return { ...state, player, monsters, bullets, lastBulletShotTime };
     }
@@ -180,7 +185,8 @@ const generateMonsterTargets = (monsterCount: number): MonsterRandomness[] => {
 
 const updateMonsters = (
   monsters: Monster[],
-  monsterRandomness: MonsterRandomness[]
+  monsterRandomness: MonsterRandomness[],
+  bullets: Bullet[]
 ): Monster[] => {
   return monsters.map((monster, i): Monster => {
     const { dx, dy, targetOverride } = monsterRandomness[i] ?? {
@@ -188,7 +194,17 @@ const updateMonsters = (
       dy: 0,
       targetOverride: false,
     };
-    if (dx === 0 && dy === 0) return { ...monster, target: null };
+    const bulletDamage = 10;
+    const health =
+      monster.health -
+      bullets.filter((bullet) => {
+        return isOverlapping(
+          { x: monster.x, y: monster.y, size: boxSize },
+          { x: bullet.x, y: bullet.y, size: bulletSize }
+        );
+      }).length *
+        bulletDamage;
+    if (dx === 0 && dy === 0) return { ...monster, target: null, health };
     const target = (() => {
       const newTarget = { x: monster.x + dx, y: monster.y + dy };
       if (targetOverride) return newTarget;
@@ -200,7 +216,7 @@ const updateMonsters = (
       !walls.some((wall) => isOverlapping({ x, y, size: boxSize }, wall)) &&
       isInBounds({ x, y, size: boxSize })
     ) {
-      return { x, y, target };
+      return { x, y, target, health };
     }
     if (
       !walls.some((wall) =>
@@ -208,7 +224,7 @@ const updateMonsters = (
       ) &&
       isInBounds({ x, y: monster.y, size: boxSize })
     ) {
-      return { x, y: monster.y, target };
+      return { x, y: monster.y, target, health };
     }
     if (
       !walls.some((wall) =>
@@ -216,9 +232,9 @@ const updateMonsters = (
       ) &&
       isInBounds({ x: monster.x, y, size: boxSize })
     ) {
-      return { x: monster.x, y, target };
+      return { x: monster.x, y, target, health };
     }
-    return { ...monster, target: null };
+    return { ...monster, target: null, health };
   });
 };
 
@@ -227,7 +243,8 @@ const updateBullets = (
   player: Player,
   time: number,
   lastBulletShotTime: number,
-  bullets: Bullet[]
+  bullets: Bullet[],
+  monsters: Monster[]
 ): { lastBulletShotTime: number; bullets: Bullet[] } => {
   const newBullets = bullets
     .map((bullet) => {
@@ -238,6 +255,12 @@ const updateBullets = (
         isInBounds({ x: bullet.x, y: bullet.y, size: bulletSize }) &&
         !walls.some((wall) =>
           isOverlapping({ x: bullet.x, y: bullet.y, size: bulletSize }, wall)
+        ) &&
+        !monsters.some((monster) =>
+          isOverlapping(
+            { x: bullet.x, y: bullet.y, size: bulletSize },
+            { x: monster.x, y: monster.y, size: boxSize }
+          )
         )
     );
   let dx = 0;
@@ -354,7 +377,16 @@ export const Game = (): JSX.Element => {
                 left: (monster.x / (boxSize * boxSize)) * 100 + "%",
                 top: (monster.y / (boxSize * boxSize)) * 100 + "%",
               }}
-            ></div>
+            >
+              {monster.health < 100 && (
+                <div className="absolute -top-5 h-1/4 w-full bg-red-700">
+                  <div
+                    className="absolute top-0 bottom-0 left-0 bg-green-500"
+                    style={{ width: monster.health + "%" }}
+                  ></div>
+                </div>
+              )}
+            </div>
           );
         })}
 
