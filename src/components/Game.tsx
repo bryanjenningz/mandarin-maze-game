@@ -16,6 +16,7 @@ type State = {
   keysDown: Set<string>;
   player: Player;
   monsters: Monster[];
+  lastBulletShotTime: number;
   bullets: Bullet[];
 };
 
@@ -75,11 +76,12 @@ const initState: State = {
   keysDown: new Set(),
   player: initPlayer,
   monsters: initMonsters,
+  lastBulletShotTime: 0,
   bullets: [],
 };
 
 type Action =
-  | { type: "TICK"; monsterRandomness: MonsterRandomness[] }
+  | { type: "TICK"; time: number; monsterRandomness: MonsterRandomness[] }
   | { type: "KEY_DOWN"; key: string }
   | { type: "KEY_UP"; key: string };
 
@@ -88,12 +90,14 @@ const reducer = (state: State, action: Action): State => {
     case "TICK": {
       const player = updatePlayer(state.keysDown, state.player);
       const monsters = updateMonsters(state.monsters, action.monsterRandomness);
-      const bullets = updateBullets(
+      const { lastBulletShotTime, bullets } = updateBullets(
         state.keysDown,
         state.player,
+        action.time,
+        state.lastBulletShotTime,
         state.bullets
       );
-      return { ...state, player, monsters, bullets };
+      return { ...state, player, monsters, bullets, lastBulletShotTime };
     }
     case "KEY_DOWN": {
       const keysDown = new Set([...state.keysDown, action.key]);
@@ -203,8 +207,10 @@ const updateMonsters = (
 const updateBullets = (
   keysDown: Set<string>,
   player: Player,
+  time: number,
+  lastBulletShotTime: number,
   bullets: Bullet[]
-): Bullet[] => {
+): { lastBulletShotTime: number; bullets: Bullet[] } => {
   const newBullets = bullets
     .map((bullet) => {
       return { ...bullet, x: bullet.x + bullet.dx, y: bullet.y + bullet.dy };
@@ -217,8 +223,14 @@ const updateBullets = (
   if (keysDown.has("s")) dy += bulletSpeed;
   if (keysDown.has("a")) dx -= bulletSpeed;
   if (keysDown.has("d")) dx += bulletSpeed;
-  if (dx === 0 && dy === 0) return newBullets;
-  return [...newBullets, { x: player.x, y: player.y, dx, dy }];
+  if (dx === 0 && dy === 0) return { lastBulletShotTime, bullets: newBullets };
+  const bulletDelay = 100;
+  if (time - lastBulletShotTime <= bulletDelay)
+    return { lastBulletShotTime, bullets: newBullets };
+  return {
+    lastBulletShotTime: time,
+    bullets: [...newBullets, { x: player.x, y: player.y, dx, dy }],
+  };
 };
 
 const isInBounds = ({ x, y }: XY): boolean => {
@@ -265,6 +277,7 @@ export const Game = (): JSX.Element => {
       if (stop) return;
       dispatch({
         type: "TICK",
+        time: Date.now(),
         monsterRandomness: generateMonsterTargets(initMonsters.length),
       });
       requestAnimationFrame(tick);
