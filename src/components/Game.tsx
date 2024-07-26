@@ -63,8 +63,10 @@ const gameMapToPlayer = (gameMap: GameMap): Player => {
   return gameMapBoxLocations(gameMap, "P")[0] ?? { x: 0, y: 0 };
 };
 
-const gameMapToWalls = (gameMap: GameMap): XY[] => {
-  return gameMapBoxLocations(gameMap, "#");
+const gameMapToWalls = (gameMap: GameMap): Box[] => {
+  return gameMapBoxLocations(gameMap, "#").map(({ x, y }) => {
+    return { x, y, size: boxSize };
+  });
 };
 
 const gameMapToMonsters = (gameMap: GameMap): Monster[] => {
@@ -73,7 +75,7 @@ const gameMapToMonsters = (gameMap: GameMap): Monster[] => {
   });
 };
 
-const walls: XY[] = gameMapToWalls(gameMap);
+const walls: Box[] = gameMapToWalls(gameMap);
 const initPlayer: Player = gameMapToPlayer(gameMap);
 const initMonsters: Monster[] = gameMapToMonsters(gameMap);
 const initState: State = {
@@ -137,13 +139,21 @@ const updatePlayer = (keysDown: Set<string>, player: Player): Player => {
     return player.y;
   })();
 
-  if (!walls.some((wall) => isOverlapping({ x, y }, wall))) {
+  if (!walls.some((wall) => isOverlapping({ x, y, size: boxSize }, wall))) {
     return { x, y };
   }
-  if (!walls.some((wall) => isOverlapping({ x, y: player.y }, wall))) {
+  if (
+    !walls.some((wall) =>
+      isOverlapping({ x, y: player.y, size: boxSize }, wall)
+    )
+  ) {
     return { x, y: player.y };
   }
-  if (!walls.some((wall) => isOverlapping({ x: player.x, y }, wall))) {
+  if (
+    !walls.some((wall) =>
+      isOverlapping({ x: player.x, y, size: boxSize }, wall)
+    )
+  ) {
     return { x: player.x, y };
   }
   return player;
@@ -187,19 +197,23 @@ const updateMonsters = (
     const x = clamp(-1, target.x - monster.x, 1) + monster.x;
     const y = clamp(-1, target.y - monster.y, 1) + monster.y;
     if (
-      !walls.some((wall) => isOverlapping({ x, y }, wall)) &&
+      !walls.some((wall) => isOverlapping({ x, y, size: boxSize }, wall)) &&
       isInBounds({ x, y, size: boxSize })
     ) {
       return { x, y, target };
     }
     if (
-      !walls.some((wall) => isOverlapping({ x, y: monster.y }, wall)) &&
+      !walls.some((wall) =>
+        isOverlapping({ x, y: monster.y, size: boxSize }, wall)
+      ) &&
       isInBounds({ x, y: monster.y, size: boxSize })
     ) {
       return { x, y: monster.y, target };
     }
     if (
-      !walls.some((wall) => isOverlapping({ x: monster.x, y }, wall)) &&
+      !walls.some((wall) =>
+        isOverlapping({ x: monster.x, y, size: boxSize }, wall)
+      ) &&
       isInBounds({ x: monster.x, y, size: boxSize })
     ) {
       return { x: monster.x, y, target };
@@ -219,8 +233,12 @@ const updateBullets = (
     .map((bullet) => {
       return { ...bullet, x: bullet.x + bullet.dx, y: bullet.y + bullet.dy };
     })
-    .filter((bullet) =>
-      isInBounds({ x: bullet.x, y: bullet.y, size: bulletSize })
+    .filter(
+      (bullet) =>
+        isInBounds({ x: bullet.x, y: bullet.y, size: bulletSize }) &&
+        !walls.some((wall) =>
+          isOverlapping({ x: bullet.x, y: bullet.y, size: bulletSize }, wall)
+        )
     );
   let dx = 0;
   let dy = 0;
@@ -252,12 +270,12 @@ const clamp = (lower: number, value: number, upper: number): number => {
   return Math.max(lower, Math.min(upper, value));
 };
 
-const isOverlapping = (a: XY, b: XY): boolean => {
+const isOverlapping = (a: Box, b: Box): boolean => {
   return (
-    a.x + boxSize > b.x &&
-    a.x < b.x + boxSize &&
-    a.y + boxSize > b.y &&
-    a.y < b.y + boxSize
+    a.x + a.size > b.x &&
+    a.x < b.x + b.size &&
+    a.y + a.size > b.y &&
+    a.y < b.y + b.size
   );
 };
 
