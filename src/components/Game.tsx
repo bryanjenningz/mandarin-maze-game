@@ -274,14 +274,6 @@ export const Game = (): JSX.Element => {
           );
         })}
 
-        <div
-          className="absolute bg-blue-400 w-[5%] h-[5%]"
-          style={{
-            left: (state.player.x / (boxSize * boxSize)) * 100 + "%",
-            top: (state.player.y / (boxSize * boxSize)) * 100 + "%",
-          }}
-        ></div>
-
         {state.monsters.map((monster, i) => {
           return (
             <div
@@ -294,6 +286,14 @@ export const Game = (): JSX.Element => {
             ></div>
           );
         })}
+
+        <div
+          className="absolute bg-blue-400 w-[5%] h-[5%]"
+          style={{
+            left: (state.player.x / (boxSize * boxSize)) * 100 + "%",
+            top: (state.player.y / (boxSize * boxSize)) * 100 + "%",
+          }}
+        ></div>
       </div>
     </div>
   );
