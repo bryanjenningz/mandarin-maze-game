@@ -1,4 +1,5 @@
 import { useEffect, useReducer } from "react";
+import { range } from "../utils/range";
 
 type GameMap = string[][];
 
@@ -162,12 +163,6 @@ const updatePlayer = (keysDown: Set<string>, player: Player): Player => {
     return { x: player.x, y };
   }
   return player;
-};
-
-const range = (lower: number, upper: number): number[] => {
-  const result: number[] = [];
-  for (let i = lower; i < upper; i += 1) result.push(i);
-  return result;
 };
 
 const generateMonsterTargets = (monsterCount: number): MonsterRandomness[] => {
