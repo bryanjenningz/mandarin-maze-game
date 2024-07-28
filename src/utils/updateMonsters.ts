@@ -6,11 +6,12 @@ import {
   boxSize,
   bulletSize,
   clamp,
-  walls,
   isInBounds,
+  type Box,
 } from "../components/Game";
 
 export const updateMonsters = (
+  walls: Box[],
   monsters: Monster[],
   monsterRandomness: MonsterRandomness[],
   bullets: Bullet[]

@@ -6,7 +6,7 @@ type GameMap = string[][];
 
 type XY = { x: number; y: number };
 
-type Box = XY & { size: number };
+export type Box = XY & { size: number };
 
 type Player = XY;
 
@@ -102,6 +102,7 @@ const reducer = (state: State, action: Action): State => {
     case "TICK": {
       const player = updatePlayer(state.keysDown, state.player);
       const monsters = updateMonsters(
+        walls,
         state.monsters,
         action.monsterRandomness,
         state.bullets
