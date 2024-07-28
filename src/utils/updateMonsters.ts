@@ -10,12 +10,17 @@ import { clamp } from "./clamp";
 import { isOverlapping } from "./isOverlapping";
 import { isInBounds } from "./isInBounds";
 
-export const updateMonsters = (
-  walls: Box[],
-  monsters: Monster[],
-  monsterRandomness: MonsterRandomness[],
-  bullets: Bullet[]
-): Monster[] => {
+export const updateMonsters = ({
+  walls,
+  monsters,
+  monsterRandomness,
+  bullets,
+}: {
+  walls: Box[];
+  monsters: Monster[];
+  monsterRandomness: MonsterRandomness[];
+  bullets: Bullet[];
+}): Monster[] => {
   return monsters.map((monster, i): Monster => {
     const { dx, dy, targetOverride } = monsterRandomness[i] ?? {
       dx: 0,

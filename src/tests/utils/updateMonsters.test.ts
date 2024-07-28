@@ -14,12 +14,12 @@ describe("updateMonsters", () => {
     const monsters: Monster[] = [monster];
     const monsterRandomness: MonsterRandomness[] = [];
     const bullets: Bullet[] = [{ x: 10, y: 10, dx: 2, dy: 0 }];
-    const newMonsters = updateMonsters(
+    const newMonsters = updateMonsters({
       walls,
       monsters,
       monsterRandomness,
-      bullets
-    );
+      bullets,
+    });
     const expectedNewMonsters: Monster[] = [{ ...monster, health: 90 }];
     expect(newMonsters).toEqual(expectedNewMonsters);
   });
@@ -30,12 +30,12 @@ describe("updateMonsters", () => {
     const monsters: Monster[] = [monster];
     const monsterRandomness: MonsterRandomness[] = [];
     const bullets: Bullet[] = [{ x: 0, y: 0, dx: 10, dy: 10 }];
-    const newMonsters = updateMonsters(
+    const newMonsters = updateMonsters({
       walls,
       monsters,
       monsterRandomness,
-      bullets
-    );
+      bullets,
+    });
     const expectedNewMonsters: Monster[] = [{ ...monster, health: 90 }];
     expect(newMonsters).toEqual(expectedNewMonsters);
   });
@@ -45,12 +45,12 @@ describe("updateMonsters", () => {
     const monsters: Monster[] = [{ x: 10, y: 10, target: null, health: 100 }];
     const monsterRandomness: MonsterRandomness[] = [];
     const bullets: Bullet[] = [{ x: 0, y: 0, dx: 10, dy: 0 }];
-    const newMonsters = updateMonsters(
+    const newMonsters = updateMonsters({
       walls,
       monsters,
       monsterRandomness,
-      bullets
-    );
+      bullets,
+    });
     expect(newMonsters).toEqual(monsters);
   });
 });

@@ -7,12 +7,12 @@ export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "TICK": {
       const player = updatePlayer(state.keysDown, state.player);
-      const monsters = updateMonsters(
+      const monsters = updateMonsters({
         walls,
-        state.monsters,
-        action.monsterRandomness,
-        state.bullets
-      );
+        monsters: state.monsters,
+        monsterRandomness: action.monsterRandomness,
+        bullets: state.bullets,
+      });
       const { lastBulletShotTime, bullets } = updateBullets(
         state.keysDown,
         state.player,
