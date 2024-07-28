@@ -24,4 +24,15 @@ describe("updateMonsters", () => {
     ];
     expect(newMonsters).toEqual(expectedNewMonsters);
   });
+
+  test("no change in monster health if a bullet doesn't ever overlap", () => {
+    const monsters: Monster[] = [{ x: 10, y: 10, target: null, health: 100 }];
+    const monsterRandomness: MonsterRandomness[] = [];
+    const bullets: Bullet[] = [{ x: 0, y: 0, dx: 10, dy: 0 }];
+    const newMonsters = updateMonsters(monsters, monsterRandomness, bullets);
+    const expectedNewMonsters: Monster[] = [
+      { x: 10, y: 10, target: null, health: 100 },
+    ];
+    expect(newMonsters).toEqual(expectedNewMonsters);
+  });
 });
