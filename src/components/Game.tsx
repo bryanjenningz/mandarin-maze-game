@@ -1,5 +1,6 @@
 import { useEffect, useReducer } from "react";
 import { range } from "../utils/range";
+import { updateMonsters } from "../utils/updateMonsters";
 
 type GameMap = string[][];
 
@@ -9,11 +10,15 @@ type Box = XY & { size: number };
 
 type Player = XY;
 
-type Monster = XY & { target: XY | null; health: number };
+export type Monster = XY & { target: XY | null; health: number };
 
-type MonsterRandomness = { dx: number; dy: number; targetOverride: boolean };
+export type MonsterRandomness = {
+  dx: number;
+  dy: number;
+  targetOverride: boolean;
+};
 
-type Bullet = { x: number; y: number; dx: number; dy: number };
+export type Bullet = { x: number; y: number; dx: number; dy: number };
 
 type State = {
   keysDown: Set<string>;
@@ -23,9 +28,9 @@ type State = {
   bullets: Bullet[];
 };
 
-const boxSize = 20;
+export const boxSize = 20;
 
-const bulletSize = boxSize / 5;
+export const bulletSize = boxSize / 5;
 
 const gameMap: GameMap = [
   "#EEEE###############",
@@ -76,7 +81,7 @@ const gameMapToMonsters = (gameMap: GameMap): Monster[] => {
   });
 };
 
-const walls: Box[] = gameMapToWalls(gameMap);
+export const walls: Box[] = gameMapToWalls(gameMap);
 const initPlayer: Player = gameMapToPlayer(gameMap);
 const initMonsters: Monster[] = gameMapToMonsters(gameMap);
 const initState: State = {
@@ -178,61 +183,6 @@ const generateMonsterTargets = (monsterCount: number): MonsterRandomness[] => {
   });
 };
 
-const updateMonsters = (
-  monsters: Monster[],
-  monsterRandomness: MonsterRandomness[],
-  bullets: Bullet[]
-): Monster[] => {
-  return monsters.map((monster, i): Monster => {
-    const { dx, dy, targetOverride } = monsterRandomness[i] ?? {
-      dx: 0,
-      dy: 0,
-      targetOverride: false,
-    };
-    const bulletDamage = 10;
-    const health =
-      monster.health -
-      bullets.filter((bullet) => {
-        return isOverlapping(
-          { x: monster.x, y: monster.y, size: boxSize },
-          { x: bullet.x, y: bullet.y, size: bulletSize }
-        );
-      }).length *
-        bulletDamage;
-    if (dx === 0 && dy === 0) return { ...monster, target: null, health };
-    const target = (() => {
-      const newTarget = { x: monster.x + dx, y: monster.y + dy };
-      if (targetOverride) return newTarget;
-      return monster.target ?? newTarget;
-    })();
-    const x = clamp(-1, target.x - monster.x, 1) + monster.x;
-    const y = clamp(-1, target.y - monster.y, 1) + monster.y;
-    if (
-      !walls.some((wall) => isOverlapping({ x, y, size: boxSize }, wall)) &&
-      isInBounds({ x, y, size: boxSize })
-    ) {
-      return { x, y, target, health };
-    }
-    if (
-      !walls.some((wall) =>
-        isOverlapping({ x, y: monster.y, size: boxSize }, wall)
-      ) &&
-      isInBounds({ x, y: monster.y, size: boxSize })
-    ) {
-      return { x, y: monster.y, target, health };
-    }
-    if (
-      !walls.some((wall) =>
-        isOverlapping({ x: monster.x, y, size: boxSize }, wall)
-      ) &&
-      isInBounds({ x: monster.x, y, size: boxSize })
-    ) {
-      return { x: monster.x, y, target, health };
-    }
-    return { ...monster, target: null, health };
-  });
-};
-
 const updateBullets = (
   keysDown: Set<string>,
   player: Player,
@@ -275,7 +225,7 @@ const updateBullets = (
   };
 };
 
-const isInBounds = ({ x, y, size }: Box): boolean => {
+export const isInBounds = ({ x, y, size }: Box): boolean => {
   return (
     x >= 0 &&
     x <= boxSize * boxSize - size &&
@@ -284,11 +234,11 @@ const isInBounds = ({ x, y, size }: Box): boolean => {
   );
 };
 
-const clamp = (lower: number, value: number, upper: number): number => {
+export const clamp = (lower: number, value: number, upper: number): number => {
   return Math.max(lower, Math.min(upper, value));
 };
 
-const isOverlapping = (a: Box, b: Box): boolean => {
+export const isOverlapping = (a: Box, b: Box): boolean => {
   return (
     a.x + a.size > b.x &&
     a.x < b.x + b.size &&
