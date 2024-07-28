@@ -2,13 +2,13 @@ import {
   type Monster,
   type MonsterRandomness,
   type Bullet,
-  isOverlapping,
   boxSize,
   bulletSize,
-  clamp,
-  isInBounds,
   type Box,
 } from "../components/Game";
+import { clamp } from "./clamp";
+import { isOverlapping } from "./isOverlapping";
+import { isInBounds } from "./isInBounds";
 
 export const updateMonsters = (
   walls: Box[],
