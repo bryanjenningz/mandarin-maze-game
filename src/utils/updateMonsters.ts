@@ -24,12 +24,20 @@ export const updateMonsters = (
     const bulletDamage = 10;
     const health =
       monster.health -
-      bullets.filter((bullet) => {
-        return isOverlapping(
-          { x: monster.x, y: monster.y, size: boxSize },
-          { x: bullet.x, y: bullet.y, size: bulletSize }
-        );
-      }).length *
+      bullets
+        .map((bullet) => {
+          return {
+            ...bullet,
+            x: bullet.x + bullet.dx,
+            y: bullet.y + bullet.dy,
+          };
+        })
+        .filter((bullet) => {
+          return isOverlapping(
+            { x: monster.x, y: monster.y, size: boxSize },
+            { x: bullet.x, y: bullet.y, size: bulletSize }
+          );
+        }).length *
         bulletDamage;
     if (dx === 0 && dy === 0) return { ...monster, target: null, health };
     const target = (() => {
