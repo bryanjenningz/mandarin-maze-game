@@ -3,14 +3,15 @@ import type { Monster, MonsterRandomness } from "../../components/Game";
 import { monsterWithRandomness } from "../../utils/monsterWithRandomness";
 
 describe("monsterWithRandomness", () => {
-  describe("with false targetOverride", () => {
+  describe("monsterRandomness with false targetOverride", () => {
+    const monsterRandomness: MonsterRandomness = {
+      dx: 1,
+      dy: -2,
+      targetOverride: false,
+    };
+
     test("puts randomness into monster with null target", () => {
       const monster: Monster = { x: 10, y: 10, health: 100, target: null };
-      const monsterRandomness: MonsterRandomness = {
-        dx: 1,
-        dy: -2,
-        targetOverride: false,
-      };
       const newMonster: Monster = monsterWithRandomness({
         monster,
         monsterRandomness,
@@ -28,11 +29,6 @@ describe("monsterWithRandomness", () => {
         y: 10,
         health: 100,
         target: { x: 8, y: 12 },
-      };
-      const monsterRandomness: MonsterRandomness = {
-        dx: 1,
-        dy: -2,
-        targetOverride: false,
       };
       const newMonster: Monster = monsterWithRandomness({
         monster,
