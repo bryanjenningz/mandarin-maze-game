@@ -12,10 +12,10 @@ export type Player = XY;
 
 export type Monster = XY & { target: XY | null; health: number };
 
-export type MonsterRandomness = {
+export type MonsterRandomTarget = {
   dx: number;
   dy: number;
-  targetOverride: boolean;
+  override: boolean;
 };
 
 export type Bullet = { x: number; y: number; dx: number; dy: number };
@@ -93,19 +93,21 @@ const initState: State = {
 };
 
 export type Action =
-  | { type: "TICK"; time: number; monsterRandomness: MonsterRandomness[] }
+  | { type: "TICK"; time: number; monsterRandomness: MonsterRandomTarget[] }
   | { type: "KEY_DOWN"; key: string }
   | { type: "KEY_UP"; key: string };
 
-const generateMonsterTargets = (monsterCount: number): MonsterRandomness[] => {
-  return range(0, monsterCount).map((): MonsterRandomness => {
+const generateMonsterTargets = (
+  monsterCount: number
+): MonsterRandomTarget[] => {
+  return range(0, monsterCount).map((): MonsterRandomTarget => {
     const randomValue = Math.floor(Math.random() * 25);
     const randomDeltaX = (randomValue % 5) - 2;
     const randomDeltaY = Math.floor(randomValue / 5) - 2;
     return {
       dx: randomDeltaX * boxSize,
       dy: randomDeltaY * boxSize,
-      targetOverride: Math.random() < 0.05,
+      override: Math.random() < 0.05,
     };
   });
 };

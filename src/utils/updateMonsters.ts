@@ -1,6 +1,6 @@
 import {
   type Monster,
-  type MonsterRandomness,
+  type MonsterRandomTarget,
   type Bullet,
   boxSize,
   bulletSize,
@@ -18,14 +18,18 @@ export const updateMonsters = ({
 }: {
   walls: Box[];
   monsters: Monster[];
-  monsterRandomness: MonsterRandomness[];
+  monsterRandomness: MonsterRandomTarget[];
   bullets: Bullet[];
 }): Monster[] => {
   return monsters.map((monster, i): Monster => {
-    const { dx, dy, targetOverride } = monsterRandomness[i] ?? {
+    const {
+      dx,
+      dy,
+      override: targetOverride,
+    } = monsterRandomness[i] ?? {
       dx: 0,
       dy: 0,
-      targetOverride: false,
+      override: false,
     };
     const bulletDamage = 10;
     const health =

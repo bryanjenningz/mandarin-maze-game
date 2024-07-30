@@ -4,7 +4,7 @@ import type {
   Box,
   Bullet,
   Monster,
-  MonsterRandomness,
+  MonsterRandomTarget,
 } from "../../components/Game";
 
 describe("updateMonsters", () => {
@@ -12,7 +12,7 @@ describe("updateMonsters", () => {
     const walls: Box[] = [];
     const monster: Monster = { x: 10, y: 10, target: null, health: 100 };
     const monsters: Monster[] = [monster];
-    const monsterRandomness: MonsterRandomness[] = [];
+    const monsterRandomness: MonsterRandomTarget[] = [];
     const bullets: Bullet[] = [{ x: 10, y: 10, dx: 2, dy: 0 }];
     const newMonsters = updateMonsters({
       walls,
@@ -28,7 +28,7 @@ describe("updateMonsters", () => {
     const walls: Box[] = [];
     const monster: Monster = { x: 10, y: 10, target: null, health: 100 };
     const monsters: Monster[] = [monster];
-    const monsterRandomness: MonsterRandomness[] = [];
+    const monsterRandomness: MonsterRandomTarget[] = [];
     const bullets: Bullet[] = [{ x: 0, y: 0, dx: 10, dy: 10 }];
     const newMonsters = updateMonsters({
       walls,
@@ -43,7 +43,7 @@ describe("updateMonsters", () => {
   test("no change in monster health if a bullet doesn't ever overlap", () => {
     const walls: Box[] = [];
     const monsters: Monster[] = [{ x: 10, y: 10, target: null, health: 100 }];
-    const monsterRandomness: MonsterRandomness[] = [];
+    const monsterRandomness: MonsterRandomTarget[] = [];
     const bullets: Bullet[] = [{ x: 0, y: 0, dx: 10, dy: 0 }];
     const newMonsters = updateMonsters({
       walls,
