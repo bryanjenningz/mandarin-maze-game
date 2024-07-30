@@ -7,12 +7,14 @@ export const monsterWithRandomness = ({
   monster: Monster;
   monsterRandomness: MonsterRandomness;
 }): Monster => {
-  if (!monsterRandomness.targetOverride && monster.target) return monster;
-  return {
-    ...monster,
-    target: {
-      x: monster.x + monsterRandomness.dx,
-      y: monster.y + monsterRandomness.dy,
-    },
-  };
+  if (!monster.target || monsterRandomness.targetOverride) {
+    return {
+      ...monster,
+      target: {
+        x: monster.x + monsterRandomness.dx,
+        y: monster.y + monsterRandomness.dy,
+      },
+    };
+  }
+  return monster;
 };
