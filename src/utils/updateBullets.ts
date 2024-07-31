@@ -6,8 +6,7 @@ import {
   walls,
   boxSize,
 } from "../components/Game";
-import { isOverlapping } from "./isOverlapping";
-import { isInBounds } from "./Box";
+import { isInBounds, isOverlapping } from "./Box";
 
 export const updateBullets = (
   keysDown: Set<string>,
