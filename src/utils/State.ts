@@ -1,5 +1,5 @@
 import type { Action, Bullet, Monster, Player } from "../components/Game";
-import { updateBullets } from "./updateBullets";
+import { updateBullets } from "./Bullet";
 import type { Box } from "./Box";
 import {
   gameMapToWalls,
