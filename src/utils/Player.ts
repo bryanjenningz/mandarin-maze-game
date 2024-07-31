@@ -1,6 +1,6 @@
 import { type Player, boxSize } from "../components/Game";
 import { isOverlapping } from "./Box";
-import { walls } from "./State";
+import { walls } from "./Walls";
 
 export const updatePlayer = (keysDown: Set<string>, player: Player): Player => {
   const x = ((): number => {
