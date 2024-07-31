@@ -1,7 +1,7 @@
 import { useEffect, useReducer } from "react";
 import { initMonsters, initState, reducer } from "../utils/State";
 import * as GameMap from "../utils/GameMap";
-import type { XY } from "../utils/Box";
+import type { XY } from "../utils/box";
 import { range } from "../utils/utilities";
 
 export type Player = XY;

@@ -1,5 +1,5 @@
 import { describe, test, expect } from "vitest";
-import { isInBounds, isOverlapping } from "./Box";
+import { isInBounds, isOverlapping } from "./box";
 
 describe("isInBounds", () => {
   const expectations: [

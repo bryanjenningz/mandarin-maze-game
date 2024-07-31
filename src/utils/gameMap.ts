@@ -1,5 +1,5 @@
 import { boxSize, type Monster, type Player } from "../components/Game";
-import type { XY, Box } from "./Box";
+import type { XY, Box } from "./box";
 
 type GameMap = string[][];
 

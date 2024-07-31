@@ -5,7 +5,7 @@ import {
   bulletSize,
   boxSize,
 } from "../components/Game";
-import { isInBounds, isOverlapping } from "./Box";
+import { isInBounds, isOverlapping } from "./box";
 import * as Walls from "./Walls";
 
 export const updateBullets = (

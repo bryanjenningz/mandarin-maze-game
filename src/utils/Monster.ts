@@ -5,7 +5,7 @@ import {
   type Monster,
   type MonsterRandomTarget,
 } from "../components/Game";
-import { type Box, isInBounds, isOverlapping } from "./Box";
+import { type Box, isInBounds, isOverlapping } from "./box";
 import { clamp } from "./utilities";
 
 export const addMonsterTarget = ({

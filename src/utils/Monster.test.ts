@@ -1,7 +1,7 @@
 import { describe, test, expect } from "vitest";
 import type { MonsterRandomTarget, Monster, Bullet } from "../components/Game";
 import { addMonsterTarget, updateMonsters } from "./Monster";
-import type { Box } from "./Box";
+import type { Box } from "./box";
 
 describe("addMonsterTarget", () => {
   describe("randomTarget with false override", () => {
