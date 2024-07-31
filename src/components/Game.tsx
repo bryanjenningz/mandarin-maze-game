@@ -1,10 +1,16 @@
 import { useEffect, useReducer } from "react";
 import { range } from "../utils/range";
 import { reducer } from "../utils/reducer";
+import {
+  gameMap,
+  gameMapToMonsters,
+  gameMapToPlayer,
+  gameMapToWalls,
+} from "../utils/gameMap";
 
-type GameMap = string[][];
+export type GameMap = string[][];
 
-type XY = { x: number; y: number };
+export type XY = { x: number; y: number };
 
 export type Box = XY & { size: number };
 
@@ -31,55 +37,6 @@ export type State = {
 export const boxSize = 20;
 
 export const bulletSize = boxSize / 5;
-
-const gameMap: GameMap = [
-  "#EEEE###############",
-  "#    #             #",
-  "#    #       X     #",
-  "#    #             #",
-  "#    #    ####     #",
-  "#  X            X  #",
-  "#                  #",
-  "######         #   #",
-  "#              #   #",
-  "#  X    ####       #",
-  "#                  #",
-  "#                  #",
-  "#            #     #",
-  "######       #  X  #",
-  "#  P #       #     #",
-  "#    #       #     #",
-  "#    #             #",
-  "#                  #",
-  "#                  #",
-  "####################",
-].map((row) => row.split(""));
-
-const gameMapBoxLocations = (gameMap: GameMap, targetBox: string): XY[] => {
-  return gameMap
-    .flatMap((row, y) => {
-      return row.flatMap((box, x) => {
-        return box === targetBox ? { x: x * boxSize, y: y * boxSize } : null;
-      });
-    })
-    .filter(Boolean);
-};
-
-const gameMapToPlayer = (gameMap: GameMap): Player => {
-  return gameMapBoxLocations(gameMap, "P")[0] ?? { x: 0, y: 0 };
-};
-
-const gameMapToWalls = (gameMap: GameMap): Box[] => {
-  return gameMapBoxLocations(gameMap, "#").map(({ x, y }) => {
-    return { x, y, size: boxSize };
-  });
-};
-
-const gameMapToMonsters = (gameMap: GameMap): Monster[] => {
-  return gameMapBoxLocations(gameMap, "X").map((monster) => {
-    return { ...monster, target: null, health: 100 };
-  });
-};
 
 export const walls: Box[] = gameMapToWalls(gameMap);
 const initPlayer: Player = gameMapToPlayer(gameMap);
