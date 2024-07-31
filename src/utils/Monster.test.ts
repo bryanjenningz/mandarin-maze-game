@@ -1,5 +1,5 @@
 import { describe, test, expect } from "vitest";
-import type { MonsterRandomTarget, Monster, Bullet } from "../components/Game";
+import type { MonsterRandomTarget, Monster, Bullet } from "../components/game";
 import { addMonsterTarget, updateMonsters } from "./monster";
 import type { Box } from "./box";
 

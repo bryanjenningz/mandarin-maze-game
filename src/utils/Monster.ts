@@ -4,7 +4,7 @@ import {
   type Bullet,
   type Monster,
   type MonsterRandomTarget,
-} from "../components/Game";
+} from "../components/game";
 import { type Box, isInBounds, isOverlapping } from "./box";
 import { clamp } from "./utilities";
 

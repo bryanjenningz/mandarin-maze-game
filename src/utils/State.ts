@@ -1,4 +1,4 @@
-import type { Action, Bullet, Monster, Player } from "../components/Game";
+import type { Action, Bullet, Monster, Player } from "../components/game";
 import { updateBullets } from "./bullet";
 import * as GameMap from "./game-map";
 import { updateMonsters } from "./monster";

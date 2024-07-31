@@ -1,4 +1,4 @@
-import { boxSize } from "../components/Game";
+import { boxSize } from "../components/game";
 
 export type XY = { x: number; y: number };
 

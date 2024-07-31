@@ -1,4 +1,4 @@
-import { type Player, boxSize } from "../components/Game";
+import { type Player, boxSize } from "../components/game";
 import { isOverlapping } from "./box";
 import * as Walls from "./walls";
 import * as GameMap from "./game-map";

@@ -4,7 +4,7 @@ import {
   type Monster,
   bulletSize,
   boxSize,
-} from "../components/Game";
+} from "../components/game";
 import { isInBounds, isOverlapping } from "./box";
 import * as Walls from "./walls";
 
