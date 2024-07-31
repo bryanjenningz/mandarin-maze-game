@@ -1,6 +1,5 @@
 import type { Action, Bullet, Monster, Player } from "../components/Game";
 import { updateBullets } from "./updateBullets";
-import { updatePlayer } from "./updatePlayer";
 import type { Box } from "./Box";
 import {
   gameMapToWalls,
@@ -9,6 +8,7 @@ import {
   gameMapToMonsters,
 } from "./GameMap";
 import { updateMonsters } from "./Monster";
+import { updatePlayer } from "./Player";
 
 export type State = {
   keysDown: Set<string>;
