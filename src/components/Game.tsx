@@ -1,8 +1,8 @@
 import { useEffect, useReducer } from "react";
 import { initMonsters, initState, reducer } from "../utils/state";
-import * as GameMap from "../utils/game-map";
 import { boxSize, type XY } from "../utils/box";
 import { range } from "../utils/utilities";
+import { gameMap } from "../utils/game-map";
 
 export type Player = XY;
 
@@ -74,7 +74,7 @@ export const Game = (): JSX.Element => {
   return (
     <div className="h-[100svh] flex flex-col justify-center items-center">
       <div className="relative aspect-square bg-slate-800 w-full max-w-2xl flex flex-col">
-        {GameMap.init.map((row, y) => {
+        {gameMap.map((row, y) => {
           return (
             <div key={y} className="flex h-[5%]">
               {row.map((box, x) => {

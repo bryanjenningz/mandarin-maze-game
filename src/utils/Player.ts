@@ -1,9 +1,9 @@
 import { type Player } from "../components/game";
 import { boxSize, isOverlapping } from "./box";
+import { gameMap, gameMapToPlayer } from "./game-map";
 import * as Walls from "./walls";
-import * as GameMap from "./game-map";
 
-export const initPlayer: Player = GameMap.toPlayer(GameMap.init);
+export const initPlayer: Player = gameMapToPlayer(gameMap);
 
 export const updatePlayer = (keysDown: Set<string>, player: Player): Player => {
   const x = ((): number => {
