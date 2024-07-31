@@ -3,7 +3,7 @@ import type { XY, Box } from "./Box";
 
 type GameMap = string[][];
 
-export const gameMap: GameMap = [
+export const init: GameMap = [
   "#EEEE###############",
   "#    #             #",
   "#    #       X     #",
@@ -36,17 +36,17 @@ const gameMapBoxLocations = (gameMap: GameMap, targetBox: string): XY[] => {
     .filter(Boolean);
 };
 
-export const gameMapToPlayer = (gameMap: GameMap): Player => {
+export const toPlayer = (gameMap: GameMap): Player => {
   return gameMapBoxLocations(gameMap, "P")[0] ?? { x: 0, y: 0 };
 };
 
-export const gameMapToWalls = (gameMap: GameMap): Box[] => {
+export const toWalls = (gameMap: GameMap): Box[] => {
   return gameMapBoxLocations(gameMap, "#").map(({ x, y }) => {
     return { x, y, size: boxSize };
   });
 };
 
-export const gameMapToMonsters = (gameMap: GameMap): Monster[] => {
+export const toMonsters = (gameMap: GameMap): Monster[] => {
   return gameMapBoxLocations(gameMap, "X").map((monster) => {
     return { ...monster, target: null, health: 100 };
   });

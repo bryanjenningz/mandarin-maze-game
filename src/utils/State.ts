@@ -1,12 +1,7 @@
 import type { Action, Bullet, Monster, Player } from "../components/Game";
 import { updateBullets } from "./Bullet";
 import type { Box } from "./Box";
-import {
-  gameMapToWalls,
-  gameMap,
-  gameMapToPlayer,
-  gameMapToMonsters,
-} from "./GameMap";
+import * as GameMap from "./GameMap";
 import { updateMonsters } from "./Monster";
 import { updatePlayer } from "./Player";
 
@@ -18,9 +13,9 @@ export type State = {
   bullets: Bullet[];
 };
 
-export const walls: Box[] = gameMapToWalls(gameMap);
-const initPlayer: Player = gameMapToPlayer(gameMap);
-export const initMonsters: Monster[] = gameMapToMonsters(gameMap);
+export const walls: Box[] = GameMap.toWalls(GameMap.init);
+const initPlayer: Player = GameMap.toPlayer(GameMap.init);
+export const initMonsters: Monster[] = GameMap.toMonsters(GameMap.init);
 
 export const initState: State = {
   keysDown: new Set(),
