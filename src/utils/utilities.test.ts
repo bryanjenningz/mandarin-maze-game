@@ -1,5 +1,5 @@
-import { describe, expect, test } from "vitest";
-import { clamp } from "./clamp";
+import { describe, test, expect } from "vitest";
+import { clamp } from "./utilities";
 
 describe("clamp", () => {
   const expectations: [number, number, number, number][] = [
