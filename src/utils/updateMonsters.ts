@@ -7,7 +7,7 @@ import {
 } from "../components/Game";
 import { clamp } from "./clamp";
 import { isOverlapping } from "./isOverlapping";
-import { isInBounds } from "./isInBounds";
+import { isInBounds } from "./Box";
 import type { Box } from "./Box";
 
 export const updateMonsters = ({

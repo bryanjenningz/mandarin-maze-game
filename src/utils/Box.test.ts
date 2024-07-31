@@ -1,4 +1,4 @@
-import { describe, expect, test } from "vitest";
+import { describe, test, expect } from "vitest";
 import { isInBounds } from "./Box";
 
 describe("isInBounds", () => {

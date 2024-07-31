@@ -1,3 +1,14 @@
+import { boxSize } from "../components/Game";
+
 export type XY = { x: number; y: number };
 
 export type Box = XY & { size: number };
+
+export const isInBounds = ({ x, y, size }: Box): boolean => {
+  return (
+    x >= 0 &&
+    x <= boxSize * boxSize - size &&
+    y >= 0 &&
+    y <= boxSize * boxSize - size
+  );
+};
