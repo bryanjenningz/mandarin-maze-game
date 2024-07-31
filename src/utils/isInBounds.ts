@@ -1,4 +1,5 @@
-import { type Box, boxSize } from "../components/Game";
+import { boxSize } from "../components/Game";
+import type { Box } from "./Box";
 
 export const isInBounds = ({ x, y, size }: Box): boolean => {
   return (

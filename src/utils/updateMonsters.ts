@@ -4,11 +4,11 @@ import {
   type Bullet,
   boxSize,
   bulletSize,
-  type Box,
 } from "../components/Game";
 import { clamp } from "./clamp";
 import { isOverlapping } from "./isOverlapping";
 import { isInBounds } from "./isInBounds";
+import type { Box } from "./Box";
 
 export const updateMonsters = ({
   walls,

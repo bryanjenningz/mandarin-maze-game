@@ -7,10 +7,7 @@ import {
   gameMapToPlayer,
   gameMapToWalls,
 } from "../utils/GameMap";
-
-export type XY = { x: number; y: number };
-
-export type Box = XY & { size: number };
+import type { Box, XY } from "../utils/Box";
 
 export type Player = XY;
 

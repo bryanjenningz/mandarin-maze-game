@@ -1,4 +1,4 @@
-import type { Box } from "../components/Game";
+import type { Box } from "./Box";
 
 export const isOverlapping = (a: Box, b: Box): boolean => {
   return (
