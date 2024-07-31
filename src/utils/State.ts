@@ -1,7 +1,34 @@
 import { updateMonsters } from "./updateMonsters";
-import { type State, type Action, walls } from "../components/Game";
+import type { Action, Bullet, Monster, Player } from "../components/Game";
 import { updateBullets } from "./updateBullets";
 import { updatePlayer } from "./updatePlayer";
+import type { Box } from "./Box";
+import {
+  gameMapToWalls,
+  gameMap,
+  gameMapToPlayer,
+  gameMapToMonsters,
+} from "./GameMap";
+
+export type State = {
+  keysDown: Set<string>;
+  player: Player;
+  monsters: Monster[];
+  lastBulletShotTime: number;
+  bullets: Bullet[];
+};
+
+export const walls: Box[] = gameMapToWalls(gameMap);
+const initPlayer: Player = gameMapToPlayer(gameMap);
+export const initMonsters: Monster[] = gameMapToMonsters(gameMap);
+
+export const initState: State = {
+  keysDown: new Set(),
+  player: initPlayer,
+  monsters: initMonsters,
+  lastBulletShotTime: 0,
+  bullets: [],
+};
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {

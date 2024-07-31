@@ -1,13 +1,8 @@
 import { useEffect, useReducer } from "react";
 import { range } from "../utils/range";
-import { reducer } from "../utils/State";
-import {
-  gameMap,
-  gameMapToMonsters,
-  gameMapToPlayer,
-  gameMapToWalls,
-} from "../utils/GameMap";
-import type { Box, XY } from "../utils/Box";
+import { initMonsters, initState, reducer } from "../utils/State";
+import { gameMap } from "../utils/GameMap";
+import type { XY } from "../utils/Box";
 
 export type Player = XY;
 
@@ -21,28 +16,9 @@ export type MonsterRandomTarget = {
 
 export type Bullet = { x: number; y: number; dx: number; dy: number };
 
-export type State = {
-  keysDown: Set<string>;
-  player: Player;
-  monsters: Monster[];
-  lastBulletShotTime: number;
-  bullets: Bullet[];
-};
-
 export const boxSize = 20;
 
 export const bulletSize = boxSize / 5;
-
-export const walls: Box[] = gameMapToWalls(gameMap);
-const initPlayer: Player = gameMapToPlayer(gameMap);
-const initMonsters: Monster[] = gameMapToMonsters(gameMap);
-const initState: State = {
-  keysDown: new Set(),
-  player: initPlayer,
-  monsters: initMonsters,
-  lastBulletShotTime: 0,
-  bullets: [],
-};
 
 export type Action =
   | { type: "TICK"; time: number; monsterRandomness: MonsterRandomTarget[] }

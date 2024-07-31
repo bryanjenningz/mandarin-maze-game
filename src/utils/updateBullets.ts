@@ -3,10 +3,10 @@ import {
   type Bullet,
   type Monster,
   bulletSize,
-  walls,
   boxSize,
 } from "../components/Game";
 import { isInBounds, isOverlapping } from "./Box";
+import { walls } from "./State";
 
 export const updateBullets = (
   keysDown: Set<string>,
