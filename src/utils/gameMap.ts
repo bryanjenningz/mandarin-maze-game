@@ -1,11 +1,12 @@
 import {
   boxSize,
   type Box,
-  type GameMap,
   type Monster,
   type Player,
   type XY,
 } from "../components/Game";
+
+export type GameMap = string[][];
 
 export const gameMap: GameMap = [
   "#EEEE###############",
