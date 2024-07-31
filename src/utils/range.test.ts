@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { range } from "../../utils/range";
+import { range } from "./range";
 
 describe("range", () => {
   const expectations: [number, number, number[]][] = [

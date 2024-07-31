@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { isInBounds } from "../../utils/isInBounds";
+import { isInBounds } from "./isInBounds";
 
 describe("isInBounds", () => {
   const expectations: [

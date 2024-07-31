@@ -6,7 +6,7 @@ import {
   gameMapToMonsters,
   gameMapToPlayer,
   gameMapToWalls,
-} from "../utils/gameMap";
+} from "../utils/GameMap";
 
 export type XY = { x: number; y: number };
 

@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
-import type { Monster, MonsterRandomTarget } from "../../components/Game";
-import { addMonsterTarget } from "../../utils/addMonsterTarget";
+import type { Monster, MonsterRandomTarget } from "../components/Game";
+import { addMonsterTarget } from "./addMonsterTarget";
 
 describe("addMonsterTarget", () => {
   describe("randomTarget with false override", () => {

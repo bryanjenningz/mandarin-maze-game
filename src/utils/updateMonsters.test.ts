@@ -1,11 +1,11 @@
 import { describe, expect, test } from "vitest";
-import { updateMonsters } from "../../utils/updateMonsters";
+import { updateMonsters } from "./updateMonsters";
 import type {
   Box,
   Bullet,
   Monster,
   MonsterRandomTarget,
-} from "../../components/Game";
+} from "../components/Game";
 
 describe("updateMonsters", () => {
   test("lowers monster health if bullets overlap", () => {
