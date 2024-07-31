@@ -1,7 +1,7 @@
 import { useEffect, useReducer } from "react";
 import { initMonsters, initState, reducer } from "../utils/state";
 import * as GameMap from "../utils/game-map";
-import type { XY } from "../utils/box";
+import { boxSize, type XY } from "../utils/box";
 import { range } from "../utils/utilities";
 
 export type Player = XY;
@@ -15,8 +15,6 @@ export type MonsterRandomTarget = {
 };
 
 export type Bullet = { x: number; y: number; dx: number; dy: number };
-
-export const boxSize = 20;
 
 export const bulletSize = boxSize / 5;
 

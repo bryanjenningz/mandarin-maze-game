@@ -1,8 +1,8 @@
-import { boxSize } from "../components/game";
-
 export type XY = { x: number; y: number };
 
 export type Box = XY & { size: number };
+
+export const boxSize = 20;
 
 export const isInBounds = ({ x, y, size }: Box): boolean => {
   return (

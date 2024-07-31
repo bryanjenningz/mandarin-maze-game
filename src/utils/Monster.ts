@@ -1,11 +1,10 @@
 import {
-  boxSize,
   bulletSize,
   type Bullet,
   type Monster,
   type MonsterRandomTarget,
 } from "../components/game";
-import { type Box, isInBounds, isOverlapping } from "./box";
+import { type Box, boxSize, isInBounds, isOverlapping } from "./box";
 import { clamp } from "./utilities";
 
 export const addMonsterTarget = ({

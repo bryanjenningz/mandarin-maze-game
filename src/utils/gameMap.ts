@@ -1,5 +1,5 @@
-import { boxSize, type Monster, type Player } from "../components/game";
-import type { XY, Box } from "./box";
+import { type Monster, type Player } from "../components/game";
+import { type XY, type Box, boxSize } from "./box";
 
 type GameMap = string[][];
 

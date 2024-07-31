@@ -3,9 +3,8 @@ import {
   type Bullet,
   type Monster,
   bulletSize,
-  boxSize,
 } from "../components/game";
-import { isInBounds, isOverlapping } from "./box";
+import { boxSize, isInBounds, isOverlapping } from "./box";
 import * as Walls from "./walls";
 
 export const updateBullets = (
