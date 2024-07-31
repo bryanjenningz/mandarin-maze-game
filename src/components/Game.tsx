@@ -1,6 +1,6 @@
 import { useEffect, useReducer } from "react";
 import { range } from "../utils/range";
-import { reducer } from "../utils/reducer";
+import { reducer } from "../utils/State";
 import {
   gameMap,
   gameMapToMonsters,
