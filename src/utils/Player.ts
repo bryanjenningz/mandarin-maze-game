@@ -1,7 +1,6 @@
 import { type Player } from "../components/game";
 import { boxSize, isOverlapping } from "./box";
-import { gameMap, gameMapToPlayer } from "./game-map";
-import * as Walls from "./walls";
+import { gameMap, gameMapToPlayer, walls } from "./game-map";
 
 export const initPlayer: Player = gameMapToPlayer(gameMap);
 
@@ -26,20 +25,18 @@ export const updatePlayer = (keysDown: Set<string>, player: Player): Player => {
     return player.y;
   })();
 
-  if (
-    !Walls.init.some((wall) => isOverlapping({ x, y, size: boxSize }, wall))
-  ) {
+  if (!walls.some((wall) => isOverlapping({ x, y, size: boxSize }, wall))) {
     return { x, y };
   }
   if (
-    !Walls.init.some((wall) =>
+    !walls.some((wall) =>
       isOverlapping({ x, y: player.y, size: boxSize }, wall)
     )
   ) {
     return { x, y: player.y };
   }
   if (
-    !Walls.init.some((wall) =>
+    !walls.some((wall) =>
       isOverlapping({ x: player.x, y, size: boxSize }, wall)
     )
   ) {

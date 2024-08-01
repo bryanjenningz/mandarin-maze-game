@@ -51,3 +51,5 @@ export const gameMapToMonsters = (gameMap: GameMap): Monster[] => {
     return { ...monster, target: null, health: 100 };
   });
 };
+
+export const walls = gameMapToWalls(gameMap);

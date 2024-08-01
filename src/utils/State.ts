@@ -1,9 +1,8 @@
 import type { Action, Bullet, Monster, Player } from "../components/game";
 import { updateBullets } from "./bullet";
-import { gameMapToMonsters, gameMap } from "./game-map";
+import { gameMapToMonsters, gameMap, walls } from "./game-map";
 import { updateMonsters } from "./monster";
 import { initPlayer, updatePlayer } from "./player";
-import * as Walls from "./walls";
 
 export type State = {
   keysDown: Set<string>;
@@ -28,7 +27,7 @@ export const reducer = (state: State, action: Action): State => {
     case "TICK": {
       const player = updatePlayer(state.keysDown, state.player);
       const monsters = updateMonsters({
-        walls: Walls.init,
+        walls,
         monsters: state.monsters,
         monsterRandomness: action.monsterRandomness,
         bullets: state.bullets,

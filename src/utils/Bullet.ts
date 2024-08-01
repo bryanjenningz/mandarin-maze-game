@@ -5,7 +5,7 @@ import {
   bulletSize,
 } from "../components/game";
 import { boxSize, isInBounds, isOverlapping } from "./box";
-import * as Walls from "./walls";
+import { walls } from "./game-map";
 
 export const updateBullets = (
   keysDown: Set<string>,
@@ -22,7 +22,7 @@ export const updateBullets = (
     .filter(
       (bullet) =>
         isInBounds({ x: bullet.x, y: bullet.y, size: bulletSize }) &&
-        !Walls.init.some((wall) =>
+        !walls.some((wall) =>
           isOverlapping({ x: bullet.x, y: bullet.y, size: bulletSize }, wall)
         ) &&
         !monsters.some((monster) =>
