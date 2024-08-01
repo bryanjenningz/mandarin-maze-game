@@ -30,12 +30,20 @@ type Target = {
   y: number;
 };
 
-export type Action = { type: "KEY_DOWN"; key: string };
+export type Action =
+  | { type: "KEY_DOWN"; key: string }
+  | { type: "KEY_UP"; key: string };
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "KEY_DOWN": {
       const keysDown = new Set([...state.keysDown, action.key.toLowerCase()]);
+      return { ...state, keysDown };
+    }
+    case "KEY_UP": {
+      const keysDown = new Set(
+        [...state.keysDown].filter((key) => key !== action.key.toLowerCase())
+      );
       return { ...state, keysDown };
     }
   }
