@@ -28,5 +28,16 @@ describe("reducer", () => {
       const expected: State = { ...state, keysDown: new Set() };
       expect(newState).toEqual(expected);
     });
+
+    it("removes lowercase 'arrowup' key down to state when you press up 'ArrowUp'", () => {
+      const state: State = {
+        ...initState,
+        keysDown: new Set(["a", "arrowup"]),
+      };
+      const action: Action = { type: "KEY_UP", key: "ArrowUp" };
+      const newState: State = reducer(state, action);
+      const expected: State = { ...state, keysDown: new Set(["a"]) };
+      expect(newState).toEqual(expected);
+    });
   });
 });
