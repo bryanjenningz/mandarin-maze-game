@@ -48,24 +48,32 @@ describe("reducer", () => {
   });
 
   describe("TICK", () => {
-    it("moves the player to the left and up when the arrowleft and arrowup keys are down", () => {
-      const keysDown = new Set(["arrowleft", "arrowup"]);
-      const player: Player = { x: 40, y: 30, size: 20 };
-      const state: State = { ...initState, keysDown, player };
-      const action: Action = { type: "TICK" };
-      const newState: State = reducer(state, action);
-      const expected: State = { ...state, player: { ...player, x: 39, y: 29 } };
-      expect(newState).toEqual(expected);
-    });
+    describe("player movement", () => {
+      it("moves the player to the left and up when the arrowleft and arrowup keys are down", () => {
+        const keysDown = new Set(["arrowleft", "arrowup"]);
+        const player: Player = { x: 40, y: 30, size: 20 };
+        const state: State = { ...initState, keysDown, player };
+        const action: Action = { type: "TICK" };
+        const newState: State = reducer(state, action);
+        const expected: State = {
+          ...state,
+          player: { ...player, x: 39, y: 29 },
+        };
+        expect(newState).toEqual(expected);
+      });
 
-    it("moves the player to the right and bottom when the arrowright and arrowdown keys are down", () => {
-      const keysDown = new Set(["arrowright", "arrowdown"]);
-      const player: Player = { x: 40, y: 30, size: 20 };
-      const state: State = { ...initState, keysDown, player };
-      const action: Action = { type: "TICK" };
-      const newState: State = reducer(state, action);
-      const expected: State = { ...state, player: { ...player, x: 41, y: 31 } };
-      expect(newState).toEqual(expected);
+      it("moves the player to the right and bottom when the arrowright and arrowdown keys are down", () => {
+        const keysDown = new Set(["arrowright", "arrowdown"]);
+        const player: Player = { x: 40, y: 30, size: 20 };
+        const state: State = { ...initState, keysDown, player };
+        const action: Action = { type: "TICK" };
+        const newState: State = reducer(state, action);
+        const expected: State = {
+          ...state,
+          player: { ...player, x: 41, y: 31 },
+        };
+        expect(newState).toEqual(expected);
+      });
     });
   });
 });
