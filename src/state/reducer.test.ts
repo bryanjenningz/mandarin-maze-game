@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { initState, reducer, type Action, type State } from "./reducer";
+import {
+  initState,
+  reducer,
+  type Action,
+  type Player,
+  type State,
+} from "./reducer";
 
 describe("reducer", () => {
   describe("KEY_DOWN", () => {
@@ -37,6 +43,18 @@ describe("reducer", () => {
       const action: Action = { type: "KEY_UP", key: "ArrowUp" };
       const newState: State = reducer(state, action);
       const expected: State = { ...state, keysDown: new Set(["a"]) };
+      expect(newState).toEqual(expected);
+    });
+  });
+
+  describe("TICK", () => {
+    it("moves the player to the left and up when the arrowleft and arrowup keys are down", () => {
+      const keysDown = new Set(["arrowleft", "arrowup"]);
+      const player: Player = { x: 40, y: 30, size: 20 };
+      const state: State = { ...initState, keysDown, player };
+      const action: Action = { type: "TICK" };
+      const newState: State = reducer(state, action);
+      const expected: State = { ...state, player: { ...player, x: 39, y: 29 } };
       expect(newState).toEqual(expected);
     });
   });
