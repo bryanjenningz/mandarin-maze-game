@@ -24,4 +24,24 @@ describe("reducer", () => {
     };
     expect(newState).toEqual(expectedNewState);
   });
+
+  test("bullets come out diagonally when user is holding down keys", () => {
+    const state: State = {
+      ...initState,
+      player: { x: 20, y: 20 },
+      keysDown: new Set(["s", "d"]),
+    };
+    const action: Action = {
+      type: "TICK",
+      time: 10_000,
+      monsterRandomness: [],
+    };
+    const newState: State = reducer(state, action);
+    const expectedNewState: State = {
+      ...state,
+      lastBulletShotTime: 10_000,
+      bullets: [{ x: 20, y: 20, dx: 2, dy: 2 }],
+    };
+    expect(newState).toEqual(expectedNewState);
+  });
 });
