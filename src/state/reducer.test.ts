@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { reducer, type Action, type Player, type State } from "./reducer";
 
-const defaultState: State = {
+const defaultState = {
   keysDown: new Set(),
   player: { x: 20, y: 20, size: 20 },
   monsters: [{ x: 40, y: 40, size: 20, target: null }],
-};
+} as const satisfies State;
 
 describe("reducer", () => {
   describe("KEY_DOWN", () => {
