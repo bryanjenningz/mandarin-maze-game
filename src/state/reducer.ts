@@ -25,7 +25,7 @@ export type Monster = {
   target: Target | null;
 };
 
-type Target = {
+export type Target = {
   x: number;
   y: number;
 };

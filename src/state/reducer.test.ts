@@ -5,6 +5,7 @@ import {
   type Monster,
   type Player,
   type State,
+  type Target,
 } from "./reducer";
 
 const defaultState = {
@@ -89,6 +90,19 @@ describe("reducer", () => {
         const action: Action = { type: "TICK" };
         const newState: State = reducer(state, action);
         const expected: State = state;
+        expect(newState).toEqual(expected);
+      });
+
+      it("moves a space in the direction of its target", () => {
+        const target: Target = { x: 40, y: 0 };
+        const monster: Monster = { x: 20, y: 20, size: 20, target };
+        const state: State = { ...defaultState, monsters: [monster] };
+        const action: Action = { type: "TICK" };
+        const newState: State = reducer(state, action);
+        const expected: State = {
+          ...state,
+          monsters: [{ ...monster, x: 21, y: 19 }],
+        };
         expect(newState).toEqual(expected);
       });
     });
