@@ -108,13 +108,13 @@ describe("reducer", () => {
 
       it("sets target to null once monster reaches target", () => {
         const target: Target = { x: 40, y: 0 };
-        const monster: Monster = { x: target.x, y: target.y, size: 20, target };
+        const monster: Monster = { x: 39, y: 1, size: 20, target };
         const state: State = { ...defaultState, monsters: [monster] };
         const action: Action = { type: "TICK" };
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
-          monsters: [{ ...monster, target: null }],
+          monsters: [{ ...monster, x: 40, y: 0, target: null }],
         };
         expect(newState).toEqual(expected);
       });
