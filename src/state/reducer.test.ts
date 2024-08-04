@@ -142,6 +142,28 @@ describe("reducer", () => {
         };
         expect(newState).toEqual(expected);
       });
+
+      it("sets monster targets to the new targets passed in and keeps target the same if its new target is null", () => {
+        const target: Target = { x: 40, y: 0 };
+        const monster: Monster = { x: 39, y: 1, size: 20, target };
+        const monster2: Monster = { x: 70, y: 40, size: 20, target: null };
+        const monster3: Monster = { x: 60, y: 30, size: 20, target };
+        const monsters: Monster[] = [monster, monster2, monster3];
+        const state: State = { ...defaultState, monsters };
+        const newTarget: Target = { x: 1, y: 1 };
+        const targets: (Target | null)[] = [newTarget, null, null];
+        const action: Action = { type: "TICK", targets };
+        const newState: State = reducer(state, action);
+        const expected: State = {
+          ...state,
+          monsters: [
+            { ...monster, x: 38, y: 1, target: newTarget },
+            { ...monster2, x: 70, y: 40 },
+            { ...monster3, x: 59, y: 29 },
+          ],
+        };
+        expect(newState).toEqual(expected);
+      });
     });
   });
 });

@@ -33,7 +33,7 @@ export type Target = {
 export type Action =
   | { type: "KEY_DOWN"; key: string }
   | { type: "KEY_UP"; key: string }
-  | { type: "TICK"; targets: Target[] };
+  | { type: "TICK"; targets: (Target | null)[] };
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
