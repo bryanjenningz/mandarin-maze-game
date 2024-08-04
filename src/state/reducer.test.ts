@@ -118,6 +118,30 @@ describe("reducer", () => {
         };
         expect(newState).toEqual(expected);
       });
+
+      it("sets monster targets to the new targets passed in and monsters move toward the new targets", () => {
+        const target: Target = { x: 40, y: 0 };
+        const monster: Monster = { x: 39, y: 1, size: 20, target };
+        const monster2: Monster = { x: 70, y: 40, size: 20, target: null };
+        const monster3: Monster = { x: 60, y: 30, size: 20, target };
+        const monsters: Monster[] = [monster, monster2, monster3];
+        const state: State = { ...defaultState, monsters };
+        const newTarget: Target = { x: 1, y: 1 };
+        const newTarget2: Target = { x: 2, y: 2 };
+        const newTarget3: Target = { x: 3, y: 3 };
+        const targets: Target[] = [newTarget, newTarget2, newTarget3];
+        const action: Action = { type: "TICK", targets };
+        const newState: State = reducer(state, action);
+        const expected: State = {
+          ...state,
+          monsters: [
+            { ...monster, x: 38, y: 1, target: newTarget },
+            { ...monster2, x: 69, y: 39, target: newTarget2 },
+            { ...monster3, x: 59, y: 29, target: newTarget3 },
+          ],
+        };
+        expect(newState).toEqual(expected);
+      });
     });
   });
 });
