@@ -60,7 +60,7 @@ describe("reducer", () => {
         const keysDown = new Set(["arrowleft", "arrowup"]);
         const player: Player = { x: 40, y: 30, size: 20 };
         const state: State = { ...defaultState, keysDown, player };
-        const action: Action = { type: "TICK" };
+        const action: Action = { type: "TICK", targets: [] };
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
