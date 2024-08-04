@@ -1,15 +1,18 @@
 const BLOCK_SIZE = 20;
+const BULLET_SIZE = 4;
 
 export type State = {
   keysDown: Set<string>;
   player: Player;
   monsters: Monster[];
+  bullets: Bullet[];
 };
 
 export const initState: State = {
   keysDown: new Set(),
   player: { x: 20, y: 20, size: 20 },
   monsters: [{ x: 40, y: 40, size: 20, target: null }],
+  bullets: [],
 };
 
 export type Player = {
@@ -28,6 +31,14 @@ export type Monster = {
 export type Target = {
   x: number;
   y: number;
+};
+
+export type Bullet = {
+  x: number;
+  y: number;
+  dx: number;
+  dy: number;
+  size: typeof BULLET_SIZE;
 };
 
 export type Action =
