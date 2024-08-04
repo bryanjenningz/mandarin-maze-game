@@ -64,11 +64,9 @@ export const reducer = (state: State, action: Action): State => {
         if (monster.x === monster.target.x && monster.y === monster.target.y) {
           return { ...monster, target: null };
         }
-        return {
-          ...monster,
-          x: clamp(monster.x - 1, monster.target.x, monster.x + 1),
-          y: clamp(monster.y - 1, monster.target.y, monster.y + 1),
-        };
+        const x = clamp(monster.x - 1, monster.target.x, monster.x + 1);
+        const y = clamp(monster.y - 1, monster.target.y, monster.y + 1);
+        return { ...monster, x, y };
       });
       return { ...state, player, monsters };
     }
