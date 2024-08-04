@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { reducer, type Action, type Player, type State } from "./reducer";
+import {
+  reducer,
+  type Action,
+  type Monster,
+  type Player,
+  type State,
+} from "./reducer";
 
 const defaultState = {
   keysDown: new Set(),
@@ -77,7 +83,14 @@ describe("reducer", () => {
     });
 
     describe("monster movement", () => {
-      it("moves a space in the direction of its target", () => {});
+      it("doesn't move if target is null", () => {
+        const monster: Monster = { x: 20, y: 20, size: 20, target: null };
+        const state: State = { ...defaultState, monsters: [monster] };
+        const action: Action = { type: "TICK" };
+        const newState: State = reducer(state, action);
+        const expected: State = state;
+        expect(newState).toEqual(expected);
+      });
     });
   });
 });
