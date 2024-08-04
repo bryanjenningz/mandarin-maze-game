@@ -63,7 +63,7 @@ export const reducer = (state: State, action: Action): State => {
         if (!monster.target) return monster;
         return {
           ...monster,
-          x: clamp(monster.x - 1, monster.target.x, monster.y + 1),
+          x: clamp(monster.x - 1, monster.target.x, monster.x + 1),
           y: clamp(monster.y - 1, monster.target.y, monster.y + 1),
         };
       });
