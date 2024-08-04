@@ -73,7 +73,7 @@ describe("reducer", () => {
         const keysDown = new Set(["arrowright", "arrowdown"]);
         const player: Player = { x: 40, y: 30, size: 20 };
         const state: State = { ...defaultState, keysDown, player };
-        const action: Action = { type: "TICK" };
+        const action: Action = { type: "TICK", targets: [] };
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
@@ -87,7 +87,7 @@ describe("reducer", () => {
       it("doesn't move if target is null", () => {
         const monster: Monster = { x: 20, y: 20, size: 20, target: null };
         const state: State = { ...defaultState, monsters: [monster] };
-        const action: Action = { type: "TICK" };
+        const action: Action = { type: "TICK", targets: [] };
         const newState: State = reducer(state, action);
         const expected: State = state;
         expect(newState).toEqual(expected);
@@ -97,7 +97,7 @@ describe("reducer", () => {
         const target: Target = { x: 40, y: 0 };
         const monster: Monster = { x: 20, y: 20, size: 20, target };
         const state: State = { ...defaultState, monsters: [monster] };
-        const action: Action = { type: "TICK" };
+        const action: Action = { type: "TICK", targets: [] };
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
@@ -110,7 +110,7 @@ describe("reducer", () => {
         const target: Target = { x: 40, y: 0 };
         const monster: Monster = { x: 39, y: 1, size: 20, target };
         const state: State = { ...defaultState, monsters: [monster] };
-        const action: Action = { type: "TICK" };
+        const action: Action = { type: "TICK", targets: [] };
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
