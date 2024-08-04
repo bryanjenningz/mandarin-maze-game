@@ -61,6 +61,9 @@ export const reducer = (state: State, action: Action): State => {
       const player: Player = { ...state.player, x, y };
       const monsters: Monster[] = state.monsters.map((monster) => {
         if (!monster.target) return monster;
+        if (monster.x === monster.target.x && monster.y === monster.target.y) {
+          return { ...monster, target: null };
+        }
         return {
           ...monster,
           x: clamp(monster.x - 1, monster.target.x, monster.x + 1),
