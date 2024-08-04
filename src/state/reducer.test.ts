@@ -8,11 +8,11 @@ import {
   type Target,
 } from "./reducer";
 
-const defaultState = {
+const defaultState: State = {
   keysDown: new Set(),
   player: { x: 20, y: 20, size: 20 },
-  monsters: [{ x: 40, y: 40, size: 20, target: null }],
-} as const satisfies State;
+  monsters: [],
+};
 
 describe("reducer", () => {
   describe("KEY_DOWN", () => {
