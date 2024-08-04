@@ -58,8 +58,20 @@ export const reducer = (state: State, action: Action): State => {
         if (state.keysDown.has("arrowdown")) return state.player.y + 1;
         return state.player.y;
       })();
-      const player = { ...state.player, x, y };
-      return { ...state, player };
+      const player: Player = { ...state.player, x, y };
+      const monsters: Monster[] = state.monsters.map((monster) => {
+        if (!monster.target) return monster;
+        return {
+          ...monster,
+          x: clamp(monster.x - 1, monster.target.x, monster.y + 1),
+          y: clamp(monster.y - 1, monster.target.y, monster.y + 1),
+        };
+      });
+      return { ...state, player, monsters };
     }
   }
+};
+
+const clamp = (low: number, x: number, high: number): number => {
+  return Math.min(high, Math.max(low, x));
 };
