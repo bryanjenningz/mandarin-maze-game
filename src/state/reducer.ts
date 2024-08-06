@@ -86,11 +86,15 @@ export const reducer = (state: State, action: Action): State => {
         const newTarget = x === target.x && y === target.y ? null : target;
         return { ...monster, x, y, target: newTarget };
       });
-      const bullets: Bullet[] = state.bullets.map((bullet) => {
-        const x = bullet.x + bullet.dx;
-        const y = bullet.y + bullet.dy;
-        return { ...bullet, x, y };
-      });
+      const bullets: Bullet[] = state.bullets
+        .filter((bullet) => {
+          return !state.walls.some((wall) => overlaps(bullet, wall));
+        })
+        .map((bullet) => {
+          const x = bullet.x + bullet.dx;
+          const y = bullet.y + bullet.dy;
+          return { ...bullet, x, y };
+        });
       let dx = 0;
       let dy = 0;
       if (state.keysDown.has("w")) dy -= 1;
@@ -107,4 +111,15 @@ export const reducer = (state: State, action: Action): State => {
 
 const clamp = (low: number, x: number, high: number): number => {
   return Math.min(high, Math.max(low, x));
+};
+
+type Box = { x: number; y: number; size: number };
+
+const overlaps = (a: Box, b: Box): boolean => {
+  return (
+    a.x + a.size > b.x &&
+    a.x < b.x + b.size &&
+    a.y + a.size > b.y &&
+    a.y < b.y + b.size
+  );
 };
