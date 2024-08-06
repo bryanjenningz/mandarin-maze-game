@@ -89,10 +89,13 @@ export const reducer = (state: State, action: Action): State => {
         ) ?? state.player;
       const monsters: Monster[] = state.monsters.map((monster, i) => {
         const target = action.targets[i] ?? monster.target;
-        const health =
+        const health = Math.max(
+          0,
           monster.health -
-          state.bullets.filter((bullet) => overlaps(monster, bullet)).length *
-            BULLET_DAMAGE;
+            state.bullets.filter((bullet) => overlaps(monster, bullet)).length *
+              BULLET_DAMAGE
+        );
+        if (health === 0) return { ...monster, health, target: null };
         if (!target) return { ...monster, health };
         const x = clamp(monster.x - 1, target.x, monster.x + 1);
         const y = clamp(monster.y - 1, target.y, monster.y + 1);
