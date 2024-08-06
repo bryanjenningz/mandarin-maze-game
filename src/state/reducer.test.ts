@@ -221,6 +221,29 @@ describe("reducer", () => {
         };
         expect(newState).toEqual(expected);
       });
+
+      it("still appears if it collides with a monster that already has no health", () => {
+        const bullet: Bullet = { x: 20, y: 30, dx: -1, dy: -1, size: 4 };
+        const monster: Monster = {
+          x: 20,
+          y: 30,
+          size: 20,
+          target: null,
+          health: 0,
+        };
+        const state: State = {
+          ...defaultState,
+          bullets: [bullet],
+          monsters: [monster],
+        };
+        const action: Action = { type: "TICK", targets: [] };
+        const newState: State = reducer(state, action);
+        const expected: State = {
+          ...state,
+          bullets: [{ ...bullet, x: 19, y: 29 }],
+        };
+        expect(newState).toEqual(expected);
+      });
     });
 
     describe("monster movement", () => {
