@@ -106,7 +106,9 @@ export const reducer = (state: State, action: Action): State => {
         .filter((bullet) => {
           return (
             !state.walls.some((wall) => overlaps(bullet, wall)) &&
-            !state.monsters.some((monster) => overlaps(bullet, monster))
+            !state.monsters.some(
+              (monster) => overlaps(bullet, monster) && monster.health > 0
+            )
           );
         })
         .map((bullet) => {
