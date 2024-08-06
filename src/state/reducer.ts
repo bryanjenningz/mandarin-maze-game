@@ -79,7 +79,13 @@ export const reducer = (state: State, action: Action): State => {
         return { ...monster, x, y, target: newTarget };
       });
       const bullets: Bullet[] = [...state.bullets];
-      if (state.keysDown.has("w")) {
+      let dx = 0;
+      let dy = 0;
+      if (state.keysDown.has("w")) dy -= 1;
+      if (state.keysDown.has("s")) dy += 1;
+      if (state.keysDown.has("a")) dx -= 1;
+      if (state.keysDown.has("d")) dx += 1;
+      if (dx !== 0 || dy !== 0) {
         bullets.push({
           x: player.x,
           y: player.y,

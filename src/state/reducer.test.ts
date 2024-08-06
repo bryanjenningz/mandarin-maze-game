@@ -97,6 +97,19 @@ describe("reducer", () => {
         };
         expect(newState).toEqual(expected);
       });
+
+      it("shoots a bullet up and to the left when the player holds down the 'w' and 'a' keys", () => {
+        const keysDown = new Set(["w", "a"]);
+        const player: Player = { x: 40, y: 30, size: 20 };
+        const state: State = { ...defaultState, keysDown, player, bullets: [] };
+        const action: Action = { type: "TICK", targets: [] };
+        const newState: State = reducer(state, action);
+        const expected: State = {
+          ...state,
+          bullets: [{ x: 40, y: 30, dx: 0, dy: -1, size: 4 }],
+        };
+        expect(newState).toEqual(expected);
+      });
     });
 
     describe("monster movement", () => {
