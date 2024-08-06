@@ -99,6 +99,20 @@ describe("reducer", () => {
         };
         expect(newState).toEqual(expected);
       });
+
+      it("moves the player right if arrowdown and arrowright keys are down if there's a wall below", () => {
+        const keysDown = new Set(["arrowdown", "arrowright"]);
+        const player: Player = { x: 40, y: 30, size: 20 };
+        const walls: Wall[] = [{ x: 40, y: 50, size: 20 }];
+        const state: State = { ...defaultState, keysDown, player, walls };
+        const action: Action = { type: "TICK", targets: [] };
+        const newState: State = reducer(state, action);
+        const expected: State = {
+          ...state,
+          player: { ...player, x: 41 },
+        };
+        expect(newState).toEqual(expected);
+      });
     });
 
     describe("bullets firing", () => {
