@@ -127,7 +127,7 @@ describe("reducer", () => {
     });
 
     describe("bullet movement", () => {
-      it("advances in the correct direction", () => {
+      it("moves in the bottom right direction", () => {
         const bullet: Bullet = { x: 20, y: 30, dx: 1, dy: 1, size: 4 };
         const state: State = { ...defaultState, bullets: [bullet] };
         const action: Action = { type: "TICK", targets: [] };
@@ -135,6 +135,18 @@ describe("reducer", () => {
         const expected: State = {
           ...state,
           bullets: [{ ...bullet, x: 21, y: 31 }],
+        };
+        expect(newState).toEqual(expected);
+      });
+
+      it("moves in the top left direction", () => {
+        const bullet: Bullet = { x: 20, y: 30, dx: -1, dy: -1, size: 4 };
+        const state: State = { ...defaultState, bullets: [bullet] };
+        const action: Action = { type: "TICK", targets: [] };
+        const newState: State = reducer(state, action);
+        const expected: State = {
+          ...state,
+          bullets: [{ ...bullet, x: 19, y: 29 }],
         };
         expect(newState).toEqual(expected);
       });
