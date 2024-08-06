@@ -164,6 +164,17 @@ describe("reducer", () => {
         const expected: State = { ...state, bullets: [] };
         expect(newState).toEqual(expected);
       });
+
+      it("still appears even if in its next frame it overlaps with a wall", () => {
+        const bullet: Bullet = { x: 20, y: 20, dx: -1, dy: -1, size: 4 };
+        const walls: Wall[] = [{ x: 0, y: 0, size: 20 }];
+        const state: State = { ...defaultState, bullets: [bullet], walls };
+        const action: Action = { type: "TICK", targets: [] };
+        const newState: State = reducer(state, action);
+        const newBullet: Bullet = { ...bullet, x: 19, y: 19 };
+        const expected: State = { ...state, bullets: [newBullet] };
+        expect(newState).toEqual(expected);
+      });
     });
 
     describe("monster movement", () => {
