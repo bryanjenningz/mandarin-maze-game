@@ -88,7 +88,10 @@ export const reducer = (state: State, action: Action): State => {
       });
       const bullets: Bullet[] = state.bullets
         .filter((bullet) => {
-          return !state.walls.some((wall) => overlaps(bullet, wall));
+          return (
+            !state.walls.some((wall) => overlaps(bullet, wall)) &&
+            !state.monsters.some((monster) => overlaps(bullet, monster))
+          );
         })
         .map((bullet) => {
           const x = bullet.x + bullet.dx;
