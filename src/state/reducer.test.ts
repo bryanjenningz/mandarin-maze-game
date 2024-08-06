@@ -175,6 +175,16 @@ describe("reducer", () => {
         const expected: State = { ...state, bullets: [newBullet] };
         expect(newState).toEqual(expected);
       });
+
+      it("disappears and brings down monster health when it overlaps with a monster", () => {
+        const bullet: Bullet = { x: 20, y: 30, dx: -1, dy: -1, size: 4 };
+        const monsters: Monster[] = [{ x: 20, y: 30, size: 20, target: null }];
+        const state: State = { ...defaultState, bullets: [bullet], monsters };
+        const action: Action = { type: "TICK", targets: [] };
+        const newState: State = reducer(state, action);
+        const expected: State = { ...state, bullets: [] };
+        expect(newState).toEqual(expected);
+      });
     });
 
     describe("monster movement", () => {
