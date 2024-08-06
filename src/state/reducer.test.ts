@@ -106,7 +106,20 @@ describe("reducer", () => {
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
-          bullets: [{ x: 40, y: 30, dx: 0, dy: -1, size: 4 }],
+          bullets: [{ x: 40, y: 30, dx: -1, dy: -1, size: 4 }],
+        };
+        expect(newState).toEqual(expected);
+      });
+
+      it("shoots a bullet down and to the right when the player holds down the 's' and 'd' keys", () => {
+        const keysDown = new Set(["s", "d"]);
+        const player: Player = { x: 40, y: 30, size: 20 };
+        const state: State = { ...defaultState, keysDown, player, bullets: [] };
+        const action: Action = { type: "TICK", targets: [] };
+        const newState: State = reducer(state, action);
+        const expected: State = {
+          ...state,
+          bullets: [{ x: 40, y: 30, dx: 1, dy: 1, size: 4 }],
         };
         expect(newState).toEqual(expected);
       });
