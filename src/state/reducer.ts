@@ -12,7 +12,7 @@ export type State = {
 export const initState: State = {
   keysDown: new Set(),
   player: { x: 20, y: 20, size: 20 },
-  monsters: [{ x: 40, y: 40, size: 20, target: null }],
+  monsters: [{ x: 40, y: 40, size: 20, target: null, health: 100 }],
   bullets: [],
   walls: [],
 };
@@ -28,6 +28,7 @@ export type Monster = {
   y: number;
   size: typeof BLOCK_SIZE;
   target: Target | null;
+  health: number;
 };
 
 export type Target = {

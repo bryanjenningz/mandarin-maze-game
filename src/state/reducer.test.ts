@@ -178,7 +178,9 @@ describe("reducer", () => {
 
       it("disappears and brings down monster health when it overlaps with a monster", () => {
         const bullet: Bullet = { x: 20, y: 30, dx: -1, dy: -1, size: 4 };
-        const monsters: Monster[] = [{ x: 20, y: 30, size: 20, target: null }];
+        const monsters: Monster[] = [
+          { x: 20, y: 30, size: 20, target: null, health: 100 },
+        ];
         const state: State = { ...defaultState, bullets: [bullet], monsters };
         const action: Action = { type: "TICK", targets: [] };
         const newState: State = reducer(state, action);
@@ -189,7 +191,13 @@ describe("reducer", () => {
 
     describe("monster movement", () => {
       it("doesn't move if target is null", () => {
-        const monster: Monster = { x: 20, y: 20, size: 20, target: null };
+        const monster: Monster = {
+          x: 20,
+          y: 20,
+          size: 20,
+          target: null,
+          health: 100,
+        };
         const state: State = { ...defaultState, monsters: [monster] };
         const action: Action = { type: "TICK", targets: [] };
         const newState: State = reducer(state, action);
@@ -199,7 +207,13 @@ describe("reducer", () => {
 
       it("moves a space in the direction of its target", () => {
         const target: Target = { x: 40, y: 0 };
-        const monster: Monster = { x: 20, y: 20, size: 20, target };
+        const monster: Monster = {
+          x: 20,
+          y: 20,
+          size: 20,
+          target,
+          health: 100,
+        };
         const state: State = { ...defaultState, monsters: [monster] };
         const action: Action = { type: "TICK", targets: [] };
         const newState: State = reducer(state, action);
@@ -212,7 +226,7 @@ describe("reducer", () => {
 
       it("sets target to null once monster reaches target", () => {
         const target: Target = { x: 40, y: 0 };
-        const monster: Monster = { x: 39, y: 1, size: 20, target };
+        const monster: Monster = { x: 39, y: 1, size: 20, target, health: 100 };
         const state: State = { ...defaultState, monsters: [monster] };
         const action: Action = { type: "TICK", targets: [] };
         const newState: State = reducer(state, action);
@@ -225,9 +239,21 @@ describe("reducer", () => {
 
       it("sets monster targets to the new targets passed in and monsters move toward the new targets", () => {
         const target: Target = { x: 40, y: 0 };
-        const monster: Monster = { x: 39, y: 1, size: 20, target };
-        const monster2: Monster = { x: 70, y: 40, size: 20, target: null };
-        const monster3: Monster = { x: 60, y: 30, size: 20, target };
+        const monster: Monster = { x: 39, y: 1, size: 20, target, health: 100 };
+        const monster2: Monster = {
+          x: 70,
+          y: 40,
+          size: 20,
+          target: null,
+          health: 100,
+        };
+        const monster3: Monster = {
+          x: 60,
+          y: 30,
+          size: 20,
+          target,
+          health: 100,
+        };
         const monsters: Monster[] = [monster, monster2, monster3];
         const state: State = { ...defaultState, monsters };
         const newTarget: Target = { x: 1, y: 1 };
@@ -249,9 +275,21 @@ describe("reducer", () => {
 
       it("sets monster targets to the new targets passed in and keeps target the same if its new target is null", () => {
         const target: Target = { x: 40, y: 0 };
-        const monster: Monster = { x: 39, y: 1, size: 20, target };
-        const monster2: Monster = { x: 70, y: 40, size: 20, target: null };
-        const monster3: Monster = { x: 60, y: 30, size: 20, target };
+        const monster: Monster = { x: 39, y: 1, size: 20, target, health: 100 };
+        const monster2: Monster = {
+          x: 70,
+          y: 40,
+          size: 20,
+          target: null,
+          health: 100,
+        };
+        const monster3: Monster = {
+          x: 60,
+          y: 30,
+          size: 20,
+          target,
+          health: 100,
+        };
         const monsters: Monster[] = [monster, monster2, monster3];
         const state: State = { ...defaultState, monsters };
         const newTarget: Target = { x: 1, y: 1 };
