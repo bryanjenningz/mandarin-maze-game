@@ -1,5 +1,6 @@
 const BLOCK_SIZE = 20;
 const BULLET_SIZE = 4;
+const BULLET_DAMAGE = 10;
 
 export type State = {
   keysDown: Set<string>;
@@ -81,11 +82,15 @@ export const reducer = (state: State, action: Action): State => {
       const player: Player = { ...state.player, x, y };
       const monsters: Monster[] = state.monsters.map((monster, i) => {
         const target = action.targets[i] ?? monster.target;
-        if (!target) return monster;
+        const health =
+          monster.health -
+          state.bullets.filter((bullet) => overlaps(monster, bullet)).length *
+            BULLET_DAMAGE;
+        if (!target) return { ...monster, health };
         const x = clamp(monster.x - 1, target.x, monster.x + 1);
         const y = clamp(monster.y - 1, target.y, monster.y + 1);
         const newTarget = x === target.x && y === target.y ? null : target;
-        return { ...monster, x, y, target: newTarget };
+        return { ...monster, x, y, target: newTarget, health };
       });
       const bullets: Bullet[] = state.bullets
         .filter((bullet) => {
