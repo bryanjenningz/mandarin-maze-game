@@ -161,10 +161,7 @@ describe("reducer", () => {
         const state: State = { ...defaultState, bullets: [bullet], walls };
         const action: Action = { type: "TICK", targets: [] };
         const newState: State = reducer(state, action);
-        const expected: State = {
-          ...state,
-          bullets: [],
-        };
+        const expected: State = { ...state, bullets: [] };
         expect(newState).toEqual(expected);
       });
     });
