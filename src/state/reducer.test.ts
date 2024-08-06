@@ -7,6 +7,7 @@ import {
   type Player,
   type State,
   type Target,
+  type Wall,
 } from "./reducer";
 
 const defaultState: State = {
@@ -148,6 +149,21 @@ describe("reducer", () => {
         const expected: State = {
           ...state,
           bullets: [{ ...bullet, x: 19, y: 29 }],
+        };
+        expect(newState).toEqual(expected);
+      });
+    });
+
+    describe("bullet overlap", () => {
+      it("disappears when it overlaps with a wall", () => {
+        const bullet: Bullet = { x: 20, y: 30, dx: -1, dy: -1, size: 4 };
+        const walls: Wall[] = [{ x: 20, y: 30, size: 20 }];
+        const state: State = { ...defaultState, bullets: [bullet], walls };
+        const action: Action = { type: "TICK", targets: [] };
+        const newState: State = reducer(state, action);
+        const expected: State = {
+          ...state,
+          bullets: [],
         };
         expect(newState).toEqual(expected);
       });
