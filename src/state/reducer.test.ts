@@ -93,10 +93,7 @@ describe("reducer", () => {
         const state: State = { ...defaultState, keysDown, player, walls };
         const action: Action = { type: "TICK", targets: [] };
         const newState: State = reducer(state, action);
-        const expected: State = {
-          ...state,
-          player: { ...player, x: 40, y: 29 },
-        };
+        const expected: State = { ...state, player: { ...player, y: 29 } };
         expect(newState).toEqual(expected);
       });
 
@@ -107,10 +104,7 @@ describe("reducer", () => {
         const state: State = { ...defaultState, keysDown, player, walls };
         const action: Action = { type: "TICK", targets: [] };
         const newState: State = reducer(state, action);
-        const expected: State = {
-          ...state,
-          player: { ...player, x: 41 },
-        };
+        const expected: State = { ...state, player: { ...player, x: 41 } };
         expect(newState).toEqual(expected);
       });
     });
