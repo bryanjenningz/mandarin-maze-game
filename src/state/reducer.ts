@@ -78,7 +78,11 @@ export const reducer = (state: State, action: Action): State => {
         const newTarget = x === target.x && y === target.y ? null : target;
         return { ...monster, x, y, target: newTarget };
       });
-      const bullets: Bullet[] = [...state.bullets];
+      const bullets: Bullet[] = state.bullets.map((bullet) => {
+        const x = bullet.x + bullet.dx;
+        const y = bullet.y + bullet.dy;
+        return { ...bullet, x, y };
+      });
       let dx = 0;
       let dy = 0;
       if (state.keysDown.has("w")) dy -= 1;
