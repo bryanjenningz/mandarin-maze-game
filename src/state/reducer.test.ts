@@ -14,6 +14,7 @@ const defaultState: State = {
   player: { x: 20, y: 20, size: 20 },
   monsters: [],
   bullets: [],
+  walls: [],
 };
 
 describe("reducer", () => {

@@ -6,6 +6,7 @@ export type State = {
   player: Player;
   monsters: Monster[];
   bullets: Bullet[];
+  walls: Wall[];
 };
 
 export const initState: State = {
@@ -13,6 +14,7 @@ export const initState: State = {
   player: { x: 20, y: 20, size: 20 },
   monsters: [{ x: 40, y: 40, size: 20, target: null }],
   bullets: [],
+  walls: [],
 };
 
 export type Player = {
@@ -39,6 +41,12 @@ export type Bullet = {
   dx: number;
   dy: number;
   size: typeof BULLET_SIZE;
+};
+
+export type Wall = {
+  x: number;
+  y: number;
+  size: typeof BLOCK_SIZE;
 };
 
 export type Action =
