@@ -79,7 +79,14 @@ export const reducer = (state: State, action: Action): State => {
         if (state.keysDown.has("arrowdown")) return state.player.y + 1;
         return state.player.y;
       })();
-      const player: Player = { ...state.player, x, y };
+      const player: Player =
+        [
+          { ...state.player, x, y },
+          { ...state.player, x },
+          { ...state.player, y },
+        ].find(
+          (newPlayer) => !state.walls.some((wall) => overlaps(newPlayer, wall))
+        ) ?? state.player;
       const monsters: Monster[] = state.monsters.map((monster, i) => {
         const target = action.targets[i] ?? monster.target;
         const health =
