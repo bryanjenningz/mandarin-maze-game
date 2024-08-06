@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   reducer,
   type Action,
+  type Bullet,
   type Monster,
   type Player,
   type State,
@@ -84,7 +85,7 @@ describe("reducer", () => {
       });
     });
 
-    describe("bullets", () => {
+    describe("bullets firing", () => {
       it("shoots a bullet up when the player holds down the 'w' key", () => {
         const keysDown = new Set(["w"]);
         const player: Player = { x: 40, y: 30, size: 20 };
@@ -120,6 +121,20 @@ describe("reducer", () => {
         const expected: State = {
           ...state,
           bullets: [{ x: 40, y: 30, dx: 1, dy: 1, size: 4 }],
+        };
+        expect(newState).toEqual(expected);
+      });
+    });
+
+    describe("bullet movement", () => {
+      it("advances in the correct direction", () => {
+        const bullet: Bullet = { x: 20, y: 30, dx: 1, dy: 1, size: 4 };
+        const state: State = { ...defaultState, bullets: [bullet] };
+        const action: Action = { type: "TICK", targets: [] };
+        const newState: State = reducer(state, action);
+        const expected: State = {
+          ...state,
+          bullets: [{ ...bullet, x: 21, y: 31 }],
         };
         expect(newState).toEqual(expected);
       });
