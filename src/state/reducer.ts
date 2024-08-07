@@ -1,4 +1,4 @@
-import { BULLET_DAMAGE, BULLET_SIZE } from "./constants";
+import { BULLET_DAMAGE, BULLET_SIZE, SCREEN_SIZE } from "./constants";
 import type { State, Action, Monster, Bullet, Player } from "./types";
 
 export const initState: State = {
@@ -39,7 +39,9 @@ export const reducer = (state: State, action: Action): State => {
           { ...state.player, x },
           { ...state.player, y },
         ].find(
-          (newPlayer) => !state.walls.some((wall) => overlaps(newPlayer, wall))
+          (newPlayer) =>
+            inBounds(newPlayer) &&
+            !state.walls.some((wall) => overlaps(newPlayer, wall))
         ) ?? state.player;
       const monsters: Monster[] = state.monsters
         .filter((monster) => {
@@ -104,4 +106,8 @@ const overlaps = (a: Box, b: Box): boolean => {
     a.y + a.size > b.y &&
     a.y < b.y + b.size
   );
+};
+
+const inBounds = ({ x, y, size }: Box): boolean => {
+  return x >= 0 && x + size <= SCREEN_SIZE && y >= 0 && y <= SCREEN_SIZE;
 };
