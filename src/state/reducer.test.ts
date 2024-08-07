@@ -108,6 +108,23 @@ describe("reducer", () => {
         const expected: State = { ...state, player: { ...player, x: 41 } };
         expect(newState).toEqual(expected);
       });
+
+      it("picks up item and removes monster if player overlaps with no health monster", () => {
+        const player: Player = { x: 40, y: 30, size: 20 };
+        const monsters: Monster[] = [
+          { x: 40, y: 49, size: 20, health: 0, target: null },
+        ];
+        const state: State = {
+          ...defaultState,
+          player,
+          itemCount: 0,
+          monsters,
+        };
+        const action: Action = { type: "TICK", targets: [] };
+        const newState: State = reducer(state, action);
+        const expected: State = { ...state, itemCount: 1, monsters: [] };
+        expect(newState).toEqual(expected);
+      });
     });
 
     describe("bullets firing", () => {
