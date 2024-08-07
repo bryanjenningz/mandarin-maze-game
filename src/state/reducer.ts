@@ -109,5 +109,5 @@ const overlaps = (a: Box, b: Box): boolean => {
 };
 
 const inBounds = ({ x, y, size }: Box): boolean => {
-  return x >= 0 && x + size <= SCREEN_SIZE && y >= 0 && y <= SCREEN_SIZE;
+  return x >= 0 && x + size <= SCREEN_SIZE && y >= 0 && y + size <= SCREEN_SIZE;
 };
