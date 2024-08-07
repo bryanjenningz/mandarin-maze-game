@@ -1,8 +1,23 @@
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import { BLOCK_SIZE, initState, reducer, SCREEN_SIZE } from "../state/reducer";
 
 export const Game = (): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, initState);
+
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      dispatch({ type: "KEY_DOWN", key: e.key });
+    };
+    const onKeyUp = (e: KeyboardEvent) => {
+      dispatch({ type: "KEY_UP", key: e.key });
+    };
+    window.addEventListener("keydown", onKeyDown);
+    window.addEventListener("keyup", onKeyUp);
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("keyup", onKeyUp);
+    };
+  }, []);
 
   return (
     <div className="text-white bg-black w-full h-[100svh] flex justify-center items-center">
