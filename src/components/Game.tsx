@@ -2,6 +2,10 @@ import { useEffect, useReducer } from "react";
 import { initState, reducer } from "../state/reducer";
 import { BLOCK_SIZE, BULLET_SIZE, SCREEN_SIZE } from "../state/constants";
 
+const classNames = (...classes: (string | false | null)[]): string => {
+  return classes.filter(Boolean).join(" ");
+};
+
 export const Game = (): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, initState);
 
@@ -55,7 +59,10 @@ export const Game = (): JSX.Element => {
           return (
             <div
               key={i}
-              className="absolute bg-red-700"
+              className={classNames(
+                "absolute",
+                monster.health > 0 ? "bg-red-700" : "bg-black"
+              )}
               style={{
                 left: `${(monster.x / SCREEN_SIZE) * 100}%`,
                 top: `${(monster.y / SCREEN_SIZE) * 100}%`,
