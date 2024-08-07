@@ -1,5 +1,52 @@
-import { BULLET_DAMAGE, BULLET_SIZE, SCREEN_SIZE } from "./constants";
-import type { State, Action, Monster, Bullet, Player } from "./types";
+import {
+  BLOCK_SIZE,
+  BULLET_DAMAGE,
+  BULLET_SIZE,
+  SCREEN_SIZE,
+} from "./constants";
+import type { State, Action, Monster, Bullet, Player, Wall } from "./types";
+
+const gameMap = [
+  "####################",
+  "#                  #",
+  "#                  #",
+  "#                  #",
+  "#                  #",
+  "#                  #",
+  "#                  #",
+  "#                  #",
+  "#                  #",
+  "#                  #",
+  "#                  #",
+  "#                  #",
+  "#                  #",
+  "#                  #",
+  "#                  #",
+  "#                  #",
+  "#                  #",
+  "#                  #",
+  "#                  #",
+  "####################",
+].map((line) => line.split(""));
+
+type Tile = { x: number; y: number; size: typeof BLOCK_SIZE };
+
+const tilesFromGameMap = (gameMap: string[][], targetTile: string): Tile[] => {
+  return gameMap.flatMap((row, y) => {
+    return row
+      .map((tile, x): Tile | null => {
+        if (tile === targetTile) {
+          return { x: x * BLOCK_SIZE, y: y * BLOCK_SIZE, size: BLOCK_SIZE };
+        }
+        return null;
+      })
+      .filter(Boolean);
+  });
+};
+
+const wallsFromGameMap = (gameMap: string[][]): Wall[] => {
+  return tilesFromGameMap(gameMap, "#");
+};
 
 export const initState: State = {
   keysDown: new Set(),
@@ -7,7 +54,7 @@ export const initState: State = {
   itemCount: 0,
   monsters: [{ x: 40, y: 40, size: 20, target: null, health: 100 }],
   bullets: [],
-  walls: [],
+  walls: wallsFromGameMap(gameMap),
 };
 
 export const reducer = (state: State, action: Action): State => {
