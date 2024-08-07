@@ -5,6 +5,7 @@ const BULLET_DAMAGE = 10;
 export type State = {
   keysDown: Set<string>;
   player: Player;
+  itemCount: number;
   monsters: Monster[];
   bullets: Bullet[];
   walls: Wall[];
@@ -13,6 +14,7 @@ export type State = {
 export const initState: State = {
   keysDown: new Set(),
   player: { x: 20, y: 20, size: 20 },
+  itemCount: 0,
   monsters: [{ x: 40, y: 40, size: 20, target: null, health: 100 }],
   bullets: [],
   walls: [],
