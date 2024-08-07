@@ -9,12 +9,12 @@ import type { State, Action, Monster, Bullet, Player, Wall } from "./types";
 const gameMap = [
   "####################",
   "#   #              #",
-  "#   #              #",
-  "#   #              #",
+  "#   #          M   #",
+  "# M #              #",
   "#   #    #####     #",
   "#                  #",
-  "#                  #",
-  "#                  #",
+  "#     M            #",
+  "#              M   #",
   "#####              #",
   "#                  #",
   "#                  #",
@@ -23,7 +23,7 @@ const gameMap = [
   "#                  #",
   "#                  #",
   "#####         #    #",
-  "#   #   #     #    #",
+  "#   #   #     #  M #",
   "#       #          #",
   "#       #          #",
   "####################",
@@ -48,11 +48,23 @@ const wallsFromGameMap = (gameMap: string[][]): Wall[] => {
   return tilesFromGameMap(gameMap, "#");
 };
 
+const monstersFromGameMap = (gameMap: string[][]): Monster[] => {
+  return tilesFromGameMap(gameMap, "M").map((tile): Monster => {
+    return {
+      x: tile.x,
+      y: tile.y,
+      size: tile.size,
+      health: 100,
+      target: null,
+    };
+  });
+};
+
 export const initState: State = {
   keysDown: new Set(),
   player: { x: 20, y: 20, size: 20 },
   itemCount: 0,
-  monsters: [{ x: 40, y: 40, size: 20, target: null, health: 100 }],
+  monsters: monstersFromGameMap(gameMap),
   bullets: [],
   walls: wallsFromGameMap(gameMap),
 };
