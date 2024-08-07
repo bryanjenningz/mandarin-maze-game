@@ -24,7 +24,7 @@ const gameMap = [
   "#                  #",
   "#####         #    #",
   "#   #   #     #  M #",
-  "#       #          #",
+  "# P     #          #",
   "#       #          #",
   "####################",
 ].map((line) => line.split(""));
@@ -60,9 +60,13 @@ const monstersFromGameMap = (gameMap: string[][]): Monster[] => {
   });
 };
 
+const playerFromGameMap = (gameMap: string[][]): Player | null => {
+  return tilesFromGameMap(gameMap, "P")[0] ?? null;
+};
+
 export const initState: State = {
   keysDown: new Set(),
-  player: { x: 20, y: 20, size: 20 },
+  player: playerFromGameMap(gameMap) ?? { x: 20, y: 20, size: 20 },
   itemCount: 0,
   monsters: monstersFromGameMap(gameMap),
   bullets: [],
