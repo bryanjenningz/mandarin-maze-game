@@ -9,6 +9,7 @@ import type {
   Target,
   Wall,
 } from "./types";
+import { SCREEN_SIZE } from "./constants";
 
 const defaultState: State = {
   keysDown: new Set(),
@@ -116,6 +117,20 @@ describe("reducer", () => {
         const action: Action = { type: "TICK", targets: [] };
         const newState: State = reducer(state, action);
         const expected: State = { ...state, player: { ...player, x: 39 } };
+        expect(newState).toEqual(expected);
+      });
+
+      it("doesn't move if arrowdown and arrowright keys are down and player is at the bottom right of screen", () => {
+        const keysDown = new Set(["arrowdown", "arrowright"]);
+        const player: Player = {
+          x: SCREEN_SIZE - 20,
+          y: SCREEN_SIZE - 20,
+          size: 20,
+        };
+        const state: State = { ...defaultState, keysDown, player };
+        const action: Action = { type: "TICK", targets: [] };
+        const newState: State = reducer(state, action);
+        const expected: State = state;
         expect(newState).toEqual(expected);
       });
 
