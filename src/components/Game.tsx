@@ -62,7 +62,16 @@ export const Game = (): JSX.Element => {
                 width: `${(BLOCK_SIZE / SCREEN_SIZE) * 100}%`,
                 height: `${(BLOCK_SIZE / SCREEN_SIZE) * 100}%`,
               }}
-            ></div>
+            >
+              {monster.health > 0 && (
+                <div className="absolute -top-4 left-0 right-0 h-2 bg-red-700">
+                  <div
+                    className="absolute top-0 left-0 bottom-0 bg-green-500"
+                    style={{ width: `${monster.health}%` }}
+                  ></div>
+                </div>
+              )}
+            </div>
           );
         })}
 
