@@ -89,21 +89,28 @@ export const reducer = (state: State, action: Action): State => {
         ].find(
           (newPlayer) => !state.walls.some((wall) => overlaps(newPlayer, wall))
         ) ?? state.player;
-      const monsters: Monster[] = state.monsters.map((monster, i) => {
-        const target = action.targets[i] ?? monster.target;
-        const health = Math.max(
-          0,
-          monster.health -
-            state.bullets.filter((bullet) => overlaps(monster, bullet)).length *
-              BULLET_DAMAGE
-        );
-        if (health === 0) return { ...monster, health, target: null };
-        if (!target) return { ...monster, health };
-        const x = clamp(monster.x - 1, target.x, monster.x + 1);
-        const y = clamp(monster.y - 1, target.y, monster.y + 1);
-        const newTarget = x === target.x && y === target.y ? null : target;
-        return { ...monster, x, y, target: newTarget, health };
-      });
+      const monsters: Monster[] = state.monsters
+        .filter((monster) => {
+          return !(monster.health <= 0 && overlaps(monster, player));
+        })
+        .map((monster, i) => {
+          const target = action.targets[i] ?? monster.target;
+          const health = Math.max(
+            0,
+            monster.health -
+              state.bullets.filter((bullet) => overlaps(monster, bullet))
+                .length *
+                BULLET_DAMAGE
+          );
+          if (health === 0) return { ...monster, health, target: null };
+          if (!target) return { ...monster, health };
+          const x = clamp(monster.x - 1, target.x, monster.x + 1);
+          const y = clamp(monster.y - 1, target.y, monster.y + 1);
+          const newTarget = x === target.x && y === target.y ? null : target;
+          return { ...monster, x, y, target: newTarget, health };
+        });
+      const itemCount =
+        state.itemCount + (state.monsters.length - monsters.length);
       const bullets: Bullet[] = state.bullets
         .filter((bullet) => {
           return (
@@ -127,7 +134,7 @@ export const reducer = (state: State, action: Action): State => {
       if (dx !== 0 || dy !== 0) {
         bullets.push({ x, y, dx, dy, size: BULLET_SIZE });
       }
-      return { ...state, player, monsters, bullets };
+      return { ...state, player, itemCount, monsters, bullets };
     }
   }
 };
