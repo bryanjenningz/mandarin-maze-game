@@ -19,6 +19,19 @@ export const Game = (): JSX.Element => {
     };
   }, []);
 
+  useEffect(() => {
+    let unmounted = false;
+    const update = () => {
+      if (unmounted) return;
+      dispatch({ type: "TICK", targets: [] });
+      requestAnimationFrame(update);
+    };
+    update();
+    return () => {
+      unmounted = true;
+    };
+  }, []);
+
   return (
     <div className="text-white bg-black w-full h-[100svh] flex justify-center items-center">
       <div className="relative aspect-square w-full max-w-2xl bg-gray-800">
