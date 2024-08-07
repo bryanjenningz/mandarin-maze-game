@@ -1,16 +1,5 @@
-export const BLOCK_SIZE = 20;
-export const BULLET_SIZE = 4;
-const BULLET_DAMAGE = 10;
-export const SCREEN_SIZE = 400;
-
-export type State = {
-  keysDown: Set<string>;
-  player: Player;
-  itemCount: number;
-  monsters: Monster[];
-  bullets: Bullet[];
-  walls: Wall[];
-};
+import { BULLET_DAMAGE, BULLET_SIZE } from "./constants";
+import type { State, Action, Monster, Bullet, Player } from "./types";
 
 export const initState: State = {
   keysDown: new Set(),
@@ -20,44 +9,6 @@ export const initState: State = {
   bullets: [],
   walls: [],
 };
-
-export type Player = {
-  x: number;
-  y: number;
-  size: typeof BLOCK_SIZE;
-};
-
-export type Monster = {
-  x: number;
-  y: number;
-  size: typeof BLOCK_SIZE;
-  target: Target | null;
-  health: number;
-};
-
-export type Target = {
-  x: number;
-  y: number;
-};
-
-export type Bullet = {
-  x: number;
-  y: number;
-  dx: number;
-  dy: number;
-  size: typeof BULLET_SIZE;
-};
-
-export type Wall = {
-  x: number;
-  y: number;
-  size: typeof BLOCK_SIZE;
-};
-
-export type Action =
-  | { type: "KEY_DOWN"; key: string }
-  | { type: "KEY_UP"; key: string }
-  | { type: "TICK"; targets: (Target | null)[] };
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {

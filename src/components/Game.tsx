@@ -1,5 +1,6 @@
 import { useEffect, useReducer } from "react";
-import { BLOCK_SIZE, initState, reducer, SCREEN_SIZE } from "../state/reducer";
+import { initState, reducer } from "../state/reducer";
+import { BLOCK_SIZE, SCREEN_SIZE } from "../state/constants";
 
 export const Game = (): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, initState);

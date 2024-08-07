@@ -1,14 +1,14 @@
 import { describe, expect, it } from "vitest";
-import {
-  reducer,
-  type Action,
-  type Bullet,
-  type Monster,
-  type Player,
-  type State,
-  type Target,
-  type Wall,
-} from "./reducer";
+import { reducer } from "./reducer";
+import type {
+  Action,
+  Bullet,
+  Monster,
+  Player,
+  State,
+  Target,
+  Wall,
+} from "./types";
 
 const defaultState: State = {
   keysDown: new Set(),
