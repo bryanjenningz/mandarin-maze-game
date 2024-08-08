@@ -6,6 +6,7 @@ export type State = {
   itemCount: number;
   monsters: Monster[];
   bullets: Bullet[];
+  lastBulletFiredAt: number;
   walls: Wall[];
 };
 

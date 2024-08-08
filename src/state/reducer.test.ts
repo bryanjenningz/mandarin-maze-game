@@ -17,6 +17,7 @@ const defaultState: State = {
   itemCount: 0,
   monsters: [],
   bullets: [],
+  lastBulletFiredAt: 0,
   walls: [],
 };
 

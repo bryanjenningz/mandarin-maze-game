@@ -70,6 +70,7 @@ export const initState: State = {
   itemCount: 0,
   monsters: monstersFromGameMap(gameMap),
   bullets: [],
+  lastBulletFiredAt: 0,
   walls: wallsFromGameMap(gameMap),
 };
 
