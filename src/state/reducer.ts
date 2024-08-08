@@ -3,6 +3,7 @@ import {
   BULLET_DAMAGE,
   BULLET_FIRE_DELAY,
   BULLET_SIZE,
+  BULLET_SPEED,
   SCREEN_SIZE,
 } from "./constants";
 import type { State, Action, Monster, Bullet, Player, Wall } from "./types";
@@ -146,10 +147,10 @@ export const reducer = (state: State, action: Action): State => {
         });
       let dx = 0;
       let dy = 0;
-      if (state.keysDown.has("w")) dy -= 1;
-      if (state.keysDown.has("s")) dy += 1;
-      if (state.keysDown.has("a")) dx -= 1;
-      if (state.keysDown.has("d")) dx += 1;
+      if (state.keysDown.has("w")) dy -= BULLET_SPEED;
+      if (state.keysDown.has("s")) dy += BULLET_SPEED;
+      if (state.keysDown.has("a")) dx -= BULLET_SPEED;
+      if (state.keysDown.has("d")) dx += BULLET_SPEED;
       let lastBulletFiredAt = state.lastBulletFiredAt;
       if (
         action.time - state.lastBulletFiredAt >= BULLET_FIRE_DELAY &&

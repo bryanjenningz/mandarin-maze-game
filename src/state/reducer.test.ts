@@ -246,7 +246,9 @@ describe("reducer", () => {
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
-          bullets: [{ ...bullet, x: 21, y: 31 }],
+          bullets: [
+            { ...bullet, x: bullet.x + bullet.dx, y: bullet.y + bullet.dy },
+          ],
         };
         expect(newState).toEqual(expected);
       });
