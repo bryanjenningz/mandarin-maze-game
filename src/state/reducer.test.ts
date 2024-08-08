@@ -9,7 +9,7 @@ import type {
   Target,
   Wall,
 } from "./types";
-import { SCREEN_SIZE } from "./constants";
+import { BULLET_SPEED, SCREEN_SIZE } from "./constants";
 
 const defaultState: State = {
   keysDown: new Set(),
@@ -177,7 +177,7 @@ describe("reducer", () => {
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
-          bullets: [{ x: 40, y: 30, dx: 0, dy: -1, size: 4 }],
+          bullets: [{ x: 40, y: 30, dx: 0, dy: -BULLET_SPEED, size: 4 }],
           lastBulletFiredAt: 1234,
         };
         expect(newState).toEqual(expected);
@@ -191,7 +191,9 @@ describe("reducer", () => {
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
-          bullets: [{ x: 40, y: 30, dx: -1, dy: -1, size: 4 }],
+          bullets: [
+            { x: 40, y: 30, dx: -BULLET_SPEED, dy: -BULLET_SPEED, size: 4 },
+          ],
           lastBulletFiredAt: 1234,
         };
         expect(newState).toEqual(expected);
@@ -205,7 +207,9 @@ describe("reducer", () => {
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
-          bullets: [{ x: 40, y: 30, dx: 1, dy: 1, size: 4 }],
+          bullets: [
+            { x: 40, y: 30, dx: BULLET_SPEED, dy: BULLET_SPEED, size: 4 },
+          ],
           lastBulletFiredAt: 1234,
         };
         expect(newState).toEqual(expected);
@@ -230,7 +234,13 @@ describe("reducer", () => {
 
     describe("bullet movement", () => {
       it("moves in the bottom right direction", () => {
-        const bullet: Bullet = { x: 20, y: 30, dx: 1, dy: 1, size: 4 };
+        const bullet: Bullet = {
+          x: 20,
+          y: 30,
+          dx: BULLET_SPEED,
+          dy: BULLET_SPEED,
+          size: 4,
+        };
         const state: State = { ...defaultState, bullets: [bullet] };
         const action: Action = tick();
         const newState: State = reducer(state, action);
@@ -242,13 +252,21 @@ describe("reducer", () => {
       });
 
       it("moves in the top left direction", () => {
-        const bullet: Bullet = { x: 20, y: 30, dx: -1, dy: -1, size: 4 };
+        const bullet: Bullet = {
+          x: 20,
+          y: 30,
+          dx: -BULLET_SPEED,
+          dy: -BULLET_SPEED,
+          size: 4,
+        };
         const state: State = { ...defaultState, bullets: [bullet] };
         const action: Action = tick();
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
-          bullets: [{ ...bullet, x: 19, y: 29 }],
+          bullets: [
+            { ...bullet, x: bullet.x + bullet.dx, y: bullet.y + bullet.dy },
+          ],
         };
         expect(newState).toEqual(expected);
       });
@@ -256,7 +274,13 @@ describe("reducer", () => {
 
     describe("bullet overlap", () => {
       it("disappears when it overlaps with a wall", () => {
-        const bullet: Bullet = { x: 20, y: 30, dx: -1, dy: -1, size: 4 };
+        const bullet: Bullet = {
+          x: 20,
+          y: 30,
+          dx: -BULLET_SPEED,
+          dy: -BULLET_SPEED,
+          size: 4,
+        };
         const walls: Wall[] = [{ x: 20, y: 30, size: 20 }];
         const state: State = { ...defaultState, bullets: [bullet], walls };
         const action: Action = tick();
@@ -266,18 +290,34 @@ describe("reducer", () => {
       });
 
       it("still appears even if in its next frame it overlaps with a wall", () => {
-        const bullet: Bullet = { x: 20, y: 20, dx: -1, dy: -1, size: 4 };
+        const bullet: Bullet = {
+          x: 20,
+          y: 20,
+          dx: -BULLET_SPEED,
+          dy: -BULLET_SPEED,
+          size: 4,
+        };
         const walls: Wall[] = [{ x: 0, y: 0, size: 20 }];
         const state: State = { ...defaultState, bullets: [bullet], walls };
         const action: Action = tick();
         const newState: State = reducer(state, action);
-        const newBullet: Bullet = { ...bullet, x: 19, y: 19 };
+        const newBullet: Bullet = {
+          ...bullet,
+          x: bullet.x + bullet.dx,
+          y: bullet.y + bullet.dy,
+        };
         const expected: State = { ...state, bullets: [newBullet] };
         expect(newState).toEqual(expected);
       });
 
       it("disappears and brings down monster health when it overlaps with a monster", () => {
-        const bullet: Bullet = { x: 20, y: 30, dx: -1, dy: -1, size: 4 };
+        const bullet: Bullet = {
+          x: 20,
+          y: 30,
+          dx: -BULLET_SPEED,
+          dy: -BULLET_SPEED,
+          size: 4,
+        };
         const monster: Monster = {
           x: 20,
           y: 30,
@@ -301,7 +341,13 @@ describe("reducer", () => {
       });
 
       it("still appears if it collides with a monster that already has no health", () => {
-        const bullet: Bullet = { x: 20, y: 30, dx: -1, dy: -1, size: 4 };
+        const bullet: Bullet = {
+          x: 20,
+          y: 30,
+          dx: -BULLET_SPEED,
+          dy: -BULLET_SPEED,
+          size: 4,
+        };
         const monster: Monster = {
           x: 20,
           y: 30,
@@ -318,7 +364,9 @@ describe("reducer", () => {
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
-          bullets: [{ ...bullet, x: 19, y: 29 }],
+          bullets: [
+            { ...bullet, x: bullet.x + bullet.dx, y: bullet.y + bullet.dy },
+          ],
         };
         expect(newState).toEqual(expected);
       });
