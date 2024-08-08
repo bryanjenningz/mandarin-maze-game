@@ -367,7 +367,7 @@ describe("reducer", () => {
         const newTarget2: Target = { x: 2, y: 2 };
         const newTarget3: Target = { x: 3, y: 3 };
         const targets: Target[] = [newTarget, newTarget2, newTarget3];
-        const action: Action = { type: "TICK", time: Date.now(), targets };
+        const action: Action = tick({ targets });
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
@@ -401,7 +401,7 @@ describe("reducer", () => {
         const state: State = { ...defaultState, monsters };
         const newTarget: Target = { x: 1, y: 1 };
         const targets: (Target | null)[] = [newTarget, null, null];
-        const action: Action = { type: "TICK", time: Date.now(), targets };
+        const action: Action = tick({ targets });
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
@@ -435,7 +435,7 @@ describe("reducer", () => {
         const state: State = { ...defaultState, monsters };
         const newTarget: Target = { x: 1, y: 1 };
         const targets: (Target | null)[] = [newTarget, null, null];
-        const action: Action = { type: "TICK", time: Date.now(), targets };
+        const action: Action = tick({ targets });
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
