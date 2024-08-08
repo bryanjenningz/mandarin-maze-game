@@ -28,7 +28,7 @@ export const Game = (): JSX.Element => {
     let unmounted = false;
     const update = () => {
       if (unmounted) return;
-      dispatch({ type: "TICK", targets: [] });
+      dispatch({ type: "TICK", time: Date.now(), targets: [] });
       requestAnimationFrame(update);
     };
     update();

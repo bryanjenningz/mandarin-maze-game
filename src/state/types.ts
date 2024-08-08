@@ -46,4 +46,4 @@ export type Wall = {
 export type Action =
   | { type: "KEY_DOWN"; key: string }
   | { type: "KEY_UP"; key: string }
-  | { type: "TICK"; targets: (Target | null)[] };
+  | { type: "TICK"; time: number; targets: (Target | null)[] };
