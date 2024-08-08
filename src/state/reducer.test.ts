@@ -63,9 +63,15 @@ describe("reducer", () => {
 
   describe("TICK", () => {
     const tick = (
-      { targets }: { targets: (Target | null)[] } = { targets: [] }
+      {
+        time = 0,
+        targets = [],
+      }: { time?: number; targets?: (Target | null)[] } = {
+        time: 0,
+        targets: [],
+      }
     ): Action => {
-      return { type: "TICK", time: Date.now(), targets };
+      return { type: "TICK", time, targets };
     };
 
     describe("player movement", () => {
