@@ -1,6 +1,7 @@
 import {
   BLOCK_SIZE,
   BULLET_DAMAGE,
+  BULLET_FIRE_DELAY,
   BULLET_SIZE,
   SCREEN_SIZE,
 } from "./constants";
@@ -149,10 +150,22 @@ export const reducer = (state: State, action: Action): State => {
       if (state.keysDown.has("s")) dy += 1;
       if (state.keysDown.has("a")) dx -= 1;
       if (state.keysDown.has("d")) dx += 1;
-      if (dx !== 0 || dy !== 0) {
+      let lastBulletFiredAt = state.lastBulletFiredAt;
+      if (
+        action.time - state.lastBulletFiredAt >= BULLET_FIRE_DELAY &&
+        (dx !== 0 || dy !== 0)
+      ) {
         bullets.push({ x, y, dx, dy, size: BULLET_SIZE });
+        lastBulletFiredAt = action.time;
       }
-      return { ...state, player, itemCount, monsters, bullets };
+      return {
+        ...state,
+        player,
+        itemCount,
+        monsters,
+        bullets,
+        lastBulletFiredAt,
+      };
     }
   }
 };
