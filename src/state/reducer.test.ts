@@ -62,12 +62,18 @@ describe("reducer", () => {
   });
 
   describe("TICK", () => {
+    const tick = (
+      { targets }: { targets: (Target | null)[] } = { targets: [] }
+    ): Action => {
+      return { type: "TICK", time: Date.now(), targets };
+    };
+
     describe("player movement", () => {
       it("moves the player to the left and up when the arrowleft and arrowup keys are down", () => {
         const keysDown = new Set(["arrowleft", "arrowup"]);
         const player: Player = { x: 40, y: 30, size: 20 };
         const state: State = { ...defaultState, keysDown, player };
-        const action: Action = { type: "TICK", time: Date.now(), targets: [] };
+        const action: Action = tick();
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
@@ -80,7 +86,7 @@ describe("reducer", () => {
         const keysDown = new Set(["arrowright", "arrowdown"]);
         const player: Player = { x: 40, y: 30, size: 20 };
         const state: State = { ...defaultState, keysDown, player };
-        const action: Action = { type: "TICK", time: Date.now(), targets: [] };
+        const action: Action = tick();
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
@@ -94,7 +100,7 @@ describe("reducer", () => {
         const player: Player = { x: 40, y: 30, size: 20 };
         const walls: Wall[] = [{ x: 20, y: 30, size: 20 }];
         const state: State = { ...defaultState, keysDown, player, walls };
-        const action: Action = { type: "TICK", time: Date.now(), targets: [] };
+        const action: Action = tick();
         const newState: State = reducer(state, action);
         const expected: State = { ...state, player: { ...player, y: 29 } };
         expect(newState).toEqual(expected);
@@ -105,7 +111,7 @@ describe("reducer", () => {
         const player: Player = { x: 40, y: 30, size: 20 };
         const walls: Wall[] = [{ x: 40, y: 50, size: 20 }];
         const state: State = { ...defaultState, keysDown, player, walls };
-        const action: Action = { type: "TICK", time: Date.now(), targets: [] };
+        const action: Action = tick();
         const newState: State = reducer(state, action);
         const expected: State = { ...state, player: { ...player, x: 41 } };
         expect(newState).toEqual(expected);
@@ -115,7 +121,7 @@ describe("reducer", () => {
         const keysDown = new Set(["arrowup", "arrowleft"]);
         const player: Player = { x: 40, y: 0, size: 20 };
         const state: State = { ...defaultState, keysDown, player };
-        const action: Action = { type: "TICK", time: Date.now(), targets: [] };
+        const action: Action = tick();
         const newState: State = reducer(state, action);
         const expected: State = { ...state, player: { ...player, x: 39 } };
         expect(newState).toEqual(expected);
@@ -129,7 +135,7 @@ describe("reducer", () => {
           size: 20,
         };
         const state: State = { ...defaultState, keysDown, player };
-        const action: Action = { type: "TICK", time: Date.now(), targets: [] };
+        const action: Action = tick();
         const newState: State = reducer(state, action);
         const expected: State = state;
         expect(newState).toEqual(expected);
@@ -146,7 +152,7 @@ describe("reducer", () => {
           itemCount: 0,
           monsters,
         };
-        const action: Action = { type: "TICK", time: Date.now(), targets: [] };
+        const action: Action = tick();
         const newState: State = reducer(state, action);
         const expected: State = { ...state, itemCount: 1, monsters: [] };
         expect(newState).toEqual(expected);
@@ -158,7 +164,7 @@ describe("reducer", () => {
         const keysDown = new Set(["w"]);
         const player: Player = { x: 40, y: 30, size: 20 };
         const state: State = { ...defaultState, keysDown, player, bullets: [] };
-        const action: Action = { type: "TICK", time: Date.now(), targets: [] };
+        const action: Action = tick();
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
@@ -171,7 +177,7 @@ describe("reducer", () => {
         const keysDown = new Set(["w", "a"]);
         const player: Player = { x: 40, y: 30, size: 20 };
         const state: State = { ...defaultState, keysDown, player, bullets: [] };
-        const action: Action = { type: "TICK", time: Date.now(), targets: [] };
+        const action: Action = tick();
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
@@ -184,7 +190,7 @@ describe("reducer", () => {
         const keysDown = new Set(["s", "d"]);
         const player: Player = { x: 40, y: 30, size: 20 };
         const state: State = { ...defaultState, keysDown, player, bullets: [] };
-        const action: Action = { type: "TICK", time: Date.now(), targets: [] };
+        const action: Action = tick();
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
@@ -198,7 +204,7 @@ describe("reducer", () => {
       it("moves in the bottom right direction", () => {
         const bullet: Bullet = { x: 20, y: 30, dx: 1, dy: 1, size: 4 };
         const state: State = { ...defaultState, bullets: [bullet] };
-        const action: Action = { type: "TICK", time: Date.now(), targets: [] };
+        const action: Action = tick();
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
@@ -210,7 +216,7 @@ describe("reducer", () => {
       it("moves in the top left direction", () => {
         const bullet: Bullet = { x: 20, y: 30, dx: -1, dy: -1, size: 4 };
         const state: State = { ...defaultState, bullets: [bullet] };
-        const action: Action = { type: "TICK", time: Date.now(), targets: [] };
+        const action: Action = tick();
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
@@ -225,7 +231,7 @@ describe("reducer", () => {
         const bullet: Bullet = { x: 20, y: 30, dx: -1, dy: -1, size: 4 };
         const walls: Wall[] = [{ x: 20, y: 30, size: 20 }];
         const state: State = { ...defaultState, bullets: [bullet], walls };
-        const action: Action = { type: "TICK", time: Date.now(), targets: [] };
+        const action: Action = tick();
         const newState: State = reducer(state, action);
         const expected: State = { ...state, bullets: [] };
         expect(newState).toEqual(expected);
@@ -235,7 +241,7 @@ describe("reducer", () => {
         const bullet: Bullet = { x: 20, y: 20, dx: -1, dy: -1, size: 4 };
         const walls: Wall[] = [{ x: 0, y: 0, size: 20 }];
         const state: State = { ...defaultState, bullets: [bullet], walls };
-        const action: Action = { type: "TICK", time: Date.now(), targets: [] };
+        const action: Action = tick();
         const newState: State = reducer(state, action);
         const newBullet: Bullet = { ...bullet, x: 19, y: 19 };
         const expected: State = { ...state, bullets: [newBullet] };
@@ -256,7 +262,7 @@ describe("reducer", () => {
           bullets: [bullet],
           monsters: [monster],
         };
-        const action: Action = { type: "TICK", time: Date.now(), targets: [] };
+        const action: Action = tick();
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
@@ -280,7 +286,7 @@ describe("reducer", () => {
           bullets: [bullet],
           monsters: [monster],
         };
-        const action: Action = { type: "TICK", time: Date.now(), targets: [] };
+        const action: Action = tick();
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
@@ -300,7 +306,7 @@ describe("reducer", () => {
           health: 100,
         };
         const state: State = { ...defaultState, monsters: [monster] };
-        const action: Action = { type: "TICK", time: Date.now(), targets: [] };
+        const action: Action = tick();
         const newState: State = reducer(state, action);
         const expected: State = state;
         expect(newState).toEqual(expected);
@@ -316,7 +322,7 @@ describe("reducer", () => {
           health: 100,
         };
         const state: State = { ...defaultState, monsters: [monster] };
-        const action: Action = { type: "TICK", time: Date.now(), targets: [] };
+        const action: Action = tick();
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
@@ -329,7 +335,7 @@ describe("reducer", () => {
         const target: Target = { x: 40, y: 0 };
         const monster: Monster = { x: 39, y: 1, size: 20, target, health: 100 };
         const state: State = { ...defaultState, monsters: [monster] };
-        const action: Action = { type: "TICK", time: Date.now(), targets: [] };
+        const action: Action = tick();
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
