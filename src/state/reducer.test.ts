@@ -66,7 +66,10 @@ describe("reducer", () => {
       {
         time = 0,
         targets = [],
-      }: { time?: number; targets?: (Target | null)[] } = {
+      }: {
+        time?: number;
+        targets?: (Target | null)[];
+      } = {
         time: 0,
         targets: [],
       }
