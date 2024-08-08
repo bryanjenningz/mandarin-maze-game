@@ -198,6 +198,16 @@ describe("reducer", () => {
         };
         expect(newState).toEqual(expected);
       });
+
+      it("doesn't fire if the lastBulletFiredAt was recent", () => {
+        const keysDown = new Set(["s"]);
+        const player: Player = { x: 40, y: 30, size: 20 };
+        const state: State = { ...defaultState, keysDown, player, bullets: [] };
+        const action: Action = tick();
+        const newState: State = reducer(state, action);
+        const expected: State = state;
+        expect(newState).toEqual(expected);
+      });
     });
 
     describe("bullet movement", () => {
