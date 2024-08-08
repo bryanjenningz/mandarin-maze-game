@@ -173,11 +173,12 @@ describe("reducer", () => {
         const keysDown = new Set(["w"]);
         const player: Player = { x: 40, y: 30, size: 20 };
         const state: State = { ...defaultState, keysDown, player, bullets: [] };
-        const action: Action = tick();
+        const action: Action = tick({ time: 1234 });
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
           bullets: [{ x: 40, y: 30, dx: 0, dy: -1, size: 4 }],
+          lastBulletFiredAt: 1234,
         };
         expect(newState).toEqual(expected);
       });
@@ -186,11 +187,12 @@ describe("reducer", () => {
         const keysDown = new Set(["w", "a"]);
         const player: Player = { x: 40, y: 30, size: 20 };
         const state: State = { ...defaultState, keysDown, player, bullets: [] };
-        const action: Action = tick();
+        const action: Action = tick({ time: 1234 });
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
           bullets: [{ x: 40, y: 30, dx: -1, dy: -1, size: 4 }],
+          lastBulletFiredAt: 1234,
         };
         expect(newState).toEqual(expected);
       });
@@ -199,11 +201,12 @@ describe("reducer", () => {
         const keysDown = new Set(["s", "d"]);
         const player: Player = { x: 40, y: 30, size: 20 };
         const state: State = { ...defaultState, keysDown, player, bullets: [] };
-        const action: Action = tick();
+        const action: Action = tick({ time: 1234 });
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
           bullets: [{ x: 40, y: 30, dx: 1, dy: 1, size: 4 }],
+          lastBulletFiredAt: 1234,
         };
         expect(newState).toEqual(expected);
       });
@@ -211,8 +214,14 @@ describe("reducer", () => {
       it("doesn't fire if the lastBulletFiredAt was recent", () => {
         const keysDown = new Set(["s"]);
         const player: Player = { x: 40, y: 30, size: 20 };
-        const state: State = { ...defaultState, keysDown, player, bullets: [] };
-        const action: Action = tick();
+        const state: State = {
+          ...defaultState,
+          keysDown,
+          player,
+          bullets: [],
+          lastBulletFiredAt: 1234,
+        };
+        const action: Action = tick({ time: 1234 });
         const newState: State = reducer(state, action);
         const expected: State = state;
         expect(newState).toEqual(expected);
