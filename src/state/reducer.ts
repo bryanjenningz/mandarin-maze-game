@@ -166,6 +166,11 @@ export const reducer = (state: State, action: Action): State => {
           const y = bullet.y + bullet.dy;
           return { ...bullet, x, y };
         });
+      const monsterBullets: Bullet[] = state.monsterBullets.map((bullet) => {
+        const x = bullet.x + bullet.dx;
+        const y = bullet.y + bullet.dy;
+        return { ...bullet, x, y };
+      });
       let dx = 0;
       let dy = 0;
       if (state.keysDown.has("w")) dy -= BULLET_SPEED;
@@ -187,6 +192,7 @@ export const reducer = (state: State, action: Action): State => {
         monsters,
         bullets,
         lastBulletFiredAt,
+        monsterBullets,
       };
     }
   }
