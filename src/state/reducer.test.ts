@@ -375,6 +375,48 @@ describe("reducer", () => {
       });
     });
 
+    describe("monster bullet movement", () => {
+      it("moves in the bottom right direction", () => {
+        const bullet: Bullet = {
+          x: 20,
+          y: 30,
+          dx: BULLET_SPEED,
+          dy: BULLET_SPEED,
+          size: 4,
+        };
+        const state: State = { ...defaultState, monsterBullets: [bullet] };
+        const action: Action = tick();
+        const newState: State = reducer(state, action);
+        const expected: State = {
+          ...state,
+          monsterBullets: [
+            { ...bullet, x: bullet.x + bullet.dx, y: bullet.y + bullet.dy },
+          ],
+        };
+        expect(newState).toEqual(expected);
+      });
+
+      it("moves in the top left direction", () => {
+        const bullet: Bullet = {
+          x: 20,
+          y: 30,
+          dx: -BULLET_SPEED,
+          dy: -BULLET_SPEED,
+          size: 4,
+        };
+        const state: State = { ...defaultState, monsterBullets: [bullet] };
+        const action: Action = tick();
+        const newState: State = reducer(state, action);
+        const expected: State = {
+          ...state,
+          monsterBullets: [
+            { ...bullet, x: bullet.x + bullet.dx, y: bullet.y + bullet.dy },
+          ],
+        };
+        expect(newState).toEqual(expected);
+      });
+    });
+
     describe("monster movement", () => {
       it("doesn't move if target is null", () => {
         const monster: Monster = {
