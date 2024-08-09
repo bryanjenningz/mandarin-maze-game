@@ -434,7 +434,7 @@ describe("reducer", () => {
       it("doesn't move if it there's a wall in its way", () => {
         const target: Target = { x: 0, y: 0 };
         const monster: Monster = {
-          x: BLOCK_SIZE,
+          x: 0,
           y: BLOCK_SIZE,
           size: BLOCK_SIZE,
           target,

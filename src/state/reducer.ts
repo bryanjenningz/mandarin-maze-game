@@ -136,7 +136,10 @@ export const reducer = (state: State, action: Action): State => {
                 x >= 0 &&
                 y >= 0 &&
                 x <= SCREEN_SIZE - BLOCK_SIZE &&
-                y <= SCREEN_SIZE - BLOCK_SIZE
+                y <= SCREEN_SIZE - BLOCK_SIZE &&
+                !state.walls.some((wall) =>
+                  overlaps(wall, { x, y, size: BLOCK_SIZE })
+                )
               )
                 return { x, y };
               return null;
