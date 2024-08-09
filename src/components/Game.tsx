@@ -9,7 +9,7 @@ const classNames = (...classes: (string | false | null)[]): string => {
 
 const generateTargets = (monsters: Monster[]): (Target | null)[] => {
   return monsters.map(({ x, y }) => {
-    if (Math.random() < 0.999) return null;
+    if (Math.random() < 0.98) return null;
     return {
       x: x + (Math.floor(Math.random() * 11) - 3) * BLOCK_SIZE,
       y: y + (Math.floor(Math.random() * 11) - 3) * BLOCK_SIZE,
