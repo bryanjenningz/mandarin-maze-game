@@ -9,7 +9,7 @@ import type {
   Target,
   Wall,
 } from "./types";
-import { BULLET_SPEED, SCREEN_SIZE } from "./constants";
+import { BLOCK_SIZE, BULLET_SPEED, SCREEN_SIZE } from "./constants";
 
 const defaultState: State = {
   keysDown: new Set(),
@@ -405,6 +405,28 @@ describe("reducer", () => {
         const expected: State = {
           ...state,
           monsters: [{ ...monster, target: { x: -1, y: -1 } }],
+        };
+        expect(newState).toEqual(expected);
+      });
+
+      it("doesn't move if it needs to go out of bounds in the bottom right", () => {
+        const target: Target = {
+          x: SCREEN_SIZE - BLOCK_SIZE + 1,
+          y: SCREEN_SIZE - BLOCK_SIZE + 1,
+        };
+        const monster: Monster = {
+          x: SCREEN_SIZE - BLOCK_SIZE,
+          y: SCREEN_SIZE - BLOCK_SIZE,
+          size: 20,
+          target,
+          health: 100,
+        };
+        const state: State = { ...defaultState, monsters: [monster] };
+        const action: Action = tick();
+        const newState: State = reducer(state, action);
+        const expected: State = {
+          ...state,
+          monsters: [{ ...monster, target }],
         };
         expect(newState).toEqual(expected);
       });
