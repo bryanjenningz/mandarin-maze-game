@@ -390,6 +390,25 @@ describe("reducer", () => {
         expect(newState).toEqual(expected);
       });
 
+      it("doesn't move if it needs to go out of bounds in the upper left", () => {
+        const target: Target = { x: -1, y: -1 };
+        const monster: Monster = {
+          x: 0,
+          y: 0,
+          size: 20,
+          target,
+          health: 100,
+        };
+        const state: State = { ...defaultState, monsters: [monster] };
+        const action: Action = tick();
+        const newState: State = reducer(state, action);
+        const expected: State = {
+          ...state,
+          monsters: [{ ...monster, target: { x: -1, y: -1 } }],
+        };
+        expect(newState).toEqual(expected);
+      });
+
       it("moves a space in the direction of its target", () => {
         const target: Target = { x: 40, y: 0 };
         const monster: Monster = {
