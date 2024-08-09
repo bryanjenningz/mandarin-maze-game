@@ -132,7 +132,13 @@ export const reducer = (state: State, action: Action): State => {
             { x, y: monster.y },
           ]
             .map(({ x, y }) => {
-              if (x >= 0 && y >= 0) return { x, y };
+              if (
+                x >= 0 &&
+                y >= 0 &&
+                x <= SCREEN_SIZE - BLOCK_SIZE &&
+                y <= SCREEN_SIZE - BLOCK_SIZE
+              )
+                return { x, y };
               return null;
             })
             .find(Boolean) ?? { x: monster.x, y: monster.y };
