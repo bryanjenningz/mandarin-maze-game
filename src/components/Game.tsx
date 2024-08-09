@@ -50,7 +50,7 @@ export const Game = (): JSX.Element => {
     return () => {
       unmounted = true;
     };
-  }, [state.monsters]);
+  }, []);
 
   return (
     <div className="text-white bg-black w-full h-[100svh] flex justify-center items-center">
