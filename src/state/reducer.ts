@@ -126,8 +126,19 @@ export const reducer = (state: State, action: Action): State => {
           if (!target) return { ...monster, health };
           const x = clamp(monster.x - 1, target.x, monster.x + 1);
           const y = clamp(monster.y - 1, target.y, monster.y + 1);
-          const newTarget = x === target.x && y === target.y ? null : target;
-          return { ...monster, x, y, target: newTarget, health };
+          const { x: newX, y: newY } = [
+            { x, y },
+            { x: monster.x, y },
+            { x, y: monster.y },
+          ]
+            .map(({ x, y }) => {
+              if (x >= 0 && y >= 0) return { x, y };
+              return null;
+            })
+            .find(Boolean) ?? { x: monster.x, y: monster.y };
+          const newTarget =
+            newX === target.x && newY === target.y ? null : target;
+          return { ...monster, x: newX, y: newY, target: newTarget, health };
         });
       const itemCount =
         state.itemCount + (state.monsters.length - monsters.length);
