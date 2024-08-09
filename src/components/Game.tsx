@@ -1,9 +1,20 @@
 import { useEffect, useReducer } from "react";
 import { initState, reducer } from "../state/reducer";
 import { BLOCK_SIZE, BULLET_SIZE, SCREEN_SIZE } from "../state/constants";
+import type { Monster, Target } from "../state/types";
 
 const classNames = (...classes: (string | false | null)[]): string => {
   return classes.filter(Boolean).join(" ");
+};
+
+const generateTargets = (monsters: Monster[]): (Target | null)[] => {
+  return monsters.map(({ x, y }) => {
+    if (Math.random() < 0.999) return null;
+    return {
+      x: x + (Math.floor(Math.random() * 11) - 3) * BLOCK_SIZE,
+      y: y + (Math.floor(Math.random() * 11) - 3) * BLOCK_SIZE,
+    };
+  });
 };
 
 export const Game = (): JSX.Element => {
@@ -28,14 +39,18 @@ export const Game = (): JSX.Element => {
     let unmounted = false;
     const update = () => {
       if (unmounted) return;
-      dispatch({ type: "TICK", time: Date.now(), targets: [] });
+      dispatch({
+        type: "TICK",
+        time: Date.now(),
+        targets: generateTargets(state.monsters),
+      });
       requestAnimationFrame(update);
     };
     update();
     return () => {
       unmounted = true;
     };
-  }, []);
+  }, [state.monsters]);
 
   return (
     <div className="text-white bg-black w-full h-[100svh] flex justify-center items-center">
