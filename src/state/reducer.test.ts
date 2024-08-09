@@ -431,6 +431,23 @@ describe("reducer", () => {
         expect(newState).toEqual(expected);
       });
 
+      it("doesn't move if it there's a wall in its way", () => {
+        const target: Target = { x: 0, y: 0 };
+        const monster: Monster = {
+          x: BLOCK_SIZE,
+          y: BLOCK_SIZE,
+          size: BLOCK_SIZE,
+          target,
+          health: 100,
+        };
+        const walls: Wall[] = [{ x: 0, y: 0, size: BLOCK_SIZE }];
+        const state: State = { ...defaultState, monsters: [monster], walls };
+        const action: Action = tick();
+        const newState: State = reducer(state, action);
+        const expected: State = state;
+        expect(newState).toEqual(expected);
+      });
+
       it("moves a space in the direction of its target", () => {
         const target: Target = { x: 40, y: 0 };
         const monster: Monster = {
