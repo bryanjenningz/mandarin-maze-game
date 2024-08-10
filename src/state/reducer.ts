@@ -178,6 +178,20 @@ export const reducer = (state: State, action: Action): State => {
           const y = bullet.y + bullet.dy;
           return { ...bullet, x, y };
         });
+      for (const [i, monster] of state.monsters.entries()) {
+        const move = action.monsterMoves[i];
+        if (!move?.shoot) continue;
+        const angle = Math.atan(
+          (state.player.y - monster.y) / (state.player.x - monster.x)
+        );
+        monsterBullets.push({
+          x: monster.x,
+          y: monster.y,
+          dx: Number((BULLET_SPEED * Math.cos(angle)).toFixed(1)),
+          dy: Number((BULLET_SPEED * Math.sin(angle)).toFixed(1)),
+          size: BULLET_SIZE,
+        });
+      }
       let dx = 0;
       let dy = 0;
       if (state.keysDown.has("w")) dy -= BULLET_SPEED;
