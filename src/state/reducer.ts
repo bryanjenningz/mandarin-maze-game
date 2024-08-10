@@ -184,11 +184,13 @@ export const reducer = (state: State, action: Action): State => {
         const angle = Math.atan(
           (state.player.y - monster.y) / (state.player.x - monster.x)
         );
+        const dxSign = state.player.x - monster.x < 0 ? -1 : 1;
+        const dySign = state.player.y - monster.y < 0 ? -1 : 1;
         monsterBullets.push({
           x: monster.x,
           y: monster.y,
-          dx: Number((BULLET_SPEED * Math.cos(angle)).toFixed(1)),
-          dy: Number((BULLET_SPEED * Math.sin(angle)).toFixed(1)),
+          dx: dxSign * Number((BULLET_SPEED * Math.cos(angle)).toFixed(1)),
+          dy: dySign * Number((BULLET_SPEED * Math.sin(angle)).toFixed(1)),
           size: BULLET_SIZE,
         });
       }
