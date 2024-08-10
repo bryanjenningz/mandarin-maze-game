@@ -106,6 +106,21 @@ export const Game = (): JSX.Element => {
           );
         })}
 
+        {state.monsterBullets.map((bullet, i) => {
+          return (
+            <div
+              key={i}
+              className="absolute bg-cyan-400"
+              style={{
+                left: `${(bullet.x / SCREEN_SIZE) * 100}%`,
+                top: `${(bullet.y / SCREEN_SIZE) * 100}%`,
+                width: `${(BULLET_SIZE / SCREEN_SIZE) * 100}%`,
+                height: `${(BULLET_SIZE / SCREEN_SIZE) * 100}%`,
+              }}
+            ></div>
+          );
+        })}
+
         {state.bullets.map((bullet, i) => {
           return (
             <div
