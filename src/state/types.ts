@@ -48,3 +48,8 @@ export type Action =
   | { type: "KEY_DOWN"; key: string }
   | { type: "KEY_UP"; key: string }
   | { type: "TICK"; time: number; targets: (Target | null)[] };
+
+export type MonsterMove = {
+  shoot: boolean;
+  target: Target | null;
+};
