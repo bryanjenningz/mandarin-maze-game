@@ -1,20 +1,29 @@
 import { useEffect, useReducer } from "react";
 import { initState, reducer } from "../state/reducer";
 import { BLOCK_SIZE, BULLET_SIZE, SCREEN_SIZE } from "../state/constants";
-import type { Monster, Target } from "../state/types";
+import type { Monster, MonsterMove, Target } from "../state/types";
 
 const classNames = (...classes: (string | false | null)[]): string => {
   return classes.filter(Boolean).join(" ");
 };
 
-const generateTargets = (monsters: Monster[]): (Target | null)[] => {
-  return monsters.map(({ x, y }) => {
-    if (Math.random() < 0.98) return null;
-    return {
-      x: x + (Math.floor(Math.random() * 11) - 3) * BLOCK_SIZE,
-      y: y + (Math.floor(Math.random() * 11) - 3) * BLOCK_SIZE,
-    };
-  });
+const generateTarget = ({ x, y }: Monster): Target | null => {
+  if (Math.random() < 0.98) return null;
+  return {
+    x: x + (Math.floor(Math.random() * 11) - 3) * BLOCK_SIZE,
+    y: y + (Math.floor(Math.random() * 11) - 3) * BLOCK_SIZE,
+  };
+};
+
+const generateMonsterMove = (monster: Monster): MonsterMove => {
+  return {
+    shoot: Math.random() < 0.02,
+    target: generateTarget(monster),
+  };
+};
+
+const generateMonsterMoves = (monsters: Monster[]): MonsterMove[] => {
+  return monsters.map(generateMonsterMove);
 };
 
 export const Game = (): JSX.Element => {
@@ -42,7 +51,7 @@ export const Game = (): JSX.Element => {
       dispatch({
         type: "TICK",
         time: Date.now(),
-        targets: generateTargets(state.monsters),
+        monsterMoves: generateMonsterMoves(state.monsters),
       });
       requestAnimationFrame(update);
     };

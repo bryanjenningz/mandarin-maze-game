@@ -4,6 +4,7 @@ import type {
   Action,
   Bullet,
   Monster,
+  MonsterMove,
   Player,
   State,
   Target,
@@ -66,16 +67,16 @@ describe("reducer", () => {
     const tick = (
       {
         time = 0,
-        targets = [],
+        monsterMoves = [],
       }: {
         time?: number;
-        targets?: (Target | null)[];
+        monsterMoves?: MonsterMove[];
       } = {
         time: 0,
-        targets: [],
+        monsterMoves: [],
       }
     ): Action => {
-      return { type: "TICK", time, targets };
+      return { type: "TICK", time, monsterMoves };
     };
 
     describe("player movement", () => {
@@ -612,8 +613,12 @@ describe("reducer", () => {
         const newTarget: Target = { x: 1, y: 1 };
         const newTarget2: Target = { x: 2, y: 2 };
         const newTarget3: Target = { x: 3, y: 3 };
-        const targets: Target[] = [newTarget, newTarget2, newTarget3];
-        const action: Action = tick({ targets });
+        const monsterMoves: MonsterMove[] = [
+          newTarget,
+          newTarget2,
+          newTarget3,
+        ].map((target) => ({ shoot: false, target }));
+        const action: Action = tick({ monsterMoves });
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
@@ -646,8 +651,10 @@ describe("reducer", () => {
         const monsters: Monster[] = [monster, monster2, monster3];
         const state: State = { ...defaultState, monsters };
         const newTarget: Target = { x: 1, y: 1 };
-        const targets: (Target | null)[] = [newTarget, null, null];
-        const action: Action = tick({ targets });
+        const monsterMoves: MonsterMove[] = [newTarget, null, null].map(
+          (target) => ({ shoot: false, target })
+        );
+        const action: Action = tick({ monsterMoves });
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
@@ -680,8 +687,10 @@ describe("reducer", () => {
         const monsters: Monster[] = [monster, monster2, monster3];
         const state: State = { ...defaultState, monsters };
         const newTarget: Target = { x: 1, y: 1 };
-        const targets: (Target | null)[] = [newTarget, null, null];
-        const action: Action = tick({ targets });
+        const monsterMoves: MonsterMove[] = [newTarget, null, null].map(
+          (target) => ({ shoot: false, target })
+        );
+        const action: Action = tick({ monsterMoves });
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,

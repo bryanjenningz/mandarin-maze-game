@@ -115,7 +115,7 @@ export const reducer = (state: State, action: Action): State => {
           return !(monster.health <= 0 && overlaps(monster, player));
         })
         .map((monster, i) => {
-          const target = action.targets[i] ?? monster.target;
+          const target = action.monsterMoves[i]?.target ?? monster.target;
           const health = Math.max(
             0,
             monster.health -
