@@ -384,7 +384,6 @@ describe("reducer", () => {
     describe("monster bullets firing", () => {
       it("shoots a bullet at the player towards bottom right if the monster move has a true shoot value", () => {
         const player: Player = { x: 40, y: 40, size: 20 };
-        const state: State = { ...defaultState, player, bullets: [] };
         const monster: Monster = {
           x: 0,
           y: 0,
@@ -392,21 +391,19 @@ describe("reducer", () => {
           health: 100,
           target: null,
         };
+        const state: State = {
+          ...defaultState,
+          player,
+          bullets: [],
+          monsters: [monster],
+        };
         const monsterMoves: MonsterMove[] = [{ shoot: true, target: null }];
         const action: Action = tick({ monsterMoves });
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
           monsters: [monster],
-          monsterBullets: [
-            {
-              x: 0,
-              y: 0,
-              dx: BULLET_SPEED,
-              dy: BULLET_SPEED,
-              size: BULLET_SIZE,
-            },
-          ],
+          monsterBullets: [{ x: 0, y: 0, dx: 1.4, dy: 1.4, size: BULLET_SIZE }],
         };
         expect(newState).toEqual(expected);
       });
