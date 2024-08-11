@@ -106,22 +106,12 @@ export const reducer = (state: State, action: Action): State => {
       const monsters = updateMonsters(state, action.monsterMoves);
       const itemCount =
         state.itemCount + (state.monsters.length - monsters.length);
-      const bullets = updateBullets(state);
+      const { bullets, lastBulletFiredAt } = updateBullets(
+        state,
+        player,
+        action.time
+      );
       const monsterBullets = updateMonsterBullets(state, action.monsterMoves);
-      let dx = 0;
-      let dy = 0;
-      if (state.keysDown.has("w")) dy -= BULLET_SPEED;
-      if (state.keysDown.has("s")) dy += BULLET_SPEED;
-      if (state.keysDown.has("a")) dx -= BULLET_SPEED;
-      if (state.keysDown.has("d")) dx += BULLET_SPEED;
-      let lastBulletFiredAt = state.lastBulletFiredAt;
-      if (
-        action.time - state.lastBulletFiredAt >= BULLET_FIRE_DELAY &&
-        (dx !== 0 || dy !== 0)
-      ) {
-        bullets.push({ x: player.x, y: player.y, dx, dy, size: BULLET_SIZE });
-        lastBulletFiredAt = action.time;
-      }
       return {
         ...state,
         player,
@@ -226,8 +216,12 @@ const updateMonsters = (
     });
 };
 
-const updateBullets = (state: State): Bullet[] => {
-  return state.bullets
+const updateBullets = (
+  state: State,
+  player: Player,
+  time: number
+): { bullets: Bullet[]; lastBulletFiredAt: number } => {
+  const bullets = state.bullets
     .filter((bullet) => {
       return (
         !state.walls.some((wall) => overlaps(bullet, wall)) &&
@@ -241,6 +235,23 @@ const updateBullets = (state: State): Bullet[] => {
       const y = bullet.y + bullet.dy;
       return { ...bullet, x, y };
     });
+
+  let dx = 0;
+  let dy = 0;
+  if (state.keysDown.has("w")) dy -= BULLET_SPEED;
+  if (state.keysDown.has("s")) dy += BULLET_SPEED;
+  if (state.keysDown.has("a")) dx -= BULLET_SPEED;
+  if (state.keysDown.has("d")) dx += BULLET_SPEED;
+  let lastBulletFiredAt = state.lastBulletFiredAt;
+  if (
+    time - state.lastBulletFiredAt >= BULLET_FIRE_DELAY &&
+    (dx !== 0 || dy !== 0)
+  ) {
+    bullets.push({ x: player.x, y: player.y, dx, dy, size: BULLET_SIZE });
+    lastBulletFiredAt = time;
+  }
+
+  return { bullets, lastBulletFiredAt };
 };
 
 const updateMonsterBullets = (
