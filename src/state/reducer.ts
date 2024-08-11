@@ -106,11 +106,7 @@ export const reducer = (state: State, action: Action): State => {
       const monsters = updateMonsters(state, action.monsterMoves);
       const itemCount =
         state.itemCount + (state.monsters.length - monsters.length);
-      const { bullets, lastBulletFiredAt } = updateBullets(
-        state,
-        player,
-        action.time
-      );
+      const { bullets, lastBulletFiredAt } = updateBullets(state, action.time);
       const monsterBullets = updateMonsterBullets(state, action.monsterMoves);
       return {
         ...state,
@@ -218,7 +214,6 @@ const updateMonsters = (
 
 const updateBullets = (
   state: State,
-  player: Player,
   time: number
 ): { bullets: Bullet[]; lastBulletFiredAt: number } => {
   const bullets = state.bullets
@@ -247,7 +242,13 @@ const updateBullets = (
     time - state.lastBulletFiredAt >= BULLET_FIRE_DELAY &&
     (dx !== 0 || dy !== 0)
   ) {
-    bullets.push({ x: player.x, y: player.y, dx, dy, size: BULLET_SIZE });
+    bullets.push({
+      x: state.player.x,
+      y: state.player.y,
+      dx,
+      dy,
+      size: BULLET_SIZE,
+    });
     lastBulletFiredAt = time;
   }
 
