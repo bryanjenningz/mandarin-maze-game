@@ -169,19 +169,19 @@ const updatePlayer = (state: State): Player => {
 };
 
 const updateMonsters = (
-  state: State,
+  { player, monsters, bullets, walls }: State,
   monsterMoves: MonsterMove[]
 ): Monster[] => {
-  return state.monsters
+  return monsters
     .filter((monster) => {
-      return !(monster.health <= 0 && overlaps(monster, state.player));
+      return !(monster.health <= 0 && overlaps(monster, player));
     })
     .map((monster, i) => {
       const target = monsterMoves[i]?.target ?? monster.target;
       const health = Math.max(
         0,
         monster.health -
-          state.bullets.filter((bullet) => overlaps(monster, bullet)).length *
+          bullets.filter((bullet) => overlaps(monster, bullet)).length *
             BULLET_DAMAGE
       );
       if (health === 0) return { ...monster, health, target: null };
@@ -199,9 +199,7 @@ const updateMonsters = (
             y >= 0 &&
             x <= SCREEN_SIZE - BLOCK_SIZE &&
             y <= SCREEN_SIZE - BLOCK_SIZE &&
-            !state.walls.some((wall) =>
-              overlaps(wall, { x, y, size: BLOCK_SIZE })
-            )
+            !walls.some((wall) => overlaps(wall, { x, y, size: BLOCK_SIZE }))
           )
             return { x, y };
           return null;
