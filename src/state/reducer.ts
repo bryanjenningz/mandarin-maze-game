@@ -107,18 +107,7 @@ export const reducer = (state: State, action: Action): State => {
       const itemCount =
         state.itemCount + (state.monsters.length - monsters.length);
       const bullets = updateBullets(state);
-      const monsterBullets: Bullet[] = state.monsterBullets
-        .filter((bullet) => {
-          return (
-            !state.walls.some((wall) => overlaps(bullet, wall)) &&
-            !overlaps(bullet, state.player)
-          );
-        })
-        .map((bullet) => {
-          const x = bullet.x + bullet.dx;
-          const y = bullet.y + bullet.dy;
-          return { ...bullet, x, y };
-        });
+      const monsterBullets = updateMonsterBullets(state);
       for (const [i, monster] of state.monsters.entries()) {
         const move = action.monsterMoves[i];
         if (!move?.shoot || monster.health <= 0) continue;
@@ -261,6 +250,21 @@ const updateBullets = (state: State): Bullet[] => {
         !state.monsters.some(
           (monster) => overlaps(bullet, monster) && monster.health > 0
         )
+      );
+    })
+    .map((bullet) => {
+      const x = bullet.x + bullet.dx;
+      const y = bullet.y + bullet.dy;
+      return { ...bullet, x, y };
+    });
+};
+
+const updateMonsterBullets = (state: State): Bullet[] => {
+  return state.monsterBullets
+    .filter((bullet) => {
+      return (
+        !state.walls.some((wall) => overlaps(bullet, wall)) &&
+        !overlaps(bullet, state.player)
       );
     })
     .map((bullet) => {
