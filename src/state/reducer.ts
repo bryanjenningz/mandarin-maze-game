@@ -144,28 +144,27 @@ const inBounds = ({ x, y, size }: Box): boolean => {
 
 // #region Update functions
 
-const updatePlayer = (state: State): Player => {
+const updatePlayer = ({ keysDown, player, walls }: State): Player => {
   const x = ((): number => {
-    if (state.keysDown.has("arrowleft")) return state.player.x - 1;
-    if (state.keysDown.has("arrowright")) return state.player.x + 1;
-    return state.player.x;
+    if (keysDown.has("arrowleft")) return player.x - 1;
+    if (keysDown.has("arrowright")) return player.x + 1;
+    return player.x;
   })();
   const y = ((): number => {
-    if (state.keysDown.has("arrowup")) return state.player.y - 1;
-    if (state.keysDown.has("arrowdown")) return state.player.y + 1;
-    return state.player.y;
+    if (keysDown.has("arrowup")) return player.y - 1;
+    if (keysDown.has("arrowdown")) return player.y + 1;
+    return player.y;
   })();
-  const player: Player =
+  const newPlayer: Player =
     [
-      { ...state.player, x, y },
-      { ...state.player, x },
-      { ...state.player, y },
+      { ...player, x, y },
+      { ...player, x },
+      { ...player, y },
     ].find(
       (newPlayer) =>
-        inBounds(newPlayer) &&
-        !state.walls.some((wall) => overlaps(newPlayer, wall))
-    ) ?? state.player;
-  return player;
+        inBounds(newPlayer) && !walls.some((wall) => overlaps(newPlayer, wall))
+    ) ?? player;
+  return newPlayer;
 };
 
 const updateMonsters = (
