@@ -272,16 +272,11 @@ const updateMonsterBullets = (
       return { ...bullet, x, y };
     });
 
-  const newMonsterBullets = monsterMoves
-    .map((move, i) => {
-      const monster = state.monsters[i];
-      return { monster, move };
+  const newMonsterBullets = state.monsters
+    .filter((monster, i) => {
+      const move = monsterMoves[i];
+      return monster && monster.health > 0 && move?.shoot;
     })
-    .filter(({ monster, move }) => {
-      return monster && monster.health > 0 && move.shoot;
-    })
-    .map(({ monster }) => monster)
-    .filter(Boolean)
     .map((monster): Bullet => {
       const angle = Math.abs(
         Math.atan((state.player.y - monster.y) / (state.player.x - monster.x))
