@@ -107,23 +107,7 @@ export const reducer = (state: State, action: Action): State => {
       const itemCount =
         state.itemCount + (state.monsters.length - monsters.length);
       const bullets = updateBullets(state);
-      const monsterBullets = updateMonsterBullets(state);
-      for (const [i, monster] of state.monsters.entries()) {
-        const move = action.monsterMoves[i];
-        if (!move?.shoot || monster.health <= 0) continue;
-        const angle = Math.abs(
-          Math.atan((state.player.y - monster.y) / (state.player.x - monster.x))
-        );
-        const dxSign = state.player.x - monster.x < 0 ? -1 : 1;
-        const dySign = state.player.y - monster.y < 0 ? -1 : 1;
-        monsterBullets.push({
-          x: monster.x,
-          y: monster.y,
-          dx: dxSign * Number((BULLET_SPEED * Math.cos(angle)).toFixed(1)),
-          dy: dySign * Number((BULLET_SPEED * Math.sin(angle)).toFixed(1)),
-          size: BULLET_SIZE,
-        });
-      }
+      const monsterBullets = updateMonsterBullets(state, action.monsterMoves);
       let dx = 0;
       let dy = 0;
       if (state.keysDown.has("w")) dy -= BULLET_SPEED;
@@ -259,8 +243,11 @@ const updateBullets = (state: State): Bullet[] => {
     });
 };
 
-const updateMonsterBullets = (state: State): Bullet[] => {
-  return state.monsterBullets
+const updateMonsterBullets = (
+  state: State,
+  monsterMoves: MonsterMove[]
+): Bullet[] => {
+  const monsterBullets = state.monsterBullets
     .filter((bullet) => {
       return (
         !state.walls.some((wall) => overlaps(bullet, wall)) &&
@@ -272,4 +259,23 @@ const updateMonsterBullets = (state: State): Bullet[] => {
       const y = bullet.y + bullet.dy;
       return { ...bullet, x, y };
     });
+
+  for (const [i, monster] of state.monsters.entries()) {
+    const move = monsterMoves[i];
+    if (!move?.shoot || monster.health <= 0) continue;
+    const angle = Math.abs(
+      Math.atan((state.player.y - monster.y) / (state.player.x - monster.x))
+    );
+    const dxSign = state.player.x - monster.x < 0 ? -1 : 1;
+    const dySign = state.player.y - monster.y < 0 ? -1 : 1;
+    monsterBullets.push({
+      x: monster.x,
+      y: monster.y,
+      dx: dxSign * Number((BULLET_SPEED * Math.cos(angle)).toFixed(1)),
+      dy: dySign * Number((BULLET_SPEED * Math.sin(angle)).toFixed(1)),
+      size: BULLET_SIZE,
+    });
+  }
+
+  return monsterBullets;
 };
