@@ -463,6 +463,28 @@ describe("reducer", () => {
         };
         expect(newState).toEqual(expected);
       });
+
+      it("doesn't shoot bullets if the monster has no health even if shoot is true", () => {
+        const player: Player = { x: 0, y: 0, size: 20 };
+        const monster: Monster = {
+          x: 40,
+          y: 40,
+          size: BLOCK_SIZE,
+          health: 0,
+          target: null,
+        };
+        const state: State = {
+          ...defaultState,
+          player,
+          monsters: [monster],
+          monsterBullets: [],
+        };
+        const monsterMoves: MonsterMove[] = [{ shoot: true, target: null }];
+        const action: Action = tick({ monsterMoves });
+        const newState: State = reducer(state, action);
+        const expected: State = state;
+        expect(newState).toEqual(expected);
+      });
     });
 
     describe("monster bullet movement", () => {
