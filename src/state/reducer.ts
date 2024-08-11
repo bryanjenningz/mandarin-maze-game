@@ -180,7 +180,7 @@ export const reducer = (state: State, action: Action): State => {
         });
       for (const [i, monster] of state.monsters.entries()) {
         const move = action.monsterMoves[i];
-        if (!move?.shoot) continue;
+        if (!move?.shoot || monster.health <= 0) continue;
         const angle = Math.abs(
           Math.atan((state.player.y - monster.y) / (state.player.x - monster.x))
         );
