@@ -94,26 +94,7 @@ export const reducer = (state: State, action: Action): State => {
       return { ...state, keysDown };
     }
     case "TICK": {
-      const x = ((): number => {
-        if (state.keysDown.has("arrowleft")) return state.player.x - 1;
-        if (state.keysDown.has("arrowright")) return state.player.x + 1;
-        return state.player.x;
-      })();
-      const y = ((): number => {
-        if (state.keysDown.has("arrowup")) return state.player.y - 1;
-        if (state.keysDown.has("arrowdown")) return state.player.y + 1;
-        return state.player.y;
-      })();
-      const player: Player =
-        [
-          { ...state.player, x, y },
-          { ...state.player, x },
-          { ...state.player, y },
-        ].find(
-          (newPlayer) =>
-            inBounds(newPlayer) &&
-            !state.walls.some((wall) => overlaps(newPlayer, wall))
-        ) ?? state.player;
+      const player = updatePlayer(state);
       const monsters: Monster[] = state.monsters
         .filter((monster) => {
           return !(monster.health <= 0 && overlaps(monster, player));
@@ -209,7 +190,7 @@ export const reducer = (state: State, action: Action): State => {
         action.time - state.lastBulletFiredAt >= BULLET_FIRE_DELAY &&
         (dx !== 0 || dy !== 0)
       ) {
-        bullets.push({ x, y, dx, dy, size: BULLET_SIZE });
+        bullets.push({ x: player.x, y: player.y, dx, dy, size: BULLET_SIZE });
         lastBulletFiredAt = action.time;
       }
       return {
@@ -244,4 +225,30 @@ const overlaps = (a: Box, b: Box): boolean => {
 
 const inBounds = ({ x, y, size }: Box): boolean => {
   return x >= 0 && x + size <= SCREEN_SIZE && y >= 0 && y + size <= SCREEN_SIZE;
+};
+
+// #region Update functions
+
+const updatePlayer = (state: State): Player => {
+  const x = ((): number => {
+    if (state.keysDown.has("arrowleft")) return state.player.x - 1;
+    if (state.keysDown.has("arrowright")) return state.player.x + 1;
+    return state.player.x;
+  })();
+  const y = ((): number => {
+    if (state.keysDown.has("arrowup")) return state.player.y - 1;
+    if (state.keysDown.has("arrowdown")) return state.player.y + 1;
+    return state.player.y;
+  })();
+  const player: Player =
+    [
+      { ...state.player, x, y },
+      { ...state.player, x },
+      { ...state.player, y },
+    ].find(
+      (newPlayer) =>
+        inBounds(newPlayer) &&
+        !state.walls.some((wall) => overlaps(newPlayer, wall))
+    ) ?? state.player;
+  return player;
 };
