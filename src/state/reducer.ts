@@ -256,14 +256,14 @@ const updateBullets = (
 };
 
 const updateMonsterBullets = (
-  state: State,
+  { player, monsters, monsterBullets, walls }: State,
   monsterMoves: MonsterMove[]
 ): Bullet[] => {
-  const monsterBullets = state.monsterBullets
+  const updatedMonsterBullets = monsterBullets
     .filter((bullet) => {
       return (
-        !state.walls.some((wall) => overlaps(bullet, wall)) &&
-        !overlaps(bullet, state.player)
+        !walls.some((wall) => overlaps(bullet, wall)) &&
+        !overlaps(bullet, player)
       );
     })
     .map((bullet) => {
@@ -272,21 +272,20 @@ const updateMonsterBullets = (
       return { ...bullet, x, y };
     });
 
-  const newMonsterBullets = state.monsters
+  const newMonsterBullets = monsters
     .filter((monster, i) => {
       const move = monsterMoves[i];
       return monster && monster.health > 0 && move?.shoot;
     })
     .map((monster): Bullet => {
-      const angle = Math.abs(
-        Math.atan((state.player.y - monster.y) / (state.player.x - monster.x))
-      );
-      const dxSign = state.player.x - monster.x < 0 ? -1 : 1;
-      const dySign = state.player.y - monster.y < 0 ? -1 : 1;
+      const riseOverRun = (player.y - monster.y) / (player.x - monster.x);
+      const angle = Math.abs(Math.atan(riseOverRun));
+      const dxSign = player.x - monster.x < 0 ? -1 : 1;
+      const dySign = player.y - monster.y < 0 ? -1 : 1;
       const dx = dxSign * Number((BULLET_SPEED * Math.cos(angle)).toFixed(1));
       const dy = dySign * Number((BULLET_SPEED * Math.sin(angle)).toFixed(1));
       return { x: monster.x, y: monster.y, dx, dy, size: BULLET_SIZE };
     });
 
-  return [...monsterBullets, ...newMonsterBullets];
+  return [...updatedMonsterBullets, ...newMonsterBullets];
 };
