@@ -232,23 +232,18 @@ const updateBullets = (
     });
 
   const newBullet = ((): Bullet | undefined => {
-    let dx = 0;
-    let dy = 0;
-    if (keysDown.has("w")) dy -= BULLET_SPEED;
-    if (keysDown.has("s")) dy += BULLET_SPEED;
-    if (keysDown.has("a")) dx -= BULLET_SPEED;
-    if (keysDown.has("d")) dx += BULLET_SPEED;
+    const dx =
+      (keysDown.has("a") ? -BULLET_SPEED : 0) +
+      (keysDown.has("d") ? BULLET_SPEED : 0);
+    const dy =
+      (keysDown.has("w") ? -BULLET_SPEED : 0) +
+      (keysDown.has("s") ? BULLET_SPEED : 0);
     if (
       time - lastBulletFiredAt >= BULLET_FIRE_DELAY &&
       (dx !== 0 || dy !== 0)
     ) {
-      return {
-        x: player.x,
-        y: player.y,
-        dx,
-        dy,
-        size: BULLET_SIZE,
-      };
+      const { x, y } = player;
+      return { x, y, dx, dy, size: BULLET_SIZE };
     }
     return undefined;
   })();
