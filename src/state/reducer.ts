@@ -283,13 +283,9 @@ const updateMonsterBullets = (
       );
       const dxSign = state.player.x - monster.x < 0 ? -1 : 1;
       const dySign = state.player.y - monster.y < 0 ? -1 : 1;
-      return {
-        x: monster.x,
-        y: monster.y,
-        dx: dxSign * Number((BULLET_SPEED * Math.cos(angle)).toFixed(1)),
-        dy: dySign * Number((BULLET_SPEED * Math.sin(angle)).toFixed(1)),
-        size: BULLET_SIZE,
-      };
+      const dx = dxSign * Number((BULLET_SPEED * Math.cos(angle)).toFixed(1));
+      const dy = dySign * Number((BULLET_SPEED * Math.sin(angle)).toFixed(1));
+      return { x: monster.x, y: monster.y, dx, dy, size: BULLET_SIZE };
     });
 
   return [...monsterBullets, ...newMonsterBullets];
