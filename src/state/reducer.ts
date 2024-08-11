@@ -272,22 +272,30 @@ const updateMonsterBullets = (
       return { ...bullet, x, y };
     });
 
-  for (const [i, monster] of state.monsters.entries()) {
-    const move = monsterMoves[i];
-    if (!move?.shoot || monster.health <= 0) continue;
-    const angle = Math.abs(
-      Math.atan((state.player.y - monster.y) / (state.player.x - monster.x))
-    );
-    const dxSign = state.player.x - monster.x < 0 ? -1 : 1;
-    const dySign = state.player.y - monster.y < 0 ? -1 : 1;
-    monsterBullets.push({
-      x: monster.x,
-      y: monster.y,
-      dx: dxSign * Number((BULLET_SPEED * Math.cos(angle)).toFixed(1)),
-      dy: dySign * Number((BULLET_SPEED * Math.sin(angle)).toFixed(1)),
-      size: BULLET_SIZE,
+  const newMonsterBullets = monsterMoves
+    .map((move, i) => {
+      const monster = state.monsters[i];
+      return { monster, move };
+    })
+    .filter(({ monster, move }) => {
+      return monster && monster.health > 0 && move.shoot;
+    })
+    .map(({ monster }) => monster)
+    .filter(Boolean)
+    .map((monster): Bullet => {
+      const angle = Math.abs(
+        Math.atan((state.player.y - monster.y) / (state.player.x - monster.x))
+      );
+      const dxSign = state.player.x - monster.x < 0 ? -1 : 1;
+      const dySign = state.player.y - monster.y < 0 ? -1 : 1;
+      return {
+        x: monster.x,
+        y: monster.y,
+        dx: dxSign * Number((BULLET_SPEED * Math.cos(angle)).toFixed(1)),
+        dy: dySign * Number((BULLET_SPEED * Math.sin(angle)).toFixed(1)),
+        size: BULLET_SIZE,
+      };
     });
-  }
 
-  return monsterBullets;
+  return [...monsterBullets, ...newMonsterBullets];
 };
