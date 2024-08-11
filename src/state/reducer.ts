@@ -216,7 +216,7 @@ const updateBullets = (
   state: State,
   time: number
 ): { bullets: Bullet[]; lastBulletFiredAt: number } => {
-  const bullets = state.bullets
+  const updatedBullets = state.bullets
     .filter((bullet) => {
       return (
         !state.walls.some((wall) => overlaps(bullet, wall)) &&
@@ -242,7 +242,7 @@ const updateBullets = (
     time - state.lastBulletFiredAt >= BULLET_FIRE_DELAY &&
     (dx !== 0 || dy !== 0)
   ) {
-    bullets.push({
+    updatedBullets.push({
       x: state.player.x,
       y: state.player.y,
       dx,
@@ -252,7 +252,7 @@ const updateBullets = (
     lastBulletFiredAt = time;
   }
 
-  return { bullets, lastBulletFiredAt };
+  return { bullets: updatedBullets, lastBulletFiredAt };
 };
 
 const updateMonsterBullets = (
