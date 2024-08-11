@@ -213,14 +213,14 @@ const updateMonsters = (
 };
 
 const updateBullets = (
-  state: State,
+  { keysDown, player, monsters, bullets, lastBulletFiredAt, walls }: State,
   time: number
 ): { bullets: Bullet[]; lastBulletFiredAt: number } => {
-  const updatedBullets = state.bullets
+  const updatedBullets = bullets
     .filter((bullet) => {
       return (
-        !state.walls.some((wall) => overlaps(bullet, wall)) &&
-        !state.monsters.some(
+        !walls.some((wall) => overlaps(bullet, wall)) &&
+        !monsters.some(
           (monster) => overlaps(bullet, monster) && monster.health > 0
         )
       );
@@ -233,26 +233,23 @@ const updateBullets = (
 
   let dx = 0;
   let dy = 0;
-  if (state.keysDown.has("w")) dy -= BULLET_SPEED;
-  if (state.keysDown.has("s")) dy += BULLET_SPEED;
-  if (state.keysDown.has("a")) dx -= BULLET_SPEED;
-  if (state.keysDown.has("d")) dx += BULLET_SPEED;
-  let lastBulletFiredAt = state.lastBulletFiredAt;
-  if (
-    time - state.lastBulletFiredAt >= BULLET_FIRE_DELAY &&
-    (dx !== 0 || dy !== 0)
-  ) {
+  if (keysDown.has("w")) dy -= BULLET_SPEED;
+  if (keysDown.has("s")) dy += BULLET_SPEED;
+  if (keysDown.has("a")) dx -= BULLET_SPEED;
+  if (keysDown.has("d")) dx += BULLET_SPEED;
+  let newLastBulletFiredAt = lastBulletFiredAt;
+  if (time - lastBulletFiredAt >= BULLET_FIRE_DELAY && (dx !== 0 || dy !== 0)) {
     updatedBullets.push({
-      x: state.player.x,
-      y: state.player.y,
+      x: player.x,
+      y: player.y,
       dx,
       dy,
       size: BULLET_SIZE,
     });
-    lastBulletFiredAt = time;
+    newLastBulletFiredAt = time;
   }
 
-  return { bullets: updatedBullets, lastBulletFiredAt };
+  return { bullets: updatedBullets, lastBulletFiredAt: newLastBulletFiredAt };
 };
 
 const updateMonsterBullets = (
