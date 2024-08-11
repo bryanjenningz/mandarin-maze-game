@@ -231,25 +231,36 @@ const updateBullets = (
       return { ...bullet, x, y };
     });
 
-  let dx = 0;
-  let dy = 0;
-  if (keysDown.has("w")) dy -= BULLET_SPEED;
-  if (keysDown.has("s")) dy += BULLET_SPEED;
-  if (keysDown.has("a")) dx -= BULLET_SPEED;
-  if (keysDown.has("d")) dx += BULLET_SPEED;
-  let newLastBulletFiredAt = lastBulletFiredAt;
-  if (time - lastBulletFiredAt >= BULLET_FIRE_DELAY && (dx !== 0 || dy !== 0)) {
-    updatedBullets.push({
-      x: player.x,
-      y: player.y,
-      dx,
-      dy,
-      size: BULLET_SIZE,
-    });
-    newLastBulletFiredAt = time;
+  const newBullet = ((): Bullet | undefined => {
+    let dx = 0;
+    let dy = 0;
+    if (keysDown.has("w")) dy -= BULLET_SPEED;
+    if (keysDown.has("s")) dy += BULLET_SPEED;
+    if (keysDown.has("a")) dx -= BULLET_SPEED;
+    if (keysDown.has("d")) dx += BULLET_SPEED;
+    if (
+      time - lastBulletFiredAt >= BULLET_FIRE_DELAY &&
+      (dx !== 0 || dy !== 0)
+    ) {
+      return {
+        x: player.x,
+        y: player.y,
+        dx,
+        dy,
+        size: BULLET_SIZE,
+      };
+    }
+    return undefined;
+  })();
+
+  if (newBullet) {
+    return {
+      bullets: [...updatedBullets, newBullet],
+      lastBulletFiredAt: time,
+    };
   }
 
-  return { bullets: updatedBullets, lastBulletFiredAt: newLastBulletFiredAt };
+  return { bullets: updatedBullets, lastBulletFiredAt };
 };
 
 const updateMonsterBullets = (
