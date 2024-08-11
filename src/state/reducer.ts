@@ -8,6 +8,8 @@ import {
 } from "./constants";
 import type { State, Action, Monster, Bullet, Player, Wall } from "./types";
 
+// #region Game map
+
 const gameMap = [
   "####################",
   "#   #              #",
@@ -76,6 +78,8 @@ export const initState: State = {
   monsterBullets: [],
   walls: wallsFromGameMap(gameMap),
 };
+
+// #region Reducer
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -220,6 +224,8 @@ export const reducer = (state: State, action: Action): State => {
     }
   }
 };
+
+// #region Util functions
 
 const clamp = (low: number, x: number, high: number): number => {
   return Math.min(high, Math.max(low, x));
