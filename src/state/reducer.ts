@@ -81,6 +81,7 @@ const playerFromGameMap = (gameMap: string[][]): Player | null => {
 };
 
 export const initState: State = {
+  gameMapLevel: 0,
   keysDown: new Set(),
   player: playerFromGameMap(gameMap) ?? { x: 20, y: 20, size: 20 },
   itemCount: 0,
