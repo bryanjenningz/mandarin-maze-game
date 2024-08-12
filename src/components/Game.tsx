@@ -79,6 +79,22 @@ export const Game = (): JSX.Element => {
           );
         })}
 
+        {state.monsters.length > 0 &&
+          state.exits.map((exit, i) => {
+            return (
+              <div
+                key={i}
+                className="absolute bg-blue-700"
+                style={{
+                  left: `${(exit.x / SCREEN_SIZE) * 100}%`,
+                  top: `${(exit.y / SCREEN_SIZE) * 100}%`,
+                  width: `${(BLOCK_SIZE / SCREEN_SIZE) * 100}%`,
+                  height: `${(BLOCK_SIZE / SCREEN_SIZE) * 100}%`,
+                }}
+              ></div>
+            );
+          })}
+
         {state.monsters.map((monster, i) => {
           return (
             <div
