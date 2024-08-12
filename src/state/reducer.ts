@@ -149,7 +149,13 @@ const inBounds = ({ x, y, size }: Box): boolean => {
 
 // #region Update functions
 
-const updatePlayer = ({ keysDown, player, walls, exits }: State): Player => {
+const updatePlayer = ({
+  keysDown,
+  player,
+  monsters,
+  walls,
+  exits,
+}: State): Player => {
   const x = ((): number => {
     if (keysDown.has("arrowleft")) return player.x - 1;
     if (keysDown.has("arrowright")) return player.x + 1;
@@ -169,7 +175,8 @@ const updatePlayer = ({ keysDown, player, walls, exits }: State): Player => {
       (newPlayer) =>
         inBounds(newPlayer) &&
         !walls.some((wall) => overlaps(newPlayer, wall)) &&
-        !exits.some((exit) => overlaps(newPlayer, exit))
+        (monsters.length === 0 ||
+          !exits.some((exit) => overlaps(newPlayer, exit)))
     ) ?? player;
   return newPlayer;
 };
