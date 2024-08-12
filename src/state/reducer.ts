@@ -19,7 +19,7 @@ import type {
 // #region Game map
 
 const gameMap = [
-  "####################",
+  "#EEE################",
   "#   #              #",
   "#   #          M   #",
   "# M #              #",
@@ -60,6 +60,10 @@ const wallsFromGameMap = (gameMap: string[][]): Wall[] => {
   return tilesFromGameMap(gameMap, "#");
 };
 
+const exitsFromGameMap = (gameMap: string[][]): Wall[] => {
+  return tilesFromGameMap(gameMap, "E");
+};
+
 const monstersFromGameMap = (gameMap: string[][]): Monster[] => {
   return tilesFromGameMap(gameMap, "M").map((tile): Monster => {
     return {
@@ -85,6 +89,7 @@ export const initState: State = {
   lastBulletFiredAt: 0,
   monsterBullets: [],
   walls: wallsFromGameMap(gameMap),
+  exits: exitsFromGameMap(gameMap),
 };
 
 // #region Reducer

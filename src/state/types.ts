@@ -9,6 +9,7 @@ export type State = {
   lastBulletFiredAt: number;
   monsterBullets: Bullet[];
   walls: Wall[];
+  exits: Exit[];
 };
 
 export type Player = {
@@ -39,6 +40,12 @@ export type Bullet = {
 };
 
 export type Wall = {
+  x: number;
+  y: number;
+  size: typeof BLOCK_SIZE;
+};
+
+export type Exit = {
   x: number;
   y: number;
   size: typeof BLOCK_SIZE;

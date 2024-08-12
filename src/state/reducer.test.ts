@@ -26,6 +26,7 @@ const defaultState: State = {
   lastBulletFiredAt: 0,
   monsterBullets: [],
   walls: [],
+  exits: [],
 };
 
 describe("reducer", () => {
@@ -685,6 +686,23 @@ describe("reducer", () => {
       });
 
       it("doesn't move if it there's a wall in its way", () => {
+        const target: Target = { x: 0, y: 0 };
+        const monster: Monster = {
+          x: 0,
+          y: BLOCK_SIZE,
+          size: BLOCK_SIZE,
+          target,
+          health: 100,
+        };
+        const walls: Wall[] = [{ x: 0, y: 0, size: BLOCK_SIZE }];
+        const state: State = { ...defaultState, monsters: [monster], walls };
+        const action: Action = tick();
+        const newState: State = reducer(state, action);
+        const expected: State = state;
+        expect(newState).toEqual(expected);
+      });
+
+      it("doesn't move if it there's an exit in its way", () => {
         const target: Target = { x: 0, y: 0 };
         const monster: Monster = {
           x: 0,
