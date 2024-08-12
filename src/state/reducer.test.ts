@@ -87,6 +87,23 @@ describe("reducer", () => {
       return { type: "TICK", time, monsterMoves };
     };
 
+    describe("game map level", () => {
+      it("increases map level when the player is overlapping with an exit", () => {
+        const player: Player = { x: 0, y: 19, size: 20 };
+        const exits: Exit[] = [{ x: 0, y: 0, size: 20 }];
+        const state: State = {
+          ...defaultState,
+          gameMapLevel: 0,
+          player,
+          exits,
+        };
+        const action: Action = tick();
+        const newState: State = reducer(state, action);
+        const expected: State = { ...state, gameMapLevel: 1 };
+        expect(newState).toEqual(expected);
+      });
+    });
+
     describe("player movement", () => {
       it("moves the player to the left and up when the arrowleft and arrowup keys are down", () => {
         const keysDown = new Set(["arrowleft", "arrowup"]);
