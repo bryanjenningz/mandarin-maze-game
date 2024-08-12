@@ -195,6 +195,23 @@ describe("reducer", () => {
         const expected: State = { ...state };
         expect(newState).toEqual(expected);
       });
+
+      it("player can go to an exit if there aren't any monsters", () => {
+        const keysDown = new Set(["arrowup"]);
+        const player: Player = { x: 0, y: 20, size: 20 };
+        const exits: Exit[] = [{ x: 0, y: 0, size: 20 }];
+        const state: State = {
+          ...defaultState,
+          keysDown,
+          player,
+          monsters: [],
+          exits,
+        };
+        const action: Action = tick();
+        const newState: State = reducer(state, action);
+        const expected: State = { ...state, player: { ...player, y: 19 } };
+        expect(newState).toEqual(expected);
+      });
     });
 
     describe("bullets firing", () => {
