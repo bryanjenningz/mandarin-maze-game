@@ -108,6 +108,9 @@ export const reducer = (state: State, action: Action): State => {
       return { ...state, keysDown };
     }
     case "TICK": {
+      if (state.exits.some((exit) => overlaps(state.player, exit))) {
+        return { ...state, gameMapLevel: state.gameMapLevel + 1 };
+      }
       const player = updatePlayer(state);
       const monsters = updateMonsters(state, action.monsterMoves);
       const itemCount =
