@@ -3,6 +3,7 @@ import { reducer } from "./reducer";
 import type {
   Action,
   Bullet,
+  Exit,
   Monster,
   MonsterMove,
   Player,
@@ -711,8 +712,8 @@ describe("reducer", () => {
           target,
           health: 100,
         };
-        const walls: Wall[] = [{ x: 0, y: 0, size: BLOCK_SIZE }];
-        const state: State = { ...defaultState, monsters: [monster], walls };
+        const exits: Exit[] = [{ x: 0, y: 0, size: BLOCK_SIZE }];
+        const state: State = { ...defaultState, monsters: [monster], exits };
         const action: Action = tick();
         const newState: State = reducer(state, action);
         const expected: State = state;
