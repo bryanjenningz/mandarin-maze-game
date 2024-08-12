@@ -173,7 +173,7 @@ const updatePlayer = ({ keysDown, player, walls }: State): Player => {
 };
 
 const updateMonsters = (
-  { player, monsters, bullets, walls }: State,
+  { player, monsters, bullets, walls, exits }: State,
   monsterMoves: MonsterMove[]
 ): Monster[] => {
   return monsters
@@ -203,7 +203,8 @@ const updateMonsters = (
             y >= 0 &&
             x <= SCREEN_SIZE - BLOCK_SIZE &&
             y <= SCREEN_SIZE - BLOCK_SIZE &&
-            !walls.some((wall) => overlaps(wall, { x, y, size: BLOCK_SIZE }))
+            !walls.some((wall) => overlaps(wall, { x, y, size: BLOCK_SIZE })) &&
+            !exits.some((exit) => overlaps(exit, { x, y, size: BLOCK_SIZE }))
           )
             return { x, y };
           return null;
