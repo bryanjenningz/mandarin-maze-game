@@ -4,6 +4,7 @@ import type {
   Action,
   Bullet,
   Exit,
+  GameMap,
   Monster,
   MonsterMove,
   Player,
@@ -18,19 +19,9 @@ import {
   SCREEN_SIZE,
 } from "./constants";
 
-const gameMap1 = [
-  ["#", "#"],
-  ["#", "#"],
-];
-
-const gameMap2 = [
-  ["M", "P"],
-  ["#", "E"],
-];
-
 const defaultState: State = {
   gameMapLevel: 0,
-  gameMaps: [gameMap1, gameMap2],
+  gameMaps: [],
   keysDown: new Set(),
   player: { x: -20, y: -20, size: 20 },
   itemCount: 0,
@@ -99,18 +90,37 @@ describe("reducer", () => {
     };
 
     describe("game map level", () => {
-      it("increases map level when the player is overlapping with an exit", () => {
+      it("increases map level and set the new state when the player is overlapping with an exit", () => {
         const player: Player = { x: 0, y: 19, size: 20 };
         const exits: Exit[] = [{ x: 0, y: 0, size: 20 }];
+        const gameMap1 = [
+          ["#", "#"],
+          ["#", "#"],
+        ];
+        const gameMap2 = [
+          ["M", "P"],
+          ["#", "E"],
+        ];
+        const gameMaps: GameMap[] = [gameMap1, gameMap2];
         const state: State = {
           ...defaultState,
           gameMapLevel: 0,
+          gameMaps,
           player,
           exits,
         };
         const action: Action = tick();
         const newState: State = reducer(state, action);
-        const expected: State = { ...state, gameMapLevel: 1 };
+        const expected: State = {
+          ...state,
+          gameMapLevel: 1,
+          player: { x: BLOCK_SIZE, y: 0, size: BLOCK_SIZE },
+          monsters: [
+            { x: 0, y: 0, size: BLOCK_SIZE, health: 100, target: null },
+          ],
+          walls: [{ x: 0, y: BLOCK_SIZE, size: BLOCK_SIZE }],
+          exits: [{ x: BLOCK_SIZE, y: BLOCK_SIZE, size: BLOCK_SIZE }],
+        };
         expect(newState).toEqual(expected);
       });
     });
