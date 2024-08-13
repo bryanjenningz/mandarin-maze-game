@@ -42,6 +42,29 @@ const gameMap1 = [
   "####################",
 ].map((line) => line.split(""));
 
+const gameMap2 = [
+  "####################",
+  "#                  E",
+  "#   M              E",
+  "#                  E",
+  "#       ############",
+  "#                  #",
+  "#            M     #",
+  "#    ##########    #",
+  "#                  #",
+  "#                  #",
+  "#   M              #",
+  "#                  #",
+  "#      ####  ##    #",
+  "#                  #",
+  "#              #   #",
+  "#  ###        #    #",
+  "#       #    #   M #",
+  "# M     #    #     #",
+  "#       # P  #     #",
+  "####################",
+].map((line) => line.split(""));
+
 type Tile = { x: number; y: number; size: typeof BLOCK_SIZE };
 
 const tilesFromGameMap = (gameMap: string[][], targetTile: string): Tile[] => {
@@ -83,7 +106,7 @@ const playerFromGameMap = (gameMap: string[][]): Player | null => {
 
 export const initState: State = {
   gameMapLevel: 0,
-  gameMaps: [gameMap1],
+  gameMaps: [gameMap1, gameMap2],
   keysDown: new Set(),
   player: playerFromGameMap(gameMap1) ?? { x: 20, y: 20, size: 20 },
   itemCount: 0,
