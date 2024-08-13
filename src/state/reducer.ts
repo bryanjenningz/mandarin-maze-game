@@ -14,6 +14,7 @@ import type {
   Player,
   Wall,
   MonsterMove,
+  Exit,
 } from "./types";
 
 // #region Game map
@@ -60,7 +61,7 @@ const wallsFromGameMap = (gameMap: string[][]): Wall[] => {
   return tilesFromGameMap(gameMap, "#");
 };
 
-const exitsFromGameMap = (gameMap: string[][]): Wall[] => {
+const exitsFromGameMap = (gameMap: string[][]): Exit[] => {
   return tilesFromGameMap(gameMap, "E");
 };
 
