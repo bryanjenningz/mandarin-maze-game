@@ -18,9 +18,19 @@ import {
   SCREEN_SIZE,
 } from "./constants";
 
+const gameMap1 = [
+  ["#", "#"],
+  ["#", "#"],
+];
+
+const gameMap2 = [
+  ["M", "P"],
+  ["#", "E"],
+];
+
 const defaultState: State = {
   gameMapLevel: 0,
-  gameMaps: [],
+  gameMaps: [gameMap1, gameMap2],
   keysDown: new Set(),
   player: { x: -20, y: -20, size: 20 },
   itemCount: 0,
