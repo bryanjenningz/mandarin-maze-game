@@ -279,6 +279,30 @@ describe("reducer", () => {
         expect(newState).toEqual(expected);
       });
 
+      it("shoots a bullet at the target monster if 'w' key is down", () => {
+        const keysDown = new Set(["w"]);
+        const player: Player = { x: 0, y: 0, size: 20, target: 0 };
+        const monsters: Monster[] = [
+          { x: 100, y: 0, size: 20, health: 100, target: null },
+          { x: 0, y: 50, size: 20, health: 100, target: null },
+        ];
+        const state: State = {
+          ...defaultState,
+          keysDown,
+          player,
+          monsters,
+          bullets: [],
+        };
+        const action: Action = tick({ time: 1234 });
+        const newState: State = reducer(state, action);
+        const expected: State = {
+          ...state,
+          bullets: [{ x: 0, y: 0, dx: BULLET_SIZE, dy: 0, size: 4 }],
+          lastBulletFiredAt: 1234,
+        };
+        expect(newState).toEqual(expected);
+      });
+
       it("doesn't fire if the lastBulletFiredAt was recent", () => {
         const keysDown = new Set(["w"]);
         const player: Player = { x: 40, y: 30, size: 20, target: null };
