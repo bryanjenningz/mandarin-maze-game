@@ -255,54 +255,32 @@ describe("reducer", () => {
     });
 
     describe("bullets firing", () => {
-      it("shoots a bullet up when the player holds down the 'w' key", () => {
+      it("shoots a bullet at the closest monster if 'w' key is down and the player has no target selected", () => {
         const keysDown = new Set(["w"]);
-        const player: Player = { x: 40, y: 30, size: 20, target: null };
-        const state: State = { ...defaultState, keysDown, player, bullets: [] };
-        const action: Action = tick({ time: 1234 });
-        const newState: State = reducer(state, action);
-        const expected: State = {
-          ...state,
-          bullets: [{ x: 40, y: 30, dx: 0, dy: -BULLET_SPEED, size: 4 }],
-          lastBulletFiredAt: 1234,
+        const player: Player = { x: 0, y: 0, size: 20, target: null };
+        const monsters: Monster[] = [
+          { x: 100, y: 0, size: 20, health: 100, target: null },
+          { x: 0, y: 50, size: 20, health: 100, target: null },
+        ];
+        const state: State = {
+          ...defaultState,
+          keysDown,
+          player,
+          monsters,
+          bullets: [],
         };
-        expect(newState).toEqual(expected);
-      });
-
-      it("shoots a bullet up and to the left when the player holds down the 'w' and 'a' keys", () => {
-        const keysDown = new Set(["w", "a"]);
-        const player: Player = { x: 40, y: 30, size: 20, target: null };
-        const state: State = { ...defaultState, keysDown, player, bullets: [] };
         const action: Action = tick({ time: 1234 });
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
-          bullets: [
-            { x: 40, y: 30, dx: -BULLET_SPEED, dy: -BULLET_SPEED, size: 4 },
-          ],
-          lastBulletFiredAt: 1234,
-        };
-        expect(newState).toEqual(expected);
-      });
-
-      it("shoots a bullet down and to the right when the player holds down the 's' and 'd' keys", () => {
-        const keysDown = new Set(["s", "d"]);
-        const player: Player = { x: 40, y: 30, size: 20, target: null };
-        const state: State = { ...defaultState, keysDown, player, bullets: [] };
-        const action: Action = tick({ time: 1234 });
-        const newState: State = reducer(state, action);
-        const expected: State = {
-          ...state,
-          bullets: [
-            { x: 40, y: 30, dx: BULLET_SPEED, dy: BULLET_SPEED, size: 4 },
-          ],
+          bullets: [{ x: 0, y: 0, dx: 0, dy: BULLET_SPEED, size: 4 }],
           lastBulletFiredAt: 1234,
         };
         expect(newState).toEqual(expected);
       });
 
       it("doesn't fire if the lastBulletFiredAt was recent", () => {
-        const keysDown = new Set(["s"]);
+        const keysDown = new Set(["w"]);
         const player: Player = { x: 40, y: 30, size: 20, target: null };
         const state: State = {
           ...defaultState,
