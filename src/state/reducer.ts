@@ -315,13 +315,14 @@ const updateBullets = (
 };
 
 const updateMonsterBullets = (
-  { player, monsters, monsterBullets, walls }: State,
+  { player, monsters, monsterBullets, walls, exits }: State,
   monsterMoves: MonsterMove[]
 ): Bullet[] => {
   const updatedMonsterBullets = monsterBullets
     .filter((bullet) => {
       return (
         !walls.some((wall) => overlaps(bullet, wall)) &&
+        !exits.some((exit) => overlaps(bullet, exit)) &&
         !overlaps(bullet, player)
       );
     })
