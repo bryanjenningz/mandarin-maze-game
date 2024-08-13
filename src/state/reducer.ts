@@ -19,7 +19,7 @@ import type {
 
 // #region Game map
 
-const gameMap = [
+const gameMap1 = [
   "#EEE################",
   "#   #              #",
   "#   #          M   #",
@@ -83,16 +83,16 @@ const playerFromGameMap = (gameMap: string[][]): Player | null => {
 
 export const initState: State = {
   gameMapLevel: 0,
-  gameMaps: [gameMap],
+  gameMaps: [gameMap1],
   keysDown: new Set(),
-  player: playerFromGameMap(gameMap) ?? { x: 20, y: 20, size: 20 },
+  player: playerFromGameMap(gameMap1) ?? { x: 20, y: 20, size: 20 },
   itemCount: 0,
-  monsters: monstersFromGameMap(gameMap),
+  monsters: monstersFromGameMap(gameMap1),
   bullets: [],
   lastBulletFiredAt: 0,
   monsterBullets: [],
-  walls: wallsFromGameMap(gameMap),
-  exits: exitsFromGameMap(gameMap),
+  walls: wallsFromGameMap(gameMap1),
+  exits: exitsFromGameMap(gameMap1),
 };
 
 // #region Reducer
