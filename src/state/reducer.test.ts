@@ -644,6 +644,26 @@ describe("reducer", () => {
         expect(newState).toEqual(expected);
       });
 
+      it("disappears when it overlaps with an exit", () => {
+        const bullet: Bullet = {
+          x: 20,
+          y: 30,
+          dx: -BULLET_SPEED,
+          dy: -BULLET_SPEED,
+          size: 4,
+        };
+        const exits: Exit[] = [{ x: 20, y: 30, size: 20 }];
+        const state: State = {
+          ...defaultState,
+          monsterBullets: [bullet],
+          exits,
+        };
+        const action: Action = tick();
+        const newState: State = reducer(state, action);
+        const expected: State = { ...state, monsterBullets: [] };
+        expect(newState).toEqual(expected);
+      });
+
       it("still appears even if in its next frame it overlaps with a wall", () => {
         const bullet: Bullet = {
           x: 20,
