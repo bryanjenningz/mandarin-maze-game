@@ -260,13 +260,22 @@ const updateMonsters = (
 };
 
 const updateBullets = (
-  { keysDown, player, monsters, bullets, lastBulletFiredAt, walls }: State,
+  {
+    keysDown,
+    player,
+    monsters,
+    bullets,
+    lastBulletFiredAt,
+    walls,
+    exits,
+  }: State,
   time: number
 ): { bullets: Bullet[]; lastBulletFiredAt: number } => {
   const updatedBullets = bullets
     .filter((bullet) => {
       return (
         !walls.some((wall) => overlaps(bullet, wall)) &&
+        !exits.some((exit) => overlaps(bullet, exit)) &&
         !monsters.some(
           (monster) => overlaps(bullet, monster) && monster.health > 0
         )
