@@ -134,7 +134,13 @@ export const reducer = (state: State, action: Action): State => {
     }
     case "TICK": {
       if (state.exits.some((exit) => overlaps(state.player, exit))) {
-        return { ...state, gameMapLevel: state.gameMapLevel + 1 };
+        const gameMapLevel = state.gameMapLevel + 1;
+        const gameMap = state.gameMaps[gameMapLevel] ?? gameMap1;
+        const player = playerFromGameMap(gameMap) ?? { x: 20, y: 20, size: 20 };
+        const monsters = monstersFromGameMap(gameMap);
+        const walls = wallsFromGameMap(gameMap);
+        const exits = exitsFromGameMap(gameMap);
+        return { ...state, gameMapLevel, player, monsters, walls, exits };
       }
       const player = updatePlayer(state);
       const monsters = updateMonsters(state, action.monsterMoves);
