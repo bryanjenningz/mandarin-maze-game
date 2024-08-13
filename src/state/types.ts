@@ -2,6 +2,7 @@ import { BLOCK_SIZE, BULLET_SIZE } from "./constants";
 
 export type State = {
   gameMapLevel: number;
+  gameMaps: GameMap[];
   keysDown: Set<string>;
   player: Player;
   itemCount: number;
@@ -12,6 +13,8 @@ export type State = {
   walls: Wall[];
   exits: Exit[];
 };
+
+export type GameMap = string[][];
 
 export type Player = {
   x: number;

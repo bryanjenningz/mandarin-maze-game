@@ -20,6 +20,7 @@ import {
 
 const defaultState: State = {
   gameMapLevel: 0,
+  gameMaps: [],
   keysDown: new Set(),
   player: { x: -20, y: -20, size: 20 },
   itemCount: 0,
