@@ -194,6 +194,12 @@ const inBounds = ({ x, y, size }: Box): boolean => {
   return x >= 0 && x + size <= SCREEN_SIZE && y >= 0 && y + size <= SCREEN_SIZE;
 };
 
+type Point = { x: number; y: number };
+
+const distance = (a: Point, b: Point): number => {
+  return Math.sqrt((b.x - a.x) ** 2 + (b.y - a.y) ** 2);
+};
+
 // #region Update functions
 
 const updatePlayer = ({
@@ -299,21 +305,36 @@ const updateBullets = (
       return { ...bullet, x, y };
     });
 
-  const newBullet = ((): Bullet | undefined => {
-    const dx =
-      (keysDown.has("a") ? -BULLET_SPEED : 0) +
-      (keysDown.has("d") ? BULLET_SPEED : 0);
-    const dy =
-      (keysDown.has("w") ? -BULLET_SPEED : 0) +
-      (keysDown.has("s") ? BULLET_SPEED : 0);
-    if (
-      time - lastBulletFiredAt >= BULLET_FIRE_DELAY &&
-      (dx !== 0 || dy !== 0)
-    ) {
-      const { x, y } = player;
-      return { x, y, dx, dy, size: BULLET_SIZE };
-    }
-    return undefined;
+  const newBullet = ((): Bullet | null => {
+    if (!keysDown.has("w")) return null;
+
+    const monsterTarget = ((): Monster | null => {
+      const target = player.target;
+      if (target !== null && monsters[target]) return monsters[target];
+      return (
+        monsters.slice().sort((a, b) => {
+          return distance(a, player) - distance(b, player);
+        })[0] ?? null
+      );
+    })();
+
+    if (!monsterTarget) return null;
+
+    if (time - lastBulletFiredAt < BULLET_FIRE_DELAY) return null;
+
+    const diffX = monsterTarget.x - player.x;
+    const diffY = monsterTarget.y - player.y;
+    const angle = Math.abs(Math.atan(diffY / diffX));
+    const dx = Number((BULLET_SPEED * Math.cos(angle)).toFixed(1));
+    const dy = Number((BULLET_SPEED * Math.sin(angle)).toFixed(1));
+    const bullet: Bullet = {
+      x: player.x,
+      y: player.y,
+      dx,
+      dy,
+      size: BULLET_SIZE,
+    };
+    return bullet;
   })();
 
   if (newBullet) {

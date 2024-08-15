@@ -297,7 +297,7 @@ describe("reducer", () => {
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
-          bullets: [{ x: 0, y: 0, dx: BULLET_SIZE, dy: 0, size: 4 }],
+          bullets: [{ x: 0, y: 0, dx: BULLET_SPEED, dy: 0, size: BULLET_SIZE }],
           lastBulletFiredAt: 1234,
         };
         expect(newState).toEqual(expected);
