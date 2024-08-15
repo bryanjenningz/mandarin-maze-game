@@ -160,8 +160,12 @@ export const reducer = (state: State, action: Action): State => {
         state.itemCount + (state.monsters.length - monsters.length);
       const { bullets, lastBulletFiredAt } = updateBullets(state, action.time);
       const monsterBullets = updateMonsterBullets(state, action.monsterMoves);
+      const keysDown = state.keysDown.has("d")
+        ? new Set([...state.keysDown].filter((x) => x !== "d"))
+        : state.keysDown;
       return {
         ...state,
+        keysDown,
         player,
         itemCount,
         monsters,
@@ -231,6 +235,15 @@ const updatePlayer = ({
         (monsters.length === 0 ||
           !exits.some((exit) => overlaps(newPlayer, exit)))
     ) ?? player;
+  if (keysDown.has("d")) {
+    if (newPlayer.target === null) {
+      newPlayer.target = 0;
+    } else if (newPlayer.target >= monsters.length - 1) {
+      newPlayer.target = null;
+    } else {
+      newPlayer.target += 1;
+    }
+  }
   return newPlayer;
 };
 
