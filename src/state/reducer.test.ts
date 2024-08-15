@@ -301,7 +301,7 @@ describe("reducer", () => {
         expect(newState).toEqual(expected);
       });
 
-      it("sets the next monster as the target if player has a target then presses 'd' key", () => {
+      it("unsets the target if player has a last monster target then presses 'd' key", () => {
         const keysDown = new Set(["d"]);
         const player: Player = { x: 0, y: 0, size: 20, target: 1 };
         const monsters: Monster[] = [
@@ -319,7 +319,7 @@ describe("reducer", () => {
         const expected: State = {
           ...state,
           keysDown: new Set(),
-          player: { ...player, target: 0 },
+          player: { ...player, target: null },
         };
         expect(newState).toEqual(expected);
       });
