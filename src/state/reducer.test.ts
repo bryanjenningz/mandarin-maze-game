@@ -277,6 +277,52 @@ describe("reducer", () => {
         };
         expect(newState).toEqual(expected);
       });
+
+      it("sets the next monster as the target if player has a target then presses 'd' key", () => {
+        const keysDown = new Set(["d"]);
+        const player: Player = { x: 0, y: 0, size: 20, target: 0 };
+        const monsters: Monster[] = [
+          { x: 100, y: 0, size: 20, health: 100, target: null },
+          { x: 0, y: 50, size: 20, health: 100, target: null },
+        ];
+        const state: State = {
+          ...defaultState,
+          keysDown,
+          player,
+          monsters,
+        };
+        const action: Action = tick({ time: 1234 });
+        const newState: State = reducer(state, action);
+        const expected: State = {
+          ...state,
+          keysDown: new Set(),
+          player: { ...player, target: 1 },
+        };
+        expect(newState).toEqual(expected);
+      });
+
+      it("sets the next monster as the target if player has a target then presses 'd' key", () => {
+        const keysDown = new Set(["d"]);
+        const player: Player = { x: 0, y: 0, size: 20, target: 1 };
+        const monsters: Monster[] = [
+          { x: 100, y: 0, size: 20, health: 100, target: null },
+          { x: 0, y: 50, size: 20, health: 100, target: null },
+        ];
+        const state: State = {
+          ...defaultState,
+          keysDown,
+          player,
+          monsters,
+        };
+        const action: Action = tick({ time: 1234 });
+        const newState: State = reducer(state, action);
+        const expected: State = {
+          ...state,
+          keysDown: new Set(),
+          player: { ...player, target: 0 },
+        };
+        expect(newState).toEqual(expected);
+      });
     });
 
     describe("bullets firing", () => {
