@@ -61,6 +61,21 @@ export const Game = (): JSX.Element => {
     };
   }, []);
 
+  const distance = (
+    a: { x: number; y: number },
+    b: { x: number; y: number }
+  ): number => {
+    return (a.x - b.x) ** 2 + (a.y - b.y) ** 2;
+  };
+
+  const closestMonster = state.monsters.slice().sort((a, b) => {
+    return distance(a, state.player) - distance(b, state.player);
+  })[0];
+
+  const target =
+    state.player.target ??
+    state.monsters.findIndex((monster) => monster === closestMonster);
+
   return (
     <div className="text-white bg-black w-full h-[100svh] flex justify-center items-center">
       <div className="relative aspect-square w-full max-w-2xl bg-gray-800">
@@ -101,7 +116,11 @@ export const Game = (): JSX.Element => {
               key={i}
               className={classNames(
                 "absolute",
-                monster.health > 0 ? "bg-red-700" : "bg-black"
+                monster.health > 0
+                  ? target === i
+                    ? "bg-blue-900"
+                    : "bg-red-700"
+                  : "bg-black"
               )}
               style={{
                 left: `${(monster.x / SCREEN_SIZE) * 100}%`,
