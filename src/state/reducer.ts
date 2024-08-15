@@ -325,8 +325,10 @@ const updateBullets = (
     const diffX = monsterTarget.x - player.x;
     const diffY = monsterTarget.y - player.y;
     const angle = Math.abs(Math.atan(diffY / diffX));
-    const dx = Number((BULLET_SPEED * Math.cos(angle)).toFixed(1));
-    const dy = Number((BULLET_SPEED * Math.sin(angle)).toFixed(1));
+    const xSign = monsterTarget.x > player.x ? 1 : -1;
+    const ySign = monsterTarget.y > player.y ? 1 : -1;
+    const dx = xSign * Number((BULLET_SPEED * Math.cos(angle)).toFixed(1));
+    const dy = ySign * Number((BULLET_SPEED * Math.sin(angle)).toFixed(1));
     const bullet: Bullet = {
       x: player.x,
       y: player.y,
