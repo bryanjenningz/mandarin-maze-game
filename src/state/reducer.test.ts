@@ -254,6 +254,31 @@ describe("reducer", () => {
       });
     });
 
+    describe("bullet target", () => {
+      it("sets the first monster as the target if player has no target then presses 'd' key", () => {
+        const keysDown = new Set(["d"]);
+        const player: Player = { x: 0, y: 0, size: 20, target: null };
+        const monsters: Monster[] = [
+          { x: 100, y: 0, size: 20, health: 100, target: null },
+          { x: 0, y: 50, size: 20, health: 100, target: null },
+        ];
+        const state: State = {
+          ...defaultState,
+          keysDown,
+          player,
+          monsters,
+        };
+        const action: Action = tick({ time: 1234 });
+        const newState: State = reducer(state, action);
+        const expected: State = {
+          ...state,
+          keysDown: new Set(),
+          player: { ...player, target: 0 },
+        };
+        expect(newState).toEqual(expected);
+      });
+    });
+
     describe("bullets firing", () => {
       it("shoots a bullet at the closest monster if 'w' key is down and the player has no target selected", () => {
         const keysDown = new Set(["w"]);
