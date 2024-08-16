@@ -204,34 +204,21 @@ const distance = (a: Point, b: Point): number => {
   return Math.sqrt((b.x - a.x) ** 2 + (b.y - a.y) ** 2);
 };
 
-const minIndex = (values: number[]): number | null => {
-  if (values.length === 0) return null;
-  let minValueIndex = 0;
-  let minValue = Infinity;
-  for (const [i, value] of values.entries()) {
-    if (value < minValue) {
-      minValueIndex = i;
-      minValue = value;
-    }
-  }
-  return minValueIndex;
-};
-
-const closestMonsterIndex = (
-  player: Player,
-  monsters: Monster[]
-): number | null => {
-  const distances = monsters.map((monster) => distance(monster, player));
-  return minIndex(distances);
-};
-
 const closestMonster = (
   player: Player,
   monsters: Monster[]
 ): Monster | null => {
-  const index = closestMonsterIndex(player, monsters);
-  if (index === null) return null;
-  return monsters[index] ?? null;
+  let shortestDistance = Infinity;
+  let shortestDistanceMonster: Monster | null = null;
+  for (const monster of monsters) {
+    if (monster.health <= 0) continue;
+    const monsterDistance = distance(player, monster);
+    if (monsterDistance < shortestDistance) {
+      shortestDistance = monsterDistance;
+      shortestDistanceMonster = monster;
+    }
+  }
+  return shortestDistanceMonster;
 };
 
 // #region Update functions
@@ -351,19 +338,11 @@ const updateBullets = (
   const newBullet = ((): Bullet | null => {
     if (!keysDown.has("w")) return null;
 
-    const monsterTarget = ((): Monster | null => {
-      const target = player.target;
-      if (target !== null && monsters[target]) return monsters[target];
-      return (
-        monsters.slice().sort((a, b) => {
-          return distance(a, player) - distance(b, player);
-        })[0] ?? null
-      );
-    })();
+    if (time - lastBulletFiredAt < BULLET_FIRE_DELAY) return null;
+
+    const monsterTarget = closestMonster(player, monsters);
 
     if (!monsterTarget) return null;
-
-    if (time - lastBulletFiredAt < BULLET_FIRE_DELAY) return null;
 
     const diffX = monsterTarget.x - player.x;
     const diffY = monsterTarget.y - player.y;
