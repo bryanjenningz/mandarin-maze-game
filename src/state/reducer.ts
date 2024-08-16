@@ -204,6 +204,36 @@ const distance = (a: Point, b: Point): number => {
   return Math.sqrt((b.x - a.x) ** 2 + (b.y - a.y) ** 2);
 };
 
+const minIndex = (values: number[]): number | null => {
+  if (values.length === 0) return null;
+  let minValueIndex = 0;
+  let minValue = Infinity;
+  for (const [i, value] of values.entries()) {
+    if (value < minValue) {
+      minValueIndex = i;
+      minValue = value;
+    }
+  }
+  return minValueIndex;
+};
+
+const closestMonsterIndex = (
+  player: Player,
+  monsters: Monster[]
+): number | null => {
+  const distances = monsters.map((monster) => distance(monster, player));
+  return minIndex(distances);
+};
+
+const closestMonster = (
+  player: Player,
+  monsters: Monster[]
+): Monster | null => {
+  const index = closestMonsterIndex(player, monsters);
+  if (index === null) return null;
+  return monsters[index] ?? null;
+};
+
 // #region Update functions
 
 const updatePlayer = ({
