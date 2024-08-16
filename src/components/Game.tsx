@@ -2,6 +2,7 @@ import { useEffect, useReducer } from "react";
 import { initState, reducer } from "../state/reducer";
 import { BLOCK_SIZE, BULLET_SIZE, SCREEN_SIZE } from "../state/constants";
 import type { Monster, MonsterMove, Target } from "../state/types";
+import { closestMonster } from "../state/utils";
 
 const classNames = (...classes: (string | false | null)[]): string => {
   return classes.filter(Boolean).join(" ");
@@ -61,20 +62,7 @@ export const Game = (): JSX.Element => {
     };
   }, []);
 
-  const distance = (
-    a: { x: number; y: number },
-    b: { x: number; y: number }
-  ): number => {
-    return (a.x - b.x) ** 2 + (a.y - b.y) ** 2;
-  };
-
-  const closestMonster = state.monsters.slice().sort((a, b) => {
-    return distance(a, state.player) - distance(b, state.player);
-  })[0];
-
-  const target =
-    state.player.target ??
-    state.monsters.findIndex((monster) => monster === closestMonster);
+  const closest = closestMonster(state.player, state.monsters);
 
   return (
     <div className="text-white bg-black w-full h-[100svh] flex justify-center items-center">
@@ -117,7 +105,7 @@ export const Game = (): JSX.Element => {
               className={classNames(
                 "absolute",
                 monster.health > 0
-                  ? target === i
+                  ? closest === monster
                     ? "bg-blue-900"
                     : "bg-red-700"
                   : "bg-black"
