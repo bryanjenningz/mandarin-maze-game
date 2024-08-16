@@ -323,6 +323,31 @@ describe("reducer", () => {
         };
         expect(newState).toEqual(expected);
       });
+
+      it("shoots at the nearest alive monster", () => {
+        const keysDown = new Set(["w"]);
+        const player: Player = { x: 0, y: 0, size: 20, target: null };
+        const monsters: Monster[] = [
+          { x: 100, y: 0, size: 20, health: 100, target: null },
+          { x: 0, y: 50, size: 20, health: 0, target: null },
+        ];
+        const state: State = {
+          ...defaultState,
+          keysDown,
+          player,
+          monsters,
+        };
+        const action: Action = tick({ time: 1234 });
+        const newState: State = reducer(state, action);
+        const expected: State = {
+          ...state,
+          bullets: [
+            { x: player.x, y: player.y, dx: 2, dy: 0, size: BULLET_SIZE },
+          ],
+          lastBulletFiredAt: 1234,
+        };
+        expect(newState).toEqual(expected);
+      });
     });
 
     describe("bullets firing", () => {
