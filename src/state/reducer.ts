@@ -16,6 +16,7 @@ import type {
   MonsterMove,
   Exit,
 } from "./types";
+import { closestMonster } from "./utils";
 
 // #region Game map
 
@@ -196,29 +197,6 @@ const overlaps = (a: Box, b: Box): boolean => {
 
 const inBounds = ({ x, y, size }: Box): boolean => {
   return x >= 0 && x + size <= SCREEN_SIZE && y >= 0 && y + size <= SCREEN_SIZE;
-};
-
-type Point = { x: number; y: number };
-
-const distance = (a: Point, b: Point): number => {
-  return Math.sqrt((b.x - a.x) ** 2 + (b.y - a.y) ** 2);
-};
-
-const closestMonster = (
-  player: Player,
-  monsters: Monster[]
-): Monster | null => {
-  let shortestDistance = Infinity;
-  let shortestDistanceMonster: Monster | null = null;
-  for (const monster of monsters) {
-    if (monster.health <= 0) continue;
-    const monsterDistance = distance(player, monster);
-    if (monsterDistance < shortestDistance) {
-      shortestDistance = monsterDistance;
-      shortestDistanceMonster = monster;
-    }
-  }
-  return shortestDistanceMonster;
 };
 
 // #region Update functions
