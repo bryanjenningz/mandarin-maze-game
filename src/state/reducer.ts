@@ -215,6 +215,7 @@ const updatePlayer = ({
   keysDown,
   player,
   monsters,
+  monsterBullets,
   walls,
   exits,
 }: State): Player => {
@@ -240,7 +241,11 @@ const updatePlayer = ({
         (monsters.length === 0 ||
           !exits.some((exit) => overlaps(newPlayer, exit)))
     ) ?? player;
-  return newPlayer;
+  const health =
+    player.health -
+    monsterBullets.filter((bullet) => overlaps(bullet, player)).length *
+      BULLET_DAMAGE;
+  return { ...newPlayer, health };
 };
 
 const updateMonsters = (
