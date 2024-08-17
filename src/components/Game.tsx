@@ -4,10 +4,7 @@ import { BLOCK_SIZE, BULLET_SIZE, SCREEN_SIZE } from "../state/constants";
 import type { Monster, MonsterMove, Target } from "../state/types";
 import { closestMonster } from "../state/utils";
 import { SelectLanguage } from "./SelectLanguage";
-
-const classNames = (...classes: (string | false | null)[]): string => {
-  return classes.filter(Boolean).join(" ");
-};
+import { classNames } from "./utils";
 
 const generateTarget = ({ x, y }: Monster): Target | null => {
   if (Math.random() < 0.98) return null;
