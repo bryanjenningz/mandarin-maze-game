@@ -126,7 +126,7 @@ describe("reducer", () => {
     });
 
     describe("player movement", () => {
-      it("moves the player to the left and up when the arrowleft and arrowup keys are down", () => {
+      it("moves player left/up when arrowleft/arrowup are down", () => {
         const keysDown = new Set(["arrowleft", "arrowup"]);
         const player: Player = { x: 40, y: 30, size: 20 };
         const state: State = { ...defaultState, keysDown, player };
@@ -139,7 +139,7 @@ describe("reducer", () => {
         expect(newState).toEqual(expected);
       });
 
-      it("moves the player to the right and bottom when the arrowright and arrowdown keys are down", () => {
+      it("moves player right/down when arrowright/arrowdown are down", () => {
         const keysDown = new Set(["arrowright", "arrowdown"]);
         const player: Player = { x: 40, y: 30, size: 20 };
         const state: State = { ...defaultState, keysDown, player };
@@ -147,26 +147,33 @@ describe("reducer", () => {
         const newState: State = reducer(state, action);
         const expected: State = {
           ...state,
-          player: { ...player, x: 41, y: 31 },
+          player: { ...player, x: player.x + 1, y: player.y + 1 },
         };
         expect(newState).toEqual(expected);
       });
 
-      it("moves the player up if arrowup and arrowleft keys are down if there's a wall on the left", () => {
+      it("moves player up when arrowleft/arrowup are down and wall to left", () => {
         const keysDown = new Set(["arrowleft", "arrowup"]);
         const player: Player = { x: 40, y: 30, size: 20 };
-        const walls: Wall[] = [{ x: 20, y: 30, size: 20 }];
+        const walls: Wall[] = [
+          { x: player.x - BLOCK_SIZE, y: player.y, size: BLOCK_SIZE },
+        ];
         const state: State = { ...defaultState, keysDown, player, walls };
         const action: Action = tick();
         const newState: State = reducer(state, action);
-        const expected: State = { ...state, player: { ...player, y: 29 } };
+        const expected: State = {
+          ...state,
+          player: { ...player, y: player.y - 1 },
+        };
         expect(newState).toEqual(expected);
       });
 
-      it("moves the player right if arrowdown and arrowright keys are down if there's a wall below", () => {
-        const keysDown = new Set(["arrowdown", "arrowright"]);
+      it("moves player right when arrowright/arrowdown are down and wall below", () => {
+        const keysDown = new Set(["arrowright", "arrowdown"]);
         const player: Player = { x: 40, y: 30, size: 20 };
-        const walls: Wall[] = [{ x: 40, y: 50, size: 20 }];
+        const walls: Wall[] = [
+          { x: player.x, y: player.y + BLOCK_SIZE, size: BLOCK_SIZE },
+        ];
         const state: State = { ...defaultState, keysDown, player, walls };
         const action: Action = tick();
         const newState: State = reducer(state, action);
@@ -174,7 +181,7 @@ describe("reducer", () => {
         expect(newState).toEqual(expected);
       });
 
-      it("moves to the left if arrowup and arrowleft keys are down and player is at the top of screen", () => {
+      it("moves player left when arrowup/arrowleft are down and player's on top boundary", () => {
         const keysDown = new Set(["arrowup", "arrowleft"]);
         const player: Player = { x: 40, y: 0, size: 20 };
         const state: State = { ...defaultState, keysDown, player };
@@ -184,12 +191,12 @@ describe("reducer", () => {
         expect(newState).toEqual(expected);
       });
 
-      it("doesn't move if arrowdown and arrowright keys are down and player is at the bottom right of screen", () => {
+      it("doesn't move when arrowdown/arrowright are down and player's on bottom right boundary", () => {
         const keysDown = new Set(["arrowdown", "arrowright"]);
         const player: Player = {
-          x: SCREEN_SIZE - 20,
-          y: SCREEN_SIZE - 20,
-          size: 20,
+          x: SCREEN_SIZE - BLOCK_SIZE,
+          y: SCREEN_SIZE - BLOCK_SIZE,
+          size: BLOCK_SIZE,
         };
         const state: State = { ...defaultState, keysDown, player };
         const action: Action = tick();
