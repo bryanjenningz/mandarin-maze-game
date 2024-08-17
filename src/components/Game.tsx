@@ -4,9 +4,9 @@ import { BLOCK_SIZE, SCREEN_SIZE } from "../state/constants";
 import type { Monster, MonsterMove, Target } from "../state/types";
 import { closestMonster } from "../state/utils";
 import { SelectLanguage } from "./SelectLanguage";
-import { classNames } from "./utils";
 import { PlayerBlock } from "./PlayerBlock";
 import { BulletBlock } from "./BulletBlock";
+import { MonsterBlock } from "./MonsterBlock";
 
 const generateTarget = ({ x, y }: Monster): Target | null => {
   if (Math.random() < 0.98) return null;
@@ -107,34 +107,7 @@ export const Game = (): JSX.Element => {
           })}
 
         {state.monsters.map((monster, i) => {
-          return (
-            <div
-              key={i}
-              className={classNames(
-                "absolute",
-                monster.health > 0
-                  ? closest === monster
-                    ? "bg-blue-900"
-                    : "bg-red-700"
-                  : "bg-black"
-              )}
-              style={{
-                left: `${(monster.x / SCREEN_SIZE) * 100}%`,
-                top: `${(monster.y / SCREEN_SIZE) * 100}%`,
-                width: `${(BLOCK_SIZE / SCREEN_SIZE) * 100}%`,
-                height: `${(BLOCK_SIZE / SCREEN_SIZE) * 100}%`,
-              }}
-            >
-              {monster.health > 0 && (
-                <div className="absolute -top-4 left-0 right-0 h-2 bg-red-700">
-                  <div
-                    className="absolute top-0 left-0 bottom-0 bg-green-500"
-                    style={{ width: `${monster.health}%` }}
-                  ></div>
-                </div>
-              )}
-            </div>
-          );
+          return <MonsterBlock key={i} monster={monster} closest={closest} />;
         })}
 
         {state.monsterBullets.map((bullet, i) => {
