@@ -23,7 +23,7 @@ const defaultState: State = {
   gameMapLevel: 0,
   gameMaps: [],
   keysDown: new Set(),
-  player: { x: -20, y: -20, size: 20, target: null },
+  player: { x: -20, y: -20, size: 20 },
   itemCount: 0,
   monsters: [],
   bullets: [],
@@ -91,7 +91,7 @@ describe("reducer", () => {
 
     describe("game map level", () => {
       it("increases map level and set the new state when the player is overlapping with an exit", () => {
-        const player: Player = { x: 0, y: 19, size: 20, target: null };
+        const player: Player = { x: 0, y: 19, size: 20 };
         const exits: Exit[] = [{ x: 0, y: 0, size: 20 }];
         const gameMap1 = [
           ["#", "#"],
@@ -114,7 +114,7 @@ describe("reducer", () => {
         const expected: State = {
           ...state,
           gameMapLevel: 1,
-          player: { x: BLOCK_SIZE, y: 0, size: BLOCK_SIZE, target: null },
+          player: { x: BLOCK_SIZE, y: 0, size: BLOCK_SIZE },
           monsters: [
             { x: 0, y: 0, size: BLOCK_SIZE, health: 100, target: null },
           ],
@@ -128,7 +128,7 @@ describe("reducer", () => {
     describe("player movement", () => {
       it("moves the player to the left and up when the arrowleft and arrowup keys are down", () => {
         const keysDown = new Set(["arrowleft", "arrowup"]);
-        const player: Player = { x: 40, y: 30, size: 20, target: null };
+        const player: Player = { x: 40, y: 30, size: 20 };
         const state: State = { ...defaultState, keysDown, player };
         const action: Action = tick();
         const newState: State = reducer(state, action);
@@ -141,7 +141,7 @@ describe("reducer", () => {
 
       it("moves the player to the right and bottom when the arrowright and arrowdown keys are down", () => {
         const keysDown = new Set(["arrowright", "arrowdown"]);
-        const player: Player = { x: 40, y: 30, size: 20, target: null };
+        const player: Player = { x: 40, y: 30, size: 20 };
         const state: State = { ...defaultState, keysDown, player };
         const action: Action = tick();
         const newState: State = reducer(state, action);
@@ -154,7 +154,7 @@ describe("reducer", () => {
 
       it("moves the player up if arrowup and arrowleft keys are down if there's a wall on the left", () => {
         const keysDown = new Set(["arrowleft", "arrowup"]);
-        const player: Player = { x: 40, y: 30, size: 20, target: null };
+        const player: Player = { x: 40, y: 30, size: 20 };
         const walls: Wall[] = [{ x: 20, y: 30, size: 20 }];
         const state: State = { ...defaultState, keysDown, player, walls };
         const action: Action = tick();
@@ -165,7 +165,7 @@ describe("reducer", () => {
 
       it("moves the player right if arrowdown and arrowright keys are down if there's a wall below", () => {
         const keysDown = new Set(["arrowdown", "arrowright"]);
-        const player: Player = { x: 40, y: 30, size: 20, target: null };
+        const player: Player = { x: 40, y: 30, size: 20 };
         const walls: Wall[] = [{ x: 40, y: 50, size: 20 }];
         const state: State = { ...defaultState, keysDown, player, walls };
         const action: Action = tick();
@@ -176,7 +176,7 @@ describe("reducer", () => {
 
       it("moves to the left if arrowup and arrowleft keys are down and player is at the top of screen", () => {
         const keysDown = new Set(["arrowup", "arrowleft"]);
-        const player: Player = { x: 40, y: 0, size: 20, target: null };
+        const player: Player = { x: 40, y: 0, size: 20 };
         const state: State = { ...defaultState, keysDown, player };
         const action: Action = tick();
         const newState: State = reducer(state, action);
@@ -190,7 +190,6 @@ describe("reducer", () => {
           x: SCREEN_SIZE - 20,
           y: SCREEN_SIZE - 20,
           size: 20,
-          target: null,
         };
         const state: State = { ...defaultState, keysDown, player };
         const action: Action = tick();
@@ -200,7 +199,7 @@ describe("reducer", () => {
       });
 
       it("picks up item and removes monster if player overlaps with no health monster", () => {
-        const player: Player = { x: 40, y: 30, size: 20, target: null };
+        const player: Player = { x: 40, y: 30, size: 20 };
         const monsters: Monster[] = [
           { x: 40, y: 49, size: 20, health: 0, target: null },
         ];
@@ -218,7 +217,7 @@ describe("reducer", () => {
 
       it("player can't go to exit if there are still monsters", () => {
         const keysDown = new Set(["arrowup"]);
-        const player: Player = { x: 0, y: 20, size: 20, target: null };
+        const player: Player = { x: 0, y: 20, size: 20 };
         const monsters: Monster[] = [
           { x: 40, y: 49, size: 20, health: 0, target: null },
         ];
@@ -238,7 +237,7 @@ describe("reducer", () => {
 
       it("player can go to an exit if there aren't any monsters", () => {
         const keysDown = new Set(["arrowup"]);
-        const player: Player = { x: 0, y: 20, size: 20, target: null };
+        const player: Player = { x: 0, y: 20, size: 20 };
         const exits: Exit[] = [{ x: 0, y: 0, size: 20 }];
         const state: State = {
           ...defaultState,
@@ -254,79 +253,10 @@ describe("reducer", () => {
       });
     });
 
-    describe("bullet target", () => {
-      it("sets the first monster as the target if player has no target then presses 'd' key", () => {
-        const keysDown = new Set(["d"]);
-        const player: Player = { x: 0, y: 0, size: 20, target: null };
-        const monsters: Monster[] = [
-          { x: 100, y: 0, size: 20, health: 100, target: null },
-          { x: 0, y: 50, size: 20, health: 100, target: null },
-        ];
-        const state: State = {
-          ...defaultState,
-          keysDown,
-          player,
-          monsters,
-        };
-        const action: Action = tick({ time: 1234 });
-        const newState: State = reducer(state, action);
-        const expected: State = {
-          ...state,
-          keysDown: new Set(),
-          player: { ...player, target: 0 },
-        };
-        expect(newState).toEqual(expected);
-      });
-
-      it("sets the next monster as the target if player has a target then presses 'd' key", () => {
-        const keysDown = new Set(["d"]);
-        const player: Player = { x: 0, y: 0, size: 20, target: 0 };
-        const monsters: Monster[] = [
-          { x: 100, y: 0, size: 20, health: 100, target: null },
-          { x: 0, y: 50, size: 20, health: 100, target: null },
-        ];
-        const state: State = {
-          ...defaultState,
-          keysDown,
-          player,
-          monsters,
-        };
-        const action: Action = tick({ time: 1234 });
-        const newState: State = reducer(state, action);
-        const expected: State = {
-          ...state,
-          keysDown: new Set(),
-          player: { ...player, target: 1 },
-        };
-        expect(newState).toEqual(expected);
-      });
-
-      it("unsets the target if player has a last monster target then presses 'd' key", () => {
-        const keysDown = new Set(["d"]);
-        const player: Player = { x: 0, y: 0, size: 20, target: 1 };
-        const monsters: Monster[] = [
-          { x: 100, y: 0, size: 20, health: 100, target: null },
-          { x: 0, y: 50, size: 20, health: 100, target: null },
-        ];
-        const state: State = {
-          ...defaultState,
-          keysDown,
-          player,
-          monsters,
-        };
-        const action: Action = tick({ time: 1234 });
-        const newState: State = reducer(state, action);
-        const expected: State = {
-          ...state,
-          keysDown: new Set(),
-          player: { ...player, target: null },
-        };
-        expect(newState).toEqual(expected);
-      });
-
-      it("shoots at the nearest alive monster", () => {
+    describe("bullets firing", () => {
+      it("shoots at the nearest alive monster on 'w' keydown", () => {
         const keysDown = new Set(["w"]);
-        const player: Player = { x: 0, y: 0, size: 20, target: null };
+        const player: Player = { x: 0, y: 0, size: 20 };
         const monsters: Monster[] = [
           { x: 100, y: 0, size: 20, health: 100, target: null },
           { x: 0, y: 50, size: 20, health: 0, target: null },
@@ -348,12 +278,10 @@ describe("reducer", () => {
         };
         expect(newState).toEqual(expected);
       });
-    });
 
-    describe("bullets firing", () => {
-      it("shoots a bullet at the closest monster if 'w' key is down and the player has no target selected", () => {
+      it("shoots a bullet at the closest monster on 'w' key down", () => {
         const keysDown = new Set(["w"]);
-        const player: Player = { x: 0, y: 0, size: 20, target: null };
+        const player: Player = { x: 0, y: 0, size: 20 };
         const monsters: Monster[] = [
           { x: 100, y: 0, size: 20, health: 100, target: null },
           { x: 0, y: 50, size: 20, health: 100, target: null },
@@ -377,7 +305,7 @@ describe("reducer", () => {
 
       it("shoots a bullet at the closest monster if 'w' key is down and the player has no target selected 2", () => {
         const keysDown = new Set(["w"]);
-        const player: Player = { x: 100, y: 100, size: 20, target: null };
+        const player: Player = { x: 100, y: 100, size: 20 };
         const monsters: Monster[] = [
           { x: 100, y: 0, size: 20, health: 100, target: null },
           { x: 0, y: 0, size: 20, health: 100, target: null },
@@ -403,7 +331,7 @@ describe("reducer", () => {
 
       it("shoots a bullet at the closest monster if 'w' key is down and the player has no target selected 3", () => {
         const keysDown = new Set(["w"]);
-        const player: Player = { x: 100, y: 100, size: 20, target: null };
+        const player: Player = { x: 100, y: 100, size: 20 };
         const monsters: Monster[] = [
           { x: 0, y: 0, size: 20, health: 100, target: null },
         ];
@@ -426,7 +354,7 @@ describe("reducer", () => {
 
       it("shoots a bullet at the closest monster if 'w' key is down and the player has no target selected 4", () => {
         const keysDown = new Set(["w"]);
-        const player: Player = { x: 100, y: 0, size: 20, target: null };
+        const player: Player = { x: 100, y: 0, size: 20 };
         const monsters: Monster[] = [
           { x: 0, y: 100, size: 20, health: 100, target: null },
         ];
@@ -449,7 +377,7 @@ describe("reducer", () => {
 
       it("doesn't fire if the lastBulletFiredAt was recent", () => {
         const keysDown = new Set(["w"]);
-        const player: Player = { x: 40, y: 30, size: 20, target: null };
+        const player: Player = { x: 40, y: 30, size: 20 };
         const state: State = {
           ...defaultState,
           keysDown,
@@ -624,7 +552,7 @@ describe("reducer", () => {
 
     describe("monster bullets firing", () => {
       it("shoots a bullet at the player towards bottom right if the monster move has a true shoot value", () => {
-        const player: Player = { x: 40, y: 40, size: 20, target: null };
+        const player: Player = { x: 40, y: 40, size: 20 };
         const monster: Monster = {
           x: 0,
           y: 0,
@@ -650,7 +578,7 @@ describe("reducer", () => {
       });
 
       it("shoots a bullet at the player towards bottom left if the monster move has a true shoot value", () => {
-        const player: Player = { x: 0, y: 20, size: 20, target: null };
+        const player: Player = { x: 0, y: 20, size: 20 };
         const monster: Monster = {
           x: 20,
           y: 0,
@@ -678,7 +606,7 @@ describe("reducer", () => {
       });
 
       it("shoots a bullet at the player towards top left if the monster move has a true shoot value", () => {
-        const player: Player = { x: 0, y: 0, size: 20, target: null };
+        const player: Player = { x: 0, y: 0, size: 20 };
         const monster: Monster = {
           x: 40,
           y: 40,
@@ -706,7 +634,7 @@ describe("reducer", () => {
       });
 
       it("doesn't shoot bullets if the monster has no health even if shoot is true", () => {
-        const player: Player = { x: 0, y: 0, size: 20, target: null };
+        const player: Player = { x: 0, y: 0, size: 20 };
         const monster: Monster = {
           x: 40,
           y: 40,
@@ -844,7 +772,7 @@ describe("reducer", () => {
           dy: -BULLET_SPEED,
           size: 4,
         };
-        const player: Player = { x: 20, y: 30, size: 20, target: null };
+        const player: Player = { x: 20, y: 30, size: 20 };
         const state: State = {
           ...defaultState,
           player,
