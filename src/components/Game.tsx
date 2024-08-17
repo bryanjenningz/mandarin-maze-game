@@ -1,14 +1,9 @@
 import { useEffect, useReducer } from "react";
 import { initState, reducer } from "../state/reducer";
 import { BLOCK_SIZE, BULLET_SIZE, SCREEN_SIZE } from "../state/constants";
-import {
-  languages,
-  type Language,
-  type Monster,
-  type MonsterMove,
-  type Target,
-} from "../state/types";
+import type { Monster, MonsterMove, Target } from "../state/types";
 import { closestMonster } from "../state/utils";
+import { SelectLanguage } from "./SelectLanguage";
 
 const classNames = (...classes: (string | false | null)[]): string => {
   return classes.filter(Boolean).join(" ");
@@ -31,17 +26,6 @@ const generateMonsterMove = (monster: Monster): MonsterMove => {
 
 const generateMonsterMoves = (monsters: Monster[]): MonsterMove[] => {
   return monsters.map(generateMonsterMove);
-};
-
-const languageToString = (language: Language): string => {
-  switch (language) {
-    case "MANDARIN":
-      return "Mandarin";
-    case "JAPANESE":
-      return "Japanese";
-    case "SPANISH":
-      return "Spanish";
-  }
 };
 
 export const Game = (): JSX.Element => {
@@ -83,26 +67,9 @@ export const Game = (): JSX.Element => {
 
   if (state.status === "START") {
     return (
-      <div className="text-white bg-black w-full h-[100svh] flex justify-center items-center">
-        <div className="relative aspect-square w-full max-w-2xl bg-gray-800">
-          <div className="flex flex-col gap-4 justify-center items-center w-full h-full">
-            <h1 className="text-xl">Select the language you want to learn</h1>
-            <div className="flex flex-wrap gap-4">
-              {languages.map((language) => {
-                return (
-                  <button
-                    key={language}
-                    className="py-2 px-4 bg-blue-700 text-white rounded-lg hover:brightness-110 transition-colors"
-                    onClick={() => dispatch({ type: "SET_LANGUAGE", language })}
-                  >
-                    {languageToString(language)}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </div>
+      <SelectLanguage
+        setLanguage={(language) => dispatch({ type: "SET_LANGUAGE", language })}
+      />
     );
   }
 
