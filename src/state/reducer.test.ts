@@ -51,6 +51,18 @@ describe("reducer", () => {
       const expected: State = { ...state, keysDown: new Set(["a", "arrowup"]) };
       expect(newState).toEqual(expected);
     });
+
+    it("pauses game when 'p' is pressed", () => {
+      const state: State = { ...defaultState, status: "ACTIVE" };
+      const action: Action = { type: "KEY_DOWN", key: "p" };
+      const newState: State = reducer(state, action);
+      const expected: State = {
+        ...state,
+        status: "PAUSED",
+        keysDown: new Set(["p"]),
+      };
+      expect(newState).toEqual(expected);
+    });
   });
 
   describe("KEY_UP", () => {
