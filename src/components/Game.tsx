@@ -5,6 +5,7 @@ import type { Monster, MonsterMove, Target } from "../state/types";
 import { closestMonster } from "../state/utils";
 import { SelectLanguage } from "./SelectLanguage";
 import { classNames } from "./utils";
+import { PlayerBlock } from "./PlayerBlock";
 
 const generateTarget = ({ x, y }: Monster): Target | null => {
   if (Math.random() < 0.98) return null;
@@ -165,25 +166,7 @@ export const Game = (): JSX.Element => {
           );
         })}
 
-        <div
-          className={classNames(
-            "absolute",
-            state.player.health > 0 ? "bg-cyan-700" : "bg-black"
-          )}
-          style={{
-            left: `${(state.player.x / SCREEN_SIZE) * 100}%`,
-            top: `${(state.player.y / SCREEN_SIZE) * 100}%`,
-            width: `${(BLOCK_SIZE / SCREEN_SIZE) * 100}%`,
-            height: `${(BLOCK_SIZE / SCREEN_SIZE) * 100}%`,
-          }}
-        >
-          <div className="absolute -top-4 left-0 right-0 h-2 bg-red-700">
-            <div
-              className="absolute top-0 left-0 bottom-0 bg-green-500"
-              style={{ width: `${Math.max(0, state.player.health)}%` }}
-            ></div>
-          </div>
-        </div>
+        <PlayerBlock player={state.player} />
       </div>
     </div>
   );
