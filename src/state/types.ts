@@ -15,7 +15,7 @@ export type State = {
   exits: Exit[];
 };
 
-type Status = "ACTIVE" | "PAUSED";
+export type Status = "ACTIVE" | "PAUSED";
 
 export type GameMap = string[][];
 

@@ -15,6 +15,7 @@ import type {
   Wall,
   MonsterMove,
   Exit,
+  Status,
 } from "./types";
 import { closestMonster } from "./utils";
 
@@ -126,7 +127,14 @@ export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "KEY_DOWN": {
       const keysDown = new Set([...state.keysDown, action.key.toLowerCase()]);
-      return { ...state, keysDown };
+      const status: Status = (() => {
+        if (action.key === "p") {
+          if (state.status === "ACTIVE") return "PAUSED";
+          return "ACTIVE";
+        }
+        return state.status;
+      })();
+      return { ...state, status, keysDown };
     }
     case "KEY_UP": {
       const keysDown = new Set(
