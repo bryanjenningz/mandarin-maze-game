@@ -103,7 +103,9 @@ const monstersFromGameMap = (gameMap: string[][]): Monster[] => {
 };
 
 const playerFromGameMap = (gameMap: string[][]): Player | null => {
-  return tilesFromGameMap(gameMap, "P")[0] ?? null;
+  const tile = tilesFromGameMap(gameMap, "P")[0];
+  if (!tile) return null;
+  return { ...tile, health: 100 };
 };
 
 export const initState: State = {
@@ -111,7 +113,12 @@ export const initState: State = {
   gameMapLevel: 0,
   gameMaps: [gameMap1, gameMap2],
   keysDown: new Set(),
-  player: playerFromGameMap(gameMap1) ?? { x: 20, y: 20, size: 20 },
+  player: playerFromGameMap(gameMap1) ?? {
+    x: 20,
+    y: 20,
+    size: 20,
+    health: 100,
+  },
   itemCount: 0,
   monsters: monstersFromGameMap(gameMap1),
   bullets: [],
@@ -147,11 +154,11 @@ export const reducer = (state: State, action: Action): State => {
       if (state.exits.some((exit) => overlaps(state.player, exit))) {
         const gameMapLevel = state.gameMapLevel + 1;
         const gameMap = state.gameMaps[gameMapLevel] ?? gameMap1;
-        const player = playerFromGameMap(gameMap) ?? {
+        const player: Player = playerFromGameMap(gameMap) ?? {
           x: 20,
           y: 20,
           size: 20,
-          target: null,
+          health: 100,
         };
         const monsters = monstersFromGameMap(gameMap);
         const walls = wallsFromGameMap(gameMap);

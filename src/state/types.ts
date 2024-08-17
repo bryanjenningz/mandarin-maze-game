@@ -23,6 +23,7 @@ export type Player = {
   x: number;
   y: number;
   size: typeof BLOCK_SIZE;
+  health: number;
 };
 
 export type Monster = {
