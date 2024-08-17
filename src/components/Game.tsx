@@ -1,11 +1,12 @@
 import { useEffect, useReducer } from "react";
 import { initState, reducer } from "../state/reducer";
-import { BLOCK_SIZE, BULLET_SIZE, SCREEN_SIZE } from "../state/constants";
+import { BLOCK_SIZE, SCREEN_SIZE } from "../state/constants";
 import type { Monster, MonsterMove, Target } from "../state/types";
 import { closestMonster } from "../state/utils";
 import { SelectLanguage } from "./SelectLanguage";
 import { classNames } from "./utils";
 import { PlayerBlock } from "./PlayerBlock";
+import { BulletBlock } from "./BulletBlock";
 
 const generateTarget = ({ x, y }: Monster): Target | null => {
   if (Math.random() < 0.98) return null;
@@ -137,33 +138,11 @@ export const Game = (): JSX.Element => {
         })}
 
         {state.monsterBullets.map((bullet, i) => {
-          return (
-            <div
-              key={i}
-              className="absolute bg-cyan-400"
-              style={{
-                left: `${(bullet.x / SCREEN_SIZE) * 100}%`,
-                top: `${(bullet.y / SCREEN_SIZE) * 100}%`,
-                width: `${(BULLET_SIZE / SCREEN_SIZE) * 100}%`,
-                height: `${(BULLET_SIZE / SCREEN_SIZE) * 100}%`,
-              }}
-            ></div>
-          );
+          return <BulletBlock key={i} bullet={bullet} />;
         })}
 
         {state.bullets.map((bullet, i) => {
-          return (
-            <div
-              key={i}
-              className="absolute bg-cyan-400"
-              style={{
-                left: `${(bullet.x / SCREEN_SIZE) * 100}%`,
-                top: `${(bullet.y / SCREEN_SIZE) * 100}%`,
-                width: `${(BULLET_SIZE / SCREEN_SIZE) * 100}%`,
-                height: `${(BULLET_SIZE / SCREEN_SIZE) * 100}%`,
-              }}
-            ></div>
-          );
+          return <BulletBlock key={i} bullet={bullet} />;
         })}
 
         <PlayerBlock player={state.player} />
