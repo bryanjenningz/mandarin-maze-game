@@ -326,7 +326,7 @@ describe("reducer", () => {
         expect(newState).toEqual(expected);
       });
 
-      it("shoots a bullet at the closest monster on 'w' key down", () => {
+      it("shoots a bullet at the closest monster at bottom", () => {
         const keysDown = new Set(["w"]);
         const player: Player = { x: 0, y: 0, size: 20, health: 100 };
         const monsters: Monster[] = [
@@ -350,7 +350,7 @@ describe("reducer", () => {
         expect(newState).toEqual(expected);
       });
 
-      it("shoots a bullet at the closest monster if 'w' key is down and the player has no target selected 2", () => {
+      it("shoots a bullet at the closest monster at top", () => {
         const keysDown = new Set(["w"]);
         const player: Player = { x: 100, y: 100, size: 20, health: 100 };
         const monsters: Monster[] = [
@@ -376,7 +376,7 @@ describe("reducer", () => {
         expect(newState).toEqual(expected);
       });
 
-      it("shoots a bullet at the closest monster if 'w' key is down and the player has no target selected 3", () => {
+      it("shoots a bullet at the closest monster at top-left", () => {
         const keysDown = new Set(["w"]);
         const player: Player = { x: 100, y: 100, size: 20, health: 100 };
         const monsters: Monster[] = [
@@ -399,7 +399,7 @@ describe("reducer", () => {
         expect(newState).toEqual(expected);
       });
 
-      it("shoots a bullet at the closest monster if 'w' key is down and the player has no target selected 4", () => {
+      it("shoots a bullet at the closest monster at bottom-left", () => {
         const keysDown = new Set(["w"]);
         const player: Player = { x: 100, y: 0, size: 20, health: 100 };
         const monsters: Monster[] = [
