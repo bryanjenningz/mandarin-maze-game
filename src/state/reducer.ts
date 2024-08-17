@@ -135,6 +135,7 @@ export const reducer = (state: State, action: Action): State => {
       return { ...state, keysDown };
     }
     case "TICK": {
+      if (state.status === "PAUSED") return state;
       if (state.exits.some((exit) => overlaps(state.player, exit))) {
         const gameMapLevel = state.gameMapLevel + 1;
         const gameMap = state.gameMaps[gameMapLevel] ?? gameMap1;
