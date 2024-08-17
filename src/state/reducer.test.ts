@@ -261,12 +261,7 @@ describe("reducer", () => {
           { x: 100, y: 0, size: 20, health: 100, target: null },
           { x: 0, y: 50, size: 20, health: 0, target: null },
         ];
-        const state: State = {
-          ...defaultState,
-          keysDown,
-          player,
-          monsters,
-        };
+        const state: State = { ...defaultState, keysDown, player, monsters };
         const action: Action = tick({ time: 1234 });
         const newState: State = reducer(state, action);
         const expected: State = {
