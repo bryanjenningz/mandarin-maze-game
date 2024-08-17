@@ -90,6 +90,25 @@ describe("reducer", () => {
       return { type: "TICK", time, monsterMoves };
     };
 
+    describe("status", () => {
+      it("doesn't update if game is paused", () => {
+        const bullets: Bullet[] = [
+          { x: 50, y: 50, dx: 1, dy: 1, size: BULLET_SIZE },
+        ];
+        const monsterBullets: Bullet[] = bullets;
+        const state: State = {
+          ...defaultState,
+          status: "PAUSED",
+          bullets,
+          monsterBullets,
+        };
+        const action: Action = tick();
+        const newState: State = reducer(state, action);
+        const expected: State = { ...state };
+        expect(newState).toEqual(expected);
+      });
+    });
+
     describe("game map level", () => {
       it("increases map level and set the new state when the player is overlapping with an exit", () => {
         const player: Player = { x: 0, y: 19, size: 20 };
