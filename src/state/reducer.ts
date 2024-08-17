@@ -106,6 +106,7 @@ const playerFromGameMap = (gameMap: string[][]): Player | null => {
 };
 
 export const initState: State = {
+  status: "ACTIVE",
   gameMapLevel: 0,
   gameMaps: [gameMap1, gameMap2],
   keysDown: new Set(),

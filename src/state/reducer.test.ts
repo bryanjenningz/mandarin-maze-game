@@ -20,6 +20,7 @@ import {
 } from "./constants";
 
 const defaultState: State = {
+  status: "ACTIVE",
   gameMapLevel: 0,
   gameMaps: [],
   keysDown: new Set(),
