@@ -396,7 +396,10 @@ describe("reducer", () => {
       it("doesn't fire if there are no living monsters", () => {
         const keysDown = new Set(["w"]);
         const player: Player = { x: 40, y: 30, size: BLOCK_SIZE };
-        const state: State = { ...defaultState, keysDown, player };
+        const monsters: Monster[] = [
+          { x: 0, y: 0, health: 0, size: BLOCK_SIZE, target: null },
+        ];
+        const state: State = { ...defaultState, keysDown, player, monsters };
         const action: Action = tick({ time: 1234 });
         const newState: State = reducer(state, action);
         const expected: State = { ...state };
