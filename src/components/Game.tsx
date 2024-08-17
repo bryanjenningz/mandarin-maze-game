@@ -168,14 +168,12 @@ export const Game = (): JSX.Element => {
             height: `${(BLOCK_SIZE / SCREEN_SIZE) * 100}%`,
           }}
         >
-          {state.player.health > 0 && (
-            <div className="absolute -top-4 left-0 right-0 h-2 bg-red-700">
-              <div
-                className="absolute top-0 left-0 bottom-0 bg-green-500"
-                style={{ width: `${state.player.health}%` }}
-              ></div>
-            </div>
-          )}
+          <div className="absolute -top-4 left-0 right-0 h-2 bg-red-700">
+            <div
+              className="absolute top-0 left-0 bottom-0 bg-green-500"
+              style={{ width: `${Math.max(0, state.player.health)}%` }}
+            ></div>
+          </div>
         </div>
       </div>
     </div>
