@@ -160,7 +160,10 @@ export const Game = (): JSX.Element => {
         })}
 
         <div
-          className="absolute bg-cyan-700"
+          className={classNames(
+            "absolute",
+            state.player.health > 0 ? "bg-cyan-700" : "bg-black"
+          )}
           style={{
             left: `${(state.player.x / SCREEN_SIZE) * 100}%`,
             top: `${(state.player.y / SCREEN_SIZE) * 100}%`,
