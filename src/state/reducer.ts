@@ -109,7 +109,8 @@ const playerFromGameMap = (gameMap: string[][]): Player | null => {
 };
 
 export const initState: State = {
-  status: "ACTIVE",
+  status: "START",
+  language: "JAPANESE",
   gameMapLevel: 0,
   gameMaps: [gameMap1, gameMap2],
   keysDown: new Set(),
@@ -132,6 +133,9 @@ export const initState: State = {
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
+    case "SET_LANGUAGE": {
+      return { ...state, status: "ACTIVE", language: action.language };
+    }
     case "KEY_DOWN": {
       const keysDown = new Set([...state.keysDown, action.key.toLowerCase()]);
       const status: Status = (() => {

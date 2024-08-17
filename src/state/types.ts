@@ -2,6 +2,7 @@ import { BLOCK_SIZE, BULLET_SIZE } from "./constants";
 
 export type State = {
   status: Status;
+  language: Language;
   gameMapLevel: number;
   gameMaps: GameMap[];
   keysDown: Set<string>;
@@ -16,6 +17,10 @@ export type State = {
 };
 
 export type Status = "START" | "ACTIVE" | "PAUSED";
+
+export const languages = ["MANDARIN", "JAPANESE", "SPANISH"] as const;
+
+export type Language = (typeof languages)[number];
 
 export type GameMap = string[][];
 
@@ -60,6 +65,7 @@ export type Exit = {
 };
 
 export type Action =
+  | { type: "SET_LANGUAGE"; language: Language }
   | { type: "KEY_DOWN"; key: string }
   | { type: "KEY_UP"; key: string }
   | { type: "TICK"; time: number; monsterMoves: MonsterMove[] };
