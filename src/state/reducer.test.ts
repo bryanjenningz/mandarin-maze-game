@@ -14,6 +14,7 @@ import type {
 } from "./types";
 import {
   BLOCK_SIZE,
+  BULLET_DAMAGE,
   BULLET_SIZE,
   BULLET_SPEED,
   SCREEN_SIZE,
@@ -829,7 +830,7 @@ describe("reducer", () => {
         expect(newState).toEqual(expected);
       });
 
-      it("disappears when it overlaps with player", () => {
+      it("disappears and brings down player health when it overlaps with player", () => {
         const bullet: Bullet = {
           x: 20,
           y: 30,
@@ -845,7 +846,11 @@ describe("reducer", () => {
         };
         const action: Action = tick();
         const newState: State = reducer(state, action);
-        const expected: State = { ...state, monsterBullets: [] };
+        const expected: State = {
+          ...state,
+          player: { ...player, health: player.health - BULLET_DAMAGE },
+          monsterBullets: [],
+        };
         expect(newState).toEqual(expected);
       });
 
