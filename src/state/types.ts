@@ -63,7 +63,6 @@ export type Exit = {
 };
 
 export type Action =
-  | { type: "SET_LANGUAGE"; language: Language }
   | { type: "KEY_DOWN"; key: string }
   | { type: "KEY_UP"; key: string }
   | { type: "TICK"; time: number; monsterMoves: MonsterMove[] };

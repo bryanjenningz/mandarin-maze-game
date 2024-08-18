@@ -49,9 +49,6 @@ export const initState: State = {
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case "SET_LANGUAGE": {
-      return { ...state, status: "ACTIVE", language: action.language };
-    }
     case "KEY_DOWN": {
       const keysDown = new Set([...state.keysDown, action.key.toLowerCase()]);
       const status: Status = (() => {
