@@ -47,7 +47,30 @@ const gameMap2 = [
   "####################",
 ].map((line) => line.split(""));
 
-export const gameMaps: [GameMap, ...GameMap[]] = [gameMap1, gameMap2];
+const gameMap3 = [
+  "####################",
+  "#                  #",
+  "#  P  #      #  M  #",
+  "#                  #",
+  "#   #    #    #    #",
+  "#                  #",
+  "#  #           M   #",
+  "#      #    #      #",
+  "#                  #",
+  "#       #          #",
+  "#   M           #  #",
+  "#                  #",
+  "#      #  #  #     #",
+  "#  #               #",
+  "#          #    #  #",
+  "#    #      M      #",
+  "#       #          E",
+  "# M                E",
+  "#       #    #     E",
+  "####################",
+].map((line) => line.split(""));
+
+export const gameMaps: [GameMap, ...GameMap[]] = [gameMap1, gameMap2, gameMap3];
 
 type Tile = { x: number; y: number; size: typeof BLOCK_SIZE };
 
