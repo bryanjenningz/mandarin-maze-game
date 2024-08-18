@@ -39,6 +39,22 @@ const defaultState: State = {
 };
 
 describe("reducer", () => {
+  describe("SET_MANDARIN_TEXT", () => {
+    it("sets mandarin text", () => {
+      const state: State = {
+        ...defaultState,
+        mandarinText: "",
+      };
+      const action: Action = { type: "SET_MANDARIN_TEXT", mandarinText: "abc" };
+      const newState: State = reducer(state, action);
+      const expected: State = {
+        ...state,
+        mandarinText: "abc",
+      };
+      expect(newState).toEqual(expected);
+    });
+  });
+
   describe("SET_MANDARIN_WORD_KNOWN", () => {
     it("adds word to known words", () => {
       const state: State = {
