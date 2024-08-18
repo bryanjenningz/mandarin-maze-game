@@ -1,6 +1,9 @@
 import type { Language } from "./types";
 
-export type Vocab = {
+export type Vocab = MandarinVocab | SpanishVocab;
+
+export type MandarinVocab = {
+  type: "MANDARIN";
   word: string;
   wordPronunciation: string;
   wordMeaning: string;
@@ -9,9 +12,18 @@ export type Vocab = {
   sentenceMeaning: string;
 };
 
+export type SpanishVocab = {
+  type: "SPANISH";
+  word: string;
+  wordMeaning: string;
+  sentence: string;
+  sentenceMeaning: string;
+};
+
 export const languageVocab: Record<Language, Vocab>[] = [
   {
     MANDARIN: {
+      type: "MANDARIN",
       word: "來",
       wordPronunciation: "lai2",
       wordMeaning: "come",
@@ -20,17 +32,17 @@ export const languageVocab: Record<Language, Vocab>[] = [
       sentenceMeaning: "Come over here!",
     },
     SPANISH: {
+      type: "SPANISH",
       word: "venir",
-      wordPronunciation: "",
       wordMeaning: "come",
       sentence: "Ven acá",
-      sentencePronunciation: "",
       sentenceMeaning: "Come over here!",
     },
   },
 
   {
     MANDARIN: {
+      type: "MANDARIN",
       word: "等",
       wordPronunciation: "deng3",
       wordMeaning: "wait",
@@ -39,17 +51,17 @@ export const languageVocab: Record<Language, Vocab>[] = [
       sentenceMeaning: "Wait a second!",
     },
     SPANISH: {
+      type: "SPANISH",
       word: "esperar",
-      wordPronunciation: "",
       wordMeaning: "to wait",
       sentence: "Espera un momento",
-      sentencePronunciation: "",
       sentenceMeaning: "Wait a moment!",
     },
   },
 
   {
     MANDARIN: {
+      type: "MANDARIN",
       word: "快",
       wordPronunciation: "kuai4",
       wordMeaning: "fast",
@@ -58,17 +70,17 @@ export const languageVocab: Record<Language, Vocab>[] = [
       sentenceMeaning: "Hurry up!",
     },
     SPANISH: {
+      type: "SPANISH",
       word: "rápido",
-      wordPronunciation: "",
       wordMeaning: "fast",
       sentence: "¡Ve más rápido!",
-      sentencePronunciation: "",
       sentenceMeaning: "Go faster!",
     },
   },
 
   {
     MANDARIN: {
+      type: "MANDARIN",
       word: "哪",
       wordPronunciation: "na3",
       wordMeaning: "which",
@@ -77,17 +89,17 @@ export const languageVocab: Record<Language, Vocab>[] = [
       sentenceMeaning: "Which one?",
     },
     SPANISH: {
+      type: "SPANISH",
       word: "cuál",
-      wordPronunciation: "",
       wordMeaning: "which",
       sentence: "¿Cuál es bueno?",
-      sentencePronunciation: "",
       sentenceMeaning: "Which one is good?",
     },
   },
 
   {
     MANDARIN: {
+      type: "MANDARIN",
       word: "试",
       wordPronunciation: "shi4",
       wordMeaning: "to try",
@@ -96,11 +108,10 @@ export const languageVocab: Record<Language, Vocab>[] = [
       sentenceMeaning: "Try it!",
     },
     SPANISH: {
+      type: "SPANISH",
       word: "intentar",
-      wordPronunciation: "",
       wordMeaning: "to try to do something",
       sentence: "Intentaré hacerlo",
-      sentencePronunciation: "",
       sentenceMeaning: "I'll try to do it",
     },
   },
