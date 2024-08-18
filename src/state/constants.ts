@@ -4,3 +4,4 @@ export const BULLET_DAMAGE = 10;
 export const BULLET_FIRE_DELAY = 200;
 export const BULLET_SPEED = 2;
 export const SCREEN_SIZE = 400;
+export const LANGUAGES = ["MANDARIN", "JAPANESE", "SPANISH"] as const;

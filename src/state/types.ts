@@ -1,4 +1,4 @@
-import { BLOCK_SIZE, BULLET_SIZE } from "./constants";
+import { BLOCK_SIZE, BULLET_SIZE, LANGUAGES } from "./constants";
 
 export type State = {
   status: Status;
@@ -18,9 +18,7 @@ export type State = {
 
 export type Status = "START" | "ACTIVE" | "PAUSED";
 
-export const languages = ["MANDARIN", "JAPANESE", "SPANISH"] as const;
-
-export type Language = (typeof languages)[number];
+export type Language = (typeof LANGUAGES)[number];
 
 export type GameMap = string[][];
 
