@@ -3,7 +3,6 @@ import { initState, reducer } from "../state/reducer";
 import { BLOCK_SIZE } from "../state/constants";
 import type { Monster, MonsterMove, Target } from "../state/types";
 import { closestMonster } from "../state/utils";
-import { SelectLanguage } from "./SelectLanguage";
 import { PlayerBlock } from "./PlayerBlock";
 import { BulletBlock } from "./BulletBlock";
 import { MonsterBlock } from "./MonsterBlock";
@@ -64,14 +63,6 @@ export const Game = (): JSX.Element => {
   }, []);
 
   const closest = closestMonster(state.player, state.monsters);
-
-  if (state.status === "START") {
-    return (
-      <SelectLanguage
-        setLanguage={(language) => dispatch({ type: "SET_LANGUAGE", language })}
-      />
-    );
-  }
 
   return (
     <div className="text-white bg-black w-full h-[100svh] flex justify-center items-center">
