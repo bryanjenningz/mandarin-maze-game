@@ -1,3 +1,4 @@
+import { SCREEN_SIZE } from "./constants";
 import type { Player, Monster } from "./types";
 
 type Point = { x: number; y: number };
@@ -21,4 +22,23 @@ export const closestMonster = (
     }
   }
   return shortestDistanceMonster;
+};
+
+export const clamp = (low: number, x: number, high: number): number => {
+  return Math.min(high, Math.max(low, x));
+};
+
+type Box = { x: number; y: number; size: number };
+
+export const overlaps = (a: Box, b: Box): boolean => {
+  return (
+    a.x + a.size > b.x &&
+    a.x < b.x + b.size &&
+    a.y + a.size > b.y &&
+    a.y < b.y + b.size
+  );
+};
+
+export const inBounds = ({ x, y, size }: Box): boolean => {
+  return x >= 0 && x + size <= SCREEN_SIZE && y >= 0 && y + size <= SCREEN_SIZE;
 };

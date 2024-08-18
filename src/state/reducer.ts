@@ -17,7 +17,7 @@ import type {
   Exit,
   Status,
 } from "./types";
-import { closestMonster } from "./utils";
+import { clamp, closestMonster, inBounds, overlaps } from "./utils";
 
 // #region Game map
 
@@ -190,27 +190,6 @@ export const reducer = (state: State, action: Action): State => {
       };
     }
   }
-};
-
-// #region Util functions
-
-const clamp = (low: number, x: number, high: number): number => {
-  return Math.min(high, Math.max(low, x));
-};
-
-type Box = { x: number; y: number; size: number };
-
-const overlaps = (a: Box, b: Box): boolean => {
-  return (
-    a.x + a.size > b.x &&
-    a.x < b.x + b.size &&
-    a.y + a.size > b.y &&
-    a.y < b.y + b.size
-  );
-};
-
-const inBounds = ({ x, y, size }: Box): boolean => {
-  return x >= 0 && x + size <= SCREEN_SIZE && y >= 0 && y + size <= SCREEN_SIZE;
 };
 
 // #region Update functions
