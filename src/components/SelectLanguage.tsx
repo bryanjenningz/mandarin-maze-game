@@ -1,4 +1,5 @@
-import { languages, type Language } from "../state/types";
+import { LANGUAGES } from "../state/constants";
+import { type Language } from "../state/types";
 
 const languageToString = (language: Language): string => {
   switch (language) {
@@ -22,7 +23,7 @@ export const SelectLanguage = ({ setLanguage }: SelectLanguageProps) => {
         <div className="flex flex-col gap-4 justify-center items-center w-full h-full">
           <h1 className="text-xl">Select the language you want to learn</h1>
           <div className="flex flex-wrap gap-4">
-            {languages.map((language) => {
+            {LANGUAGES.map((language) => {
               return (
                 <button
                   key={language}
