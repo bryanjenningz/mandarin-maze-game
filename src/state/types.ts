@@ -25,7 +25,7 @@ export type MandarinWord = {
   context: string;
 };
 
-export type Status = "ACTIVE" | "PAUSED";
+export type Status = "START" | "ACTIVE" | "PAUSED";
 
 export type Language = (typeof LANGUAGES)[number];
 
