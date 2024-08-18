@@ -5,8 +5,6 @@ const languageToString = (language: Language): string => {
   switch (language) {
     case "MANDARIN":
       return "Mandarin";
-    case "JAPANESE":
-      return "Japanese";
     case "SPANISH":
       return "Spanish";
   }
