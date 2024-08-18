@@ -3,6 +3,7 @@ import { BLOCK_SIZE, BULLET_SIZE, LANGUAGES } from "./constants";
 export type State = {
   mandarinText: string;
   mandarinWords: MandarinWord[];
+  knownMandarinWords: string[];
   status: Status;
   gameMapLevel: number;
   gameMaps: GameMap[];
@@ -72,6 +73,7 @@ export type Exit = {
 
 export type Action =
   | { type: "SET_MANDARIN_TEXT"; mandarinText: string }
+  | { type: "SET_MANDARIN_WORD_KNOWN"; word: string }
   | { type: "KEY_DOWN"; key: string }
   | { type: "KEY_UP"; key: string }
   | { type: "TICK"; time: number; monsterMoves: MonsterMove[] };

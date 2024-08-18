@@ -23,6 +23,7 @@ import {
 const defaultState: State = {
   mandarinText: "",
   mandarinWords: [],
+  knownMandarinWords: [],
   status: "ACTIVE",
   gameMapLevel: 0,
   gameMaps: [],

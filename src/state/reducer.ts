@@ -27,6 +27,7 @@ import { clamp, closestMonster, inBounds, overlaps } from "./utils";
 export const initState: State = {
   mandarinText: "",
   mandarinWords: [],
+  knownMandarinWords: [],
   status: "ACTIVE",
   gameMapLevel: 0,
   gameMaps,
@@ -52,6 +53,13 @@ export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "SET_MANDARIN_TEXT": {
       return { ...state, mandarinText: action.mandarinText };
+    }
+    case "SET_MANDARIN_WORD_KNOWN": {
+      const knownMandarinWords = [
+        ...state.knownMandarinWords.filter((word) => word !== action.word),
+        action.word,
+      ];
+      return { ...state, knownMandarinWords };
     }
     case "KEY_DOWN": {
       const keysDown = new Set([...state.keysDown, action.key.toLowerCase()]);
