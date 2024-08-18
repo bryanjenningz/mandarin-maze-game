@@ -16,7 +16,7 @@ export type State = {
   exits: Exit[];
 };
 
-export type Status = "START" | "ACTIVE" | "PAUSED";
+export type Status = "ACTIVE" | "PAUSED";
 
 export type Language = (typeof LANGUAGES)[number];
 

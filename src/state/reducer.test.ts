@@ -37,24 +37,6 @@ const defaultState: State = {
 };
 
 describe("reducer", () => {
-  describe("SET_LANGUAGE", () => {
-    it("sets language and makes status active", () => {
-      const state: State = {
-        ...defaultState,
-        status: "START",
-        language: "MANDARIN",
-      };
-      const action: Action = { type: "SET_LANGUAGE", language: "SPANISH" };
-      const newState: State = reducer(state, action);
-      const expected: State = {
-        ...state,
-        status: "ACTIVE",
-        language: action.language,
-      };
-      expect(newState).toEqual(expected);
-    });
-  });
-
   describe("KEY_DOWN", () => {
     it("adds lowercase 'a' key down to state when you press down 'A'", () => {
       const state: State = defaultState;
