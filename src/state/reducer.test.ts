@@ -39,6 +39,22 @@ const defaultState: State = {
 };
 
 describe("reducer", () => {
+  describe("SET_MANDARIN_WORD_KNOWN", () => {
+    it("adds word to known words", () => {
+      const state: State = {
+        ...defaultState,
+        knownMandarinWords: ["a", "b", "c"],
+      };
+      const action: Action = { type: "SET_MANDARIN_WORD_KNOWN", word: "d" };
+      const newState: State = reducer(state, action);
+      const expected: State = {
+        ...state,
+        knownMandarinWords: ["a", "b", "c", "d"],
+      };
+      expect(newState).toEqual(expected);
+    });
+  });
+
   describe("KEY_DOWN", () => {
     it("adds lowercase 'a' key down to state when you press down 'A'", () => {
       const state: State = defaultState;
