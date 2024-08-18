@@ -26,7 +26,6 @@ import { clamp, closestMonster, inBounds, overlaps } from "./utils";
 
 export const initState: State = {
   status: "ACTIVE",
-  language: "MANDARIN",
   gameMapLevel: 0,
   gameMaps,
   keysDown: new Set(),

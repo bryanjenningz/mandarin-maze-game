@@ -22,7 +22,6 @@ import {
 
 const defaultState: State = {
   status: "ACTIVE",
-  language: "MANDARIN",
   gameMapLevel: 0,
   gameMaps: [],
   keysDown: new Set(),

@@ -2,7 +2,6 @@ import { BLOCK_SIZE, BULLET_SIZE, LANGUAGES } from "./constants";
 
 export type State = {
   status: Status;
-  language: Language;
   gameMapLevel: number;
   gameMaps: GameMap[];
   keysDown: Set<string>;
