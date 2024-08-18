@@ -25,6 +25,8 @@ import type {
 import { clamp, closestMonster, inBounds, overlaps } from "./utils";
 
 export const initState: State = {
+  mandarinText: "",
+  mandarinWords: [],
   status: "ACTIVE",
   gameMapLevel: 0,
   gameMaps,

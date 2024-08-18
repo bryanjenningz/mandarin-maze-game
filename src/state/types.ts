@@ -1,6 +1,8 @@
 import { BLOCK_SIZE, BULLET_SIZE, LANGUAGES } from "./constants";
 
 export type State = {
+  mandarinText: string;
+  mandarinWords: MandarinWord[];
   status: Status;
   gameMapLevel: number;
   gameMaps: GameMap[];
@@ -13,6 +15,13 @@ export type State = {
   monsterBullets: Bullet[];
   walls: Wall[];
   exits: Exit[];
+};
+
+export type MandarinWord = {
+  word: string;
+  pronunciation: string;
+  meaning: string;
+  context: string;
 };
 
 export type Status = "ACTIVE" | "PAUSED";

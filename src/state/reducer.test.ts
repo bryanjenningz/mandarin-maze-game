@@ -21,6 +21,8 @@ import {
 } from "./constants";
 
 const defaultState: State = {
+  mandarinText: "",
+  mandarinWords: [],
   status: "ACTIVE",
   gameMapLevel: 0,
   gameMaps: [],
