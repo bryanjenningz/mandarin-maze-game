@@ -6,127 +6,43 @@ import {
   BULLET_SPEED,
   SCREEN_SIZE,
 } from "./constants";
+import {
+  exitsFromGameMap,
+  gameMaps,
+  monstersFromGameMap,
+  playerFromGameMap,
+  wallsFromGameMap,
+} from "./gameMap";
 import type {
   State,
   Action,
   Monster,
   Bullet,
   Player,
-  Wall,
   MonsterMove,
-  Exit,
   Status,
 } from "./types";
 import { clamp, closestMonster, inBounds, overlaps } from "./utils";
-
-// #region Game map
-
-const gameMap1 = [
-  "#EEE################",
-  "#   #              #",
-  "#   #          M   #",
-  "# M #              #",
-  "#   #    #####     #",
-  "#                  #",
-  "#     M            #",
-  "#              M   #",
-  "#####              #",
-  "#                  #",
-  "#                  #",
-  "#   #              #",
-  "#   #    #####     #",
-  "#                  #",
-  "#                  #",
-  "#####         #    #",
-  "#   #   #     #  M #",
-  "# P     #          #",
-  "#       #          #",
-  "####################",
-].map((line) => line.split(""));
-
-const gameMap2 = [
-  "####################",
-  "#                  E",
-  "#   M              E",
-  "#                  E",
-  "#       ############",
-  "#                  #",
-  "#            M     #",
-  "#    ##########    #",
-  "#                  #",
-  "#                  #",
-  "#   M              #",
-  "#                  #",
-  "#      ####  ##    #",
-  "#                  #",
-  "#              #   #",
-  "#  ###        #    #",
-  "#       #    #   M #",
-  "# M     #    #     #",
-  "#       # P  #     #",
-  "####################",
-].map((line) => line.split(""));
-
-type Tile = { x: number; y: number; size: typeof BLOCK_SIZE };
-
-const tilesFromGameMap = (gameMap: string[][], targetTile: string): Tile[] => {
-  return gameMap.flatMap((row, y) => {
-    return row
-      .map((tile, x): Tile | null => {
-        if (tile === targetTile) {
-          return { x: x * BLOCK_SIZE, y: y * BLOCK_SIZE, size: BLOCK_SIZE };
-        }
-        return null;
-      })
-      .filter(Boolean);
-  });
-};
-
-const wallsFromGameMap = (gameMap: string[][]): Wall[] => {
-  return tilesFromGameMap(gameMap, "#");
-};
-
-const exitsFromGameMap = (gameMap: string[][]): Exit[] => {
-  return tilesFromGameMap(gameMap, "E");
-};
-
-const monstersFromGameMap = (gameMap: string[][]): Monster[] => {
-  return tilesFromGameMap(gameMap, "M").map((tile): Monster => {
-    return {
-      x: tile.x,
-      y: tile.y,
-      size: tile.size,
-      health: 100,
-      target: null,
-    };
-  });
-};
-
-const playerFromGameMap = (gameMap: string[][]): Player | null => {
-  const tile = tilesFromGameMap(gameMap, "P")[0];
-  if (!tile) return null;
-  return { ...tile, health: 100 };
-};
 
 export const initState: State = {
   status: "START",
   language: "JAPANESE",
   gameMapLevel: 0,
-  gameMaps: [gameMap1, gameMap2],
+  gameMaps,
   keysDown: new Set(),
-  player: playerFromGameMap(gameMap1) ?? {
+  player: playerFromGameMap(gameMaps[0]) ?? {
     x: 20,
     y: 20,
     size: 20,
     health: 100,
   },
   itemCount: 0,
-  monsters: monstersFromGameMap(gameMap1),
+  monsters: monstersFromGameMap(gameMaps[0]),
   bullets: [],
   lastBulletFiredAt: 0,
   monsterBullets: [],
-  walls: wallsFromGameMap(gameMap1),
-  exits: exitsFromGameMap(gameMap1),
+  walls: wallsFromGameMap(gameMaps[0]),
+  exits: exitsFromGameMap(gameMaps[0]),
 };
 
 // #region Reducer
@@ -157,7 +73,7 @@ export const reducer = (state: State, action: Action): State => {
       if (state.status === "PAUSED") return state;
       if (state.exits.some((exit) => overlaps(state.player, exit))) {
         const gameMapLevel = state.gameMapLevel + 1;
-        const gameMap = state.gameMaps[gameMapLevel] ?? gameMap1;
+        const gameMap = state.gameMaps[gameMapLevel] ?? gameMaps[0];
         const player: Player = playerFromGameMap(gameMap) ?? {
           x: 20,
           y: 20,
