@@ -33,4 +33,17 @@ describe("parseLine", () => {
     };
     expect(entry).toEqual(expected);
   });
+
+  it("turns a dictionary line into a dictionary entry with commas between multiple meanings", () => {
+    const line =
+      "你情我願 你情我愿 [nǐ qíng wǒ yuàn] /to both be willing/mutual consent/both willing/";
+    const entry = parseLine(line);
+    const expected: DictionaryEntry = {
+      traditional: "你情我願",
+      simplified: "你情我愿",
+      pronunciation: "nǐ qíng wǒ yuàn",
+      meaning: "to both be willing, mutual consent, both willing",
+    };
+    expect(entry).toEqual(expected);
+  });
 });

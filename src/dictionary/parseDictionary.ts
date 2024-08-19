@@ -28,5 +28,10 @@ export const parseLine = (line: string): DictionaryEntry | null => {
   const { traditional, simplified, pronunciation, meaning } =
     line.match(LINE_PATTERN)?.groups ?? {};
   if (!traditional || !simplified || !pronunciation || !meaning) return null;
-  return { traditional, simplified, pronunciation, meaning };
+  return {
+    traditional,
+    simplified,
+    pronunciation,
+    meaning: meaning.replace(/\//g, ", "),
+  };
 };
