@@ -4,17 +4,19 @@ import { parseDictionary, parseLine } from "./parseDictionary";
 
 describe("parseDictionary", () => {
   it("turns dictionary text into a dictionary", () => {
-    const dictionaryText = `你們 你们 [nǐ men] /you (plural)/
-你好 你好 [nǐ hǎo] /hello/hi/`;
+    const dictionaryText = `你死我活 你死我活 [nǐ sǐ wǒ huó] /lit. you die, I live (idiom); irreconcilable adversaries/two parties cannot coexist/
+你爭我奪 你争我夺 [nǐ zhēng wǒ duó] /lit. you fight, I snatch (idiom); to compete fiercely offering no quarter/fierce rivalry/tug-of-war/`;
     const dictionary = parseDictionary(dictionaryText);
     const expected: Dictionary = {
+      // traditional entries are sorted in traditional order
       traditional: [
-        "你們 你们 [nǐ men] /you (plural)/",
-        "你好 你好 [nǐ hǎo] /hello/hi/",
+        "你死我活 你死我活 [nǐ sǐ wǒ huó] /lit. you die, I live (idiom); irreconcilable adversaries/two parties cannot coexist/",
+        "你爭我奪 你争我夺 [nǐ zhēng wǒ duó] /lit. you fight, I snatch (idiom); to compete fiercely offering no quarter/fierce rivalry/tug-of-war/",
       ],
+      // simplified entries are sorted in simplified order
       simplified: [
-        "你們 你们 [nǐ men] /you (plural)/",
-        "你好 你好 [nǐ hǎo] /hello/hi/",
+        "你爭我奪 你争我夺 [nǐ zhēng wǒ duó] /lit. you fight, I snatch (idiom); to compete fiercely offering no quarter/fierce rivalry/tug-of-war/",
+        "你死我活 你死我活 [nǐ sǐ wǒ huó] /lit. you die, I live (idiom); irreconcilable adversaries/two parties cannot coexist/",
       ],
     };
     expect(dictionary).toEqual(expected);
