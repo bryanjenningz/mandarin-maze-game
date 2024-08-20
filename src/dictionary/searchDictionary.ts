@@ -9,30 +9,19 @@ export const searchDictionary = (
 ): DictionaryEntry[] => {
   const entries: DictionaryEntry[] = [];
   while (word.length > 0) {
-    let result = binarySearch(
-      dictionary.traditional,
-      word,
-      (line) => parseLine(line)?.traditional ?? null
-    );
-    if (result) {
-      return dictionary.traditional
-        .slice(result.start, result.end)
-        .map(parseLine)
-        .filter(Boolean)
-        .slice(0, MAX_ENTRIES);
-    }
-    result = binarySearch(
-      dictionary.simplified,
-      word,
-      (line) => parseLine(line)?.simplified ?? null
-    );
-    if (result) {
-      return dictionary.simplified
-        .slice(result.start, result.end)
-        .map(parseLine)
-        .filter(Boolean)
-        .slice(0, MAX_ENTRIES);
-    }
+    const result = [
+      binarySearch(
+        dictionary.traditional,
+        word,
+        (line) => parseLine(line)?.traditional ?? null
+      ),
+      binarySearch(
+        dictionary.simplified,
+        word,
+        (line) => parseLine(line)?.simplified ?? null
+      ),
+    ].find(Boolean);
+    if (result) return result;
     word = word.slice(0, -1);
   }
   return entries;
@@ -42,7 +31,7 @@ const binarySearch = (
   lines: string[],
   target: string,
   transformLine: (line: string) => string | null
-): { start: number; end: number } | null => {
+): DictionaryEntry[] | null => {
   let low = 0;
   let high = lines.length - 1;
   while (low <= high) {
@@ -59,6 +48,8 @@ const binarySearch = (
         start -= 1;
         startLine = lines[start];
       }
+      start += 1;
+
       let end = mid;
       let endLine = lines[end];
       while (
@@ -69,7 +60,12 @@ const binarySearch = (
         end += 1;
         endLine = lines[end];
       }
-      return { start: start + 1, end };
+
+      return lines
+        .slice(start, end)
+        .slice(0, MAX_ENTRIES)
+        .map(parseLine)
+        .filter(Boolean);
     }
     if (entry < target) {
       low = mid + 1;
