@@ -28,7 +28,7 @@ export const clamp = (low: number, x: number, high: number): number => {
   return Math.min(high, Math.max(low, x));
 };
 
-type Box = { x: number; y: number; size: number };
+export type Box = { x: number; y: number; size: number };
 
 export const overlaps = (a: Box, b: Box): boolean => {
   return (
