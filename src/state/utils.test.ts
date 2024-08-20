@@ -31,4 +31,15 @@ describe("closestMonster", () => {
     const expected = monsters[1];
     expect(closest).toEqual(expected);
   });
+
+  it("finds the closest monster", () => {
+    const player: Player = { x: 0, y: 0, size: 20, health: 100 };
+    const monsters: Monster[] = [
+      { x: 0, y: 0, size: 20, health: 10, target: null },
+      { x: 100, y: 0, size: 20, health: 10, target: null },
+    ];
+    const closest = closestMonster(player, monsters);
+    const expected = monsters[0];
+    expect(closest).toEqual(expected);
+  });
 });
