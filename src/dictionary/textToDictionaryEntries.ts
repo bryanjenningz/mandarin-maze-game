@@ -1,6 +1,9 @@
-import type { DictionaryEntry } from "./types";
+import type { Dictionary, DictionaryEntry } from "./types";
 
-export const textToDictionaryEntries = (text: string): DictionaryEntry[] => {
+export const textToDictionaryEntries = (
+  dictionary: Dictionary,
+  text: string
+): DictionaryEntry[] => {
   const dictionaryEntries: DictionaryEntry[] = [];
   return dictionaryEntries;
 };
