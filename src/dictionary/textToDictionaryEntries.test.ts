@@ -1,22 +1,17 @@
-import { beforeAll, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { textToDictionaryEntries } from "./textToDictionaryEntries";
-import type { Dictionary, DictionaryEntry } from "./types";
+import type { DictionaryEntry } from "./types";
 import { parseDictionary } from "./parseDictionary";
-import * as fs from "fs/promises";
 
-const loadDictionary = async (): Promise<Dictionary> => {
-  const buffer = await fs.readFile("./public/dictionary.txt");
-  const text = buffer.toString();
-  return parseDictionary(text);
-};
-
-let dictionary: Dictionary;
+const dictionary = parseDictionary(
+  `又 又 [yòu] /(once) again/also/both... and.../and yet/(used for emphasis) anyway/
+反應 反应 [fǎn yìng] /to react/to respond/reaction/response/reply/chemical reaction/CL:個|个[gè]/
+快 快 [kuài] /rapid/quick/speed/rate/soon/almost/to make haste/clever/sharp (of knives or wits)/forthright/plainspoken/gratified/pleased/pleasant/
+明確 明确 [míng qùe] /clear-cut; definite; explicit/to clarify; to specify; to make definite/
+邏輯 逻辑 [luó ji] /logic (loanword)/`
+);
 
 describe("textToDictionaryEntries", () => {
-  beforeAll(async () => {
-    dictionary = await loadDictionary();
-  });
-
   it("converts empty text to an empty array", () => {
     const text = "";
     const dictionaryEntries = textToDictionaryEntries(dictionary, text);
