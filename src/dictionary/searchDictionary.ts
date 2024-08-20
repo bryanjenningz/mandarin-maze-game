@@ -55,21 +55,21 @@ const binarySearch = (
     if (entry === target) {
       let start = mid;
       let startLine = lines[start];
-      while (start > 0 && startLine && transformLine(startLine) === entry) {
+      while (start >= 0 && startLine && transformLine(startLine) === entry) {
         start -= 1;
         startLine = lines[start];
       }
       let end = mid;
       let endLine = lines[end];
       while (
-        end < lines.length - 1 &&
+        end < lines.length &&
         endLine &&
         transformLine(endLine) === entry
       ) {
         end += 1;
         endLine = lines[end];
       }
-      return { start, end };
+      return { start: start + 1, end };
     }
     if (entry < target) {
       high = mid - 1;
