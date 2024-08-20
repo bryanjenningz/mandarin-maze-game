@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { clamp, closestMonster, overlaps, type Box } from "./utils";
+import { clamp, closestMonster, inBounds, overlaps, type Box } from "./utils";
 import type { Monster, Player } from "./types";
 
 describe("closestMonster", () => {
@@ -70,5 +70,28 @@ describe("overlaps", () => {
   ];
   it.each(testCases)("overlaps(%j, %j) -> %s", (first, second, expected) => {
     expect(overlaps(first, second)).toEqual(expected);
+  });
+});
+
+describe("inBounds", () => {
+  const testCases: [Box, boolean][] = [
+    [{ x: 0, y: 0, size: 20 }, true],
+    [{ x: 0, y: -1, size: 20 }, false],
+    [{ x: -1, y: 0, size: 20 }, false],
+
+    [{ x: 380, y: 0, size: 20 }, true],
+    [{ x: 380, y: -1, size: 20 }, false],
+    [{ x: 381, y: 0, size: 20 }, false],
+
+    [{ x: 0, y: 380, size: 20 }, true],
+    [{ x: 0, y: 381, size: 20 }, false],
+    [{ x: -1, y: 380, size: 20 }, false],
+
+    [{ x: 380, y: 380, size: 20 }, true],
+    [{ x: 380, y: 381, size: 20 }, false],
+    [{ x: 381, y: 380, size: 20 }, false],
+  ];
+  it.each(testCases)("inBounds(%j) -> %s", (box, expected) => {
+    expect(inBounds(box)).toEqual(expected);
   });
 });
