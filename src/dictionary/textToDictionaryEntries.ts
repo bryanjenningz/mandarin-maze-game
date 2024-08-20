@@ -15,12 +15,15 @@ export const textToDictionaryEntries = (
       dictionary,
       text.slice(i, i + MAX_WORD_LENGTH)
     );
-    const word = results[0]?.traditional;
-    if (word && !seenWords.has(word)) {
-      seenWords.add(word);
-      dictionaryEntries.push(...results);
+    const words = results.map((result) => result.traditional);
+    for (const [i, word] of words.entries()) {
+      const result = results[i];
+      if (!seenWords.has(word) && result) {
+        seenWords.add(word);
+        dictionaryEntries.push(result);
+      }
     }
-    i += word?.length ?? 1;
+    i += words[0]?.length || 1;
   }
   return dictionaryEntries;
 };
