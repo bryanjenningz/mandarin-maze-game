@@ -10,4 +10,14 @@ describe("closestMonster", () => {
     const expected = null;
     expect(closest).toEqual(expected);
   });
+
+  it("returns the null if there are no living monsters", () => {
+    const player: Player = { x: 0, y: 0, size: 20, health: 100 };
+    const monsters: Monster[] = [
+      { x: 0, y: 0, size: 20, health: 0, target: null },
+    ];
+    const closest = closestMonster(player, monsters);
+    const expected = null;
+    expect(closest).toEqual(expected);
+  });
 });
