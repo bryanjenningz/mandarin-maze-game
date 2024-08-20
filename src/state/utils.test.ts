@@ -75,18 +75,19 @@ describe("overlaps", () => {
 
 describe("inBounds", () => {
   const testCases: [Box, boolean][] = [
+    // top left
     [{ x: 0, y: 0, size: 20 }, true],
     [{ x: 0, y: -1, size: 20 }, false],
     [{ x: -1, y: 0, size: 20 }, false],
-
+    // top right
     [{ x: 380, y: 0, size: 20 }, true],
     [{ x: 380, y: -1, size: 20 }, false],
     [{ x: 381, y: 0, size: 20 }, false],
-
+    // bottom left
     [{ x: 0, y: 380, size: 20 }, true],
     [{ x: 0, y: 381, size: 20 }, false],
     [{ x: -1, y: 380, size: 20 }, false],
-
+    // bottom right
     [{ x: 380, y: 380, size: 20 }, true],
     [{ x: 380, y: 381, size: 20 }, false],
     [{ x: 381, y: 380, size: 20 }, false],
