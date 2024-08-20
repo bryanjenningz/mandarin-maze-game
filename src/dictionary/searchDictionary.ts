@@ -28,7 +28,7 @@ export const searchDictionary = (
     );
     if (result) {
       return dictionary.simplified
-        .slice(result.start, result.end + 1)
+        .slice(result.start, result.end)
         .map(parseLine)
         .filter(Boolean)
         .slice(0, MAX_ENTRIES);
