@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { closestMonster } from "./utils";
+import { clamp, closestMonster } from "./utils";
 import type { Monster, Player } from "./types";
 
 describe("closestMonster", () => {
@@ -41,5 +41,19 @@ describe("closestMonster", () => {
     const closest = closestMonster(player, monsters);
     const expected = monsters[0];
     expect(closest).toEqual(expected);
+  });
+});
+
+describe("clamp", () => {
+  const testCases: [low: number, x: number, high: number, expected: number][] =
+    [
+      [1, 3, 2, 2],
+      [1, 2, 3, 2],
+      [1, 0, 3, 1],
+      [1, 1, 3, 1],
+      [1, 4, 3, 3],
+    ];
+  it.each(testCases)("clamp(%i, %i, %i) -> %i", (low, x, high, expected) => {
+    expect(clamp(low, x, high)).toEqual(expected);
   });
 });
