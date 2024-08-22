@@ -25,6 +25,7 @@ import type {
 import { clamp, closestMonster, inBounds, overlaps } from "./utils";
 
 export const initState: State = {
+  mandarinDictionary: { traditional: [], simplified: [] },
   mandarinText: "",
   mandarinWords: [],
   knownMandarinWords: [],

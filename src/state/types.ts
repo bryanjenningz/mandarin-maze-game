@@ -1,6 +1,8 @@
+import type { Dictionary } from "../dictionary/types";
 import { BLOCK_SIZE, BULLET_SIZE, LANGUAGES } from "./constants";
 
 export type State = {
+  mandarinDictionary: Dictionary;
   mandarinText: string;
   mandarinWords: MandarinWord[];
   knownMandarinWords: string[];

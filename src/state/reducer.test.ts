@@ -21,6 +21,7 @@ import {
 } from "./constants";
 
 const defaultState: State = {
+  mandarinDictionary: { traditional: [], simplified: [] },
   mandarinText: "",
   mandarinWords: [],
   knownMandarinWords: [],
