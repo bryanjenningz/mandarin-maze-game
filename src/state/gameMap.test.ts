@@ -1,10 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
+  exitsFromGameMap,
   monstersFromGameMap,
   playerFromGameMap,
   wallsFromGameMap,
 } from "./gameMap";
-import type { GameMap, Monster, Player, Wall } from "./types";
+import type { Exit, GameMap, Monster, Player, Wall } from "./types";
 
 describe("gameMap", () => {
   describe("monstersFromGameMap", () => {
@@ -76,6 +77,25 @@ describe("gameMap", () => {
         { size: 20, x: 0, y: 20 },
       ];
       expect(walls).toEqual(expected);
+    });
+  });
+
+  describe("exitsFromGameMap", () => {
+    it("returns exits in the game map", () => {
+      const gameMap: GameMap = [
+        "### ",
+        "# M ",
+        "E   ",
+        "EMM ",
+        "    ",
+        "    ",
+      ].map((x) => x.split(""));
+      const exits: Exit[] = exitsFromGameMap(gameMap);
+      const expected = [
+        { size: 20, x: 0, y: 40 },
+        { size: 20, x: 0, y: 60 },
+      ];
+      expect(exits).toEqual(expected);
     });
   });
 });
