@@ -52,6 +52,9 @@ export const initState: State = {
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
+    case "SET_MANDARIN_DICTIONARY": {
+      return { ...state, mandarinDictionary: action.mandarinDictionary };
+    }
     case "SET_MANDARIN_TEXT": {
       return { ...state, mandarinText: action.mandarinText };
     }

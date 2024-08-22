@@ -74,6 +74,7 @@ export type Exit = {
 };
 
 export type Action =
+  | { type: "SET_MANDARIN_DICTIONARY"; mandarinDictionary: Dictionary }
   | { type: "SET_MANDARIN_TEXT"; mandarinText: string }
   | { type: "SET_MANDARIN_WORD_KNOWN"; word: string }
   | { type: "KEY_DOWN"; key: string }

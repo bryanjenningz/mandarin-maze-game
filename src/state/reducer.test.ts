@@ -19,6 +19,7 @@ import {
   BULLET_SPEED,
   SCREEN_SIZE,
 } from "./constants";
+import type { Dictionary } from "../dictionary/types";
 
 const defaultState: State = {
   mandarinDictionary: { traditional: [], simplified: [] },
@@ -40,6 +41,26 @@ const defaultState: State = {
 };
 
 describe("reducer", () => {
+  describe("SET_MANDARIN_DICTIONARY", () => {
+    it("sets mandarin dictionary", () => {
+      const state: State = {
+        ...defaultState,
+        mandarinDictionary: { traditional: [], simplified: [] },
+      };
+      const mandarinDictionary: Dictionary = {
+        traditional: ["a a [a] /a/"],
+        simplified: ["a a [a] /a/"],
+      };
+      const action: Action = {
+        type: "SET_MANDARIN_DICTIONARY",
+        mandarinDictionary,
+      };
+      const newState: State = reducer(state, action);
+      const expected: State = { ...state, mandarinDictionary };
+      expect(newState).toEqual(expected);
+    });
+  });
+
   describe("SET_MANDARIN_TEXT", () => {
     it("sets mandarin text", () => {
       const state: State = {
