@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { monstersFromGameMap, playerFromGameMap } from "./gameMap";
-import type { GameMap, Monster, Player } from "./types";
+import {
+  monstersFromGameMap,
+  playerFromGameMap,
+  wallsFromGameMap,
+} from "./gameMap";
+import type { GameMap, Monster, Player, Wall } from "./types";
 
 describe("gameMap", () => {
   describe("monstersFromGameMap", () => {
@@ -51,6 +55,27 @@ describe("gameMap", () => {
       const player: Player | null = playerFromGameMap(gameMap);
       const expected: Player = { x: 60, y: 0, size: 20, health: 100 };
       expect(player).toEqual(expected);
+    });
+  });
+
+  describe("wallsFromGameMap", () => {
+    it("returns walls in the game map", () => {
+      const gameMap: GameMap = [
+        "### ",
+        "# M ",
+        "    ",
+        " MM ",
+        "    ",
+        "    ",
+      ].map((x) => x.split(""));
+      const walls: Wall[] = wallsFromGameMap(gameMap);
+      const expected = [
+        { size: 20, x: 0, y: 0 },
+        { size: 20, x: 20, y: 0 },
+        { size: 20, x: 40, y: 0 },
+        { size: 20, x: 0, y: 20 },
+      ];
+      expect(walls).toEqual(expected);
     });
   });
 });
