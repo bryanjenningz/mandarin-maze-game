@@ -25,6 +25,20 @@ describe("gameMap", () => {
   });
 
   describe("playerFromGameMap", () => {
+    it("returns null if there are no players in the game map", () => {
+      const gameMap: GameMap = [
+        "    ",
+        "M M ",
+        "    ",
+        " MM ",
+        "    ",
+        "    ",
+      ].map((x) => x.split(""));
+      const player: Player | null = playerFromGameMap(gameMap);
+      const expected = null;
+      expect(player).toEqual(expected);
+    });
+
     it("returns player in the game map", () => {
       const gameMap: GameMap = [
         "   P",
