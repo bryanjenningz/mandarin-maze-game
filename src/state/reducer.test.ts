@@ -62,16 +62,65 @@ describe("reducer", () => {
   });
 
   describe("SET_MANDARIN_TEXT", () => {
-    it("sets mandarin text", () => {
+    it("sets mandarin text, sets mandarinWords, clears words in knownMandarinWords that aren't in mandarinWords", () => {
+      const mandarinDictionary: Dictionary = {
+        traditional: [
+          "a a-simplified [a-pinyin] /a-meaning/",
+          "c c-simplified [c-pinyin] /c-meaning/",
+          "d d-simplified [d-pinyin] /d-meaning/",
+        ],
+        simplified: [
+          "a a-simplified [a-pinyin] /a-meaning/",
+          "c c-simplified [c-pinyin] /c-meaning/",
+          "d d-simplified [d-pinyin] /d-meaning/",
+        ],
+      };
       const state: State = {
         ...defaultState,
-        mandarinText: "",
+        mandarinDictionary,
+        mandarinText: "acd",
+        mandarinWords: [
+          {
+            word: "a",
+            pronunciation: "a-pinyin",
+            meaning: "a-meaning",
+            context: "acd",
+          },
+          {
+            word: "c",
+            pronunciation: "c-pinyin",
+            meaning: "c-meaning",
+            context: "acd",
+          },
+          {
+            word: "d",
+            pronunciation: "d-pinyin",
+            meaning: "d-meaning",
+            context: "acd",
+          },
+        ],
+        knownMandarinWords: ["c", "d"],
       };
       const action: Action = { type: "SET_MANDARIN_TEXT", mandarinText: "abc" };
       const newState: State = reducer(state, action);
       const expected: State = {
         ...state,
         mandarinText: "abc",
+        mandarinWords: [
+          {
+            word: "a",
+            pronunciation: "a-pinyin",
+            meaning: "a-meaning",
+            context: "abc",
+          },
+          {
+            word: "c",
+            pronunciation: "c-pinyin",
+            meaning: "c-meaning",
+            context: "abc",
+          },
+        ],
+        knownMandarinWords: ["c"],
       };
       expect(newState).toEqual(expected);
     });
