@@ -27,9 +27,12 @@ import type {
 } from "./types";
 import { clamp, closestMonster, inBounds, overlaps } from "./utils";
 
+export const initMandarinText =
+  "他們以前連飯都吃不飽，現在生活條件已經改善了很多";
+
 export const initState: State = {
   mandarinDictionary: { traditional: [], simplified: [] },
-  mandarinText: "",
+  mandarinText: initMandarinText,
   mandarinWords: [],
   knownMandarinWords: [],
   status: "START",
