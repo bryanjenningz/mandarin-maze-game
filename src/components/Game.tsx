@@ -7,6 +7,7 @@ import { PlayerBlock } from "./PlayerBlock";
 import { BulletBlock } from "./BulletBlock";
 import { MonsterBlock } from "./MonsterBlock";
 import { WallBlock } from "./WallBlock";
+import { classNames } from "./utils";
 
 const generateTarget = ({ x, y }: Monster): Target | null => {
   if (Math.random() < 0.98) return null;
@@ -80,6 +81,31 @@ export const Game = (): JSX.Element => {
                 });
               }}
             ></textarea>
+            <div className="flex flex-wrap gap-4">
+              {state.mandarinWords.map((mandarinWord, i) => {
+                return (
+                  <button
+                    key={`${mandarinWord.word}-${i}`}
+                    className={classNames(
+                      "text-white py-2 px-4 rounded-lg",
+                      state.knownMandarinWords.includes(mandarinWord.word)
+                        ? "bg-blue-600"
+                        : "bg-gray-600"
+                    )}
+                    onClick={() => {
+                      dispatch({
+                        type: "SET_MANDARIN_WORD_KNOWN",
+                        word: mandarinWord.word,
+                      });
+                    }}
+                  >
+                    <div>{mandarinWord.word}</div>
+                    <div>{mandarinWord.pronunciation}</div>
+                    <div>{mandarinWord.meaning}</div>
+                  </button>
+                );
+              })}
+            </div>
             <button
               className="py-2 px-4 rounded-lg bg-blue-800 text-white hover:brightness-110 transition duration-300 text-lg"
               onClick={() => dispatch({ type: "START_GAME" })}
