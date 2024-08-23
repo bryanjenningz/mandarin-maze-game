@@ -42,21 +42,29 @@ const defaultState: State = {
 
 describe("reducer", () => {
   describe("SET_MANDARIN_DICTIONARY", () => {
-    it("sets mandarin dictionary", () => {
+    it("sets mandarin dictionary and mandarinWords", () => {
       const state: State = {
         ...defaultState,
         mandarinDictionary: { traditional: [], simplified: [] },
+        mandarinText: "a",
+        mandarinWords: [],
       };
       const mandarinDictionary: Dictionary = {
-        traditional: ["a a [a] /a/"],
-        simplified: ["a a [a] /a/"],
+        traditional: ["a a [a] /a/", "b b [b] /b/"],
+        simplified: ["a a [a] /a/", "b b [b] /b/"],
       };
       const action: Action = {
         type: "SET_MANDARIN_DICTIONARY",
         mandarinDictionary,
       };
       const newState: State = reducer(state, action);
-      const expected: State = { ...state, mandarinDictionary };
+      const expected: State = {
+        ...state,
+        mandarinDictionary,
+        mandarinWords: [
+          { word: "a", pronunciation: "a", meaning: "a", context: "a" },
+        ],
+      };
       expect(newState).toEqual(expected);
     });
   });
