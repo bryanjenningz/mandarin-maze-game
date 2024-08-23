@@ -62,6 +62,33 @@ export const Game = (): JSX.Element => {
     };
   }, []);
 
+  if (state.status === "START") {
+    return (
+      <div className="text-white bg-black w-full h-[100svh] flex justify-center items-center">
+        <div className="relative aspect-square w-full max-w-2xl bg-gray-800">
+          <div className="w-full h-full flex flex-col items-center gap-4 justify-center">
+            <h2 className="text-lg">
+              Paste text with Mandarin words you want to learn
+            </h2>
+            <textarea
+              className="text-lg w-4/5 bg-gray-600 p-2"
+              value={state.mandarinText}
+              onChange={(e) => {
+                dispatch({
+                  type: "SET_MANDARIN_TEXT",
+                  mandarinText: e.target.value,
+                });
+              }}
+            ></textarea>
+            <button className="py-2 px-4 rounded-lg bg-blue-800 text-white hover:brightness-110 transition duration-300 text-lg">
+              Start Game
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const closest = closestMonster(state.player, state.monsters);
 
   return (

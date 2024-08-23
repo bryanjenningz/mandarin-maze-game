@@ -32,7 +32,7 @@ export const initState: State = {
   mandarinText: "",
   mandarinWords: [],
   knownMandarinWords: [],
-  status: "ACTIVE",
+  status: "START",
   gameMapLevel: 0,
   gameMaps,
   keysDown: new Set(),
