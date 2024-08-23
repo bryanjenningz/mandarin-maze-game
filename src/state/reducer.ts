@@ -1,5 +1,5 @@
 import { textToDictionaryEntries } from "../dictionary/textToDictionaryEntries";
-import type { DictionaryEntry } from "../dictionary/types";
+import type { Dictionary, DictionaryEntry } from "../dictionary/types";
 import {
   BLOCK_SIZE,
   BULLET_DAMAGE,
@@ -26,6 +26,22 @@ import type {
   MandarinWord,
 } from "./types";
 import { clamp, closestMonster, inBounds, overlaps } from "./utils";
+
+const textToMandarinWords = (
+  mandarinDictionary: Dictionary,
+  mandarinText: string
+): MandarinWord[] => {
+  return textToDictionaryEntries(mandarinDictionary, mandarinText).map(
+    (dictionaryEntry: DictionaryEntry): MandarinWord => {
+      return {
+        word: dictionaryEntry.traditional,
+        pronunciation: dictionaryEntry.pronunciation,
+        context: mandarinText,
+        meaning: dictionaryEntry.meaning,
+      };
+    }
+  );
+};
 
 export const initMandarinText =
   "他們以前連飯都吃不飽，現在生活條件已經改善了很多";
@@ -63,17 +79,10 @@ export const reducer = (state: State, action: Action): State => {
     }
     case "SET_MANDARIN_TEXT": {
       const { mandarinText } = action;
-      const mandarinWords: MandarinWord[] = textToDictionaryEntries(
+      const mandarinWords: MandarinWord[] = textToMandarinWords(
         state.mandarinDictionary,
         mandarinText
-      ).map((dictionaryEntry: DictionaryEntry): MandarinWord => {
-        return {
-          word: dictionaryEntry.traditional,
-          pronunciation: dictionaryEntry.pronunciation,
-          context: mandarinText,
-          meaning: dictionaryEntry.meaning,
-        };
-      });
+      );
       const knownMandarinWords: string[] = state.knownMandarinWords.filter(
         (word) =>
           !!mandarinWords.find((mandarinWord) => mandarinWord.word === word)
