@@ -1,3 +1,5 @@
+import { textToDictionaryEntries } from "../dictionary/textToDictionaryEntries";
+import type { DictionaryEntry } from "../dictionary/types";
 import {
   BLOCK_SIZE,
   BULLET_DAMAGE,
@@ -21,6 +23,7 @@ import type {
   Player,
   MonsterMove,
   Status,
+  MandarinWord,
 } from "./types";
 import { clamp, closestMonster, inBounds, overlaps } from "./utils";
 
@@ -56,7 +59,23 @@ export const reducer = (state: State, action: Action): State => {
       return { ...state, mandarinDictionary: action.mandarinDictionary };
     }
     case "SET_MANDARIN_TEXT": {
-      return { ...state, mandarinText: action.mandarinText };
+      const { mandarinText } = action;
+      const mandarinWords: MandarinWord[] = textToDictionaryEntries(
+        state.mandarinDictionary,
+        mandarinText
+      ).map((dictionaryEntry: DictionaryEntry): MandarinWord => {
+        return {
+          word: dictionaryEntry.traditional,
+          pronunciation: dictionaryEntry.pronunciation,
+          context: mandarinText,
+          meaning: dictionaryEntry.meaning,
+        };
+      });
+      const knownMandarinWords: string[] = state.knownMandarinWords.filter(
+        (word) =>
+          !!mandarinWords.find((mandarinWord) => mandarinWord.word === word)
+      );
+      return { ...state, mandarinText, mandarinWords, knownMandarinWords };
     }
     case "SET_MANDARIN_WORD_KNOWN": {
       const knownMandarinWords = [
