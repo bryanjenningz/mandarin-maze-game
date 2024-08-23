@@ -75,7 +75,12 @@ export const initState: State = {
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "SET_MANDARIN_DICTIONARY": {
-      return { ...state, mandarinDictionary: action.mandarinDictionary };
+      const { mandarinDictionary } = action;
+      const mandarinWords: MandarinWord[] = textToMandarinWords(
+        mandarinDictionary,
+        state.mandarinText
+      );
+      return { ...state, mandarinDictionary, mandarinWords };
     }
     case "SET_MANDARIN_TEXT": {
       const { mandarinText } = action;
