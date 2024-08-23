@@ -80,7 +80,10 @@ export const Game = (): JSX.Element => {
                 });
               }}
             ></textarea>
-            <button className="py-2 px-4 rounded-lg bg-blue-800 text-white hover:brightness-110 transition duration-300 text-lg">
+            <button
+              className="py-2 px-4 rounded-lg bg-blue-800 text-white hover:brightness-110 transition duration-300 text-lg"
+              onClick={() => dispatch({ type: "START_GAME" })}
+            >
               Start Game
             </button>
           </div>
