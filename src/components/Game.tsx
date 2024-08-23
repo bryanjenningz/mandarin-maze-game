@@ -8,6 +8,8 @@ import { BulletBlock } from "./BulletBlock";
 import { MonsterBlock } from "./MonsterBlock";
 import { WallBlock } from "./WallBlock";
 import { classNames } from "./utils";
+import { loadDictionary } from "../dictionary/loadDictionary";
+import { parseDictionary } from "../dictionary/parseDictionary";
 
 const generateTarget = ({ x, y }: Monster): Target | null => {
   if (Math.random() < 0.98) return null;
@@ -30,6 +32,14 @@ const generateMonsterMoves = (monsters: Monster[]): MonsterMove[] => {
 
 export const Game = (): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, initState);
+
+  useEffect(() => {
+    void (async () => {
+      const dictionaryText = await loadDictionary();
+      const mandarinDictionary = parseDictionary(dictionaryText);
+      dispatch({ type: "SET_MANDARIN_DICTIONARY", mandarinDictionary });
+    })();
+  }, []);
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
