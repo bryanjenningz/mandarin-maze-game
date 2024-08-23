@@ -142,6 +142,16 @@ describe("reducer", () => {
     });
   });
 
+  describe("START_GAME", () => {
+    it("sets status to ACTIVE", () => {
+      const state: State = { ...defaultState, status: "START" };
+      const action: Action = { type: "START_GAME" };
+      const newState: State = reducer(state, action);
+      const expected: State = { ...state, status: "ACTIVE" };
+      expect(newState).toEqual(expected);
+    });
+  });
+
   describe("KEY_DOWN", () => {
     it("adds lowercase 'a' key down to state when you press down 'A'", () => {
       const state: State = defaultState;

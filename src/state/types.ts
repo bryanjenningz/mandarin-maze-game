@@ -77,6 +77,7 @@ export type Action =
   | { type: "SET_MANDARIN_DICTIONARY"; mandarinDictionary: Dictionary }
   | { type: "SET_MANDARIN_TEXT"; mandarinText: string }
   | { type: "SET_MANDARIN_WORD_KNOWN"; word: string }
+  | { type: "START_GAME" }
   | { type: "KEY_DOWN"; key: string }
   | { type: "KEY_UP"; key: string }
   | { type: "TICK"; time: number; monsterMoves: MonsterMove[] };

@@ -84,6 +84,9 @@ export const reducer = (state: State, action: Action): State => {
       ];
       return { ...state, knownMandarinWords };
     }
+    case "START_GAME": {
+      return { ...state, status: "ACTIVE" };
+    }
     case "KEY_DOWN": {
       const keysDown = new Set([...state.keysDown, action.key.toLowerCase()]);
       const status: Status = (() => {
