@@ -33,7 +33,7 @@ export const GameStart = ({ dispatch, state }: GameStartProps): JSX.Element => {
                   className={classNames(
                     "text-white py-2 px-4 rounded-lg",
                     state.knownMandarinWords.includes(mandarinWord.word)
-                      ? "bg-blue-600"
+                      ? "bg-blue-800"
                       : "bg-gray-600"
                   )}
                   onClick={() => {
