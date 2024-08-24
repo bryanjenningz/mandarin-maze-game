@@ -162,6 +162,19 @@ export const reducer = (state: State, action: Action): State => {
       const monsters = updateMonsters(state, action.monsterMoves);
       const itemCount =
         state.itemCount + (state.monsters.length - monsters.length);
+      const status: Status = (() => {
+        if (itemCount === state.itemCount || state.unknownWords.length === 0) {
+          return state.status;
+        }
+        const word =
+          state.unknownWords[state.itemCount % state.unknownWords.length];
+        if (!word) return state.status;
+        const mandarinWord = state.mandarinWords.find(
+          (mandarinWord) => mandarinWord.word === word
+        );
+        if (!mandarinWord) return state.status;
+        return { type: "SHOWING_NEW_WORD", word: mandarinWord };
+      })();
       const { bullets, lastBulletFiredAt } = updateBullets(state, action.time);
       const monsterBullets = updateMonsterBullets(state, action.monsterMoves);
       const keysDown = state.keysDown.has("d")
@@ -169,6 +182,7 @@ export const reducer = (state: State, action: Action): State => {
         : state.keysDown;
       return {
         ...state,
+        status,
         keysDown,
         player,
         itemCount,
