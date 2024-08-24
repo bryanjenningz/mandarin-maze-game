@@ -145,7 +145,8 @@ export const reducer = (state: State, action: Action): State => {
     case "TICK": {
       if (
         state.status.type === "PAUSED" ||
-        state.status.type === "SHOWING_NEW_WORD"
+        state.status.type === "SHOWING_NEW_WORD" ||
+        state.status.type === "START"
       ) {
         return state;
       }

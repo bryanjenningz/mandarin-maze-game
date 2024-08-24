@@ -263,7 +263,24 @@ describe("reducer", () => {
     };
 
     describe("status", () => {
-      it("doesn't update if game is paused", () => {
+      it("doesn't update if game status is START", () => {
+        const bullets: Bullet[] = [
+          { x: 50, y: 50, dx: 1, dy: 1, size: BULLET_SIZE },
+        ];
+        const monsterBullets: Bullet[] = bullets;
+        const state: State = {
+          ...defaultState,
+          status: { type: "START" },
+          bullets,
+          monsterBullets,
+        };
+        const action: Action = tick();
+        const newState: State = reducer(state, action);
+        const expected: State = { ...state };
+        expect(newState).toEqual(expected);
+      });
+
+      it("doesn't update if game status is PAUSED", () => {
         const bullets: Bullet[] = [
           { x: 50, y: 50, dx: 1, dy: 1, size: BULLET_SIZE },
         ];
