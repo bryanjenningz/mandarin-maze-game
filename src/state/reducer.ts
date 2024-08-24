@@ -113,6 +113,7 @@ export const reducer = (state: State, action: Action): State => {
       return { ...state, status: { type: "ACTIVE" } };
     }
     case "KEY_DOWN": {
+      if (state.status.type === "START") return state;
       const keysDown = new Set([...state.keysDown, action.key.toLowerCase()]);
       const status: Status = (() => {
         if (action.key === "p") {
