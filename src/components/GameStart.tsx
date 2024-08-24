@@ -56,7 +56,10 @@ export const GameStart = ({ dispatch, state }: GameStartProps): JSX.Element => {
             )}
             aria-hidden={state.unknownWords.length === 0}
             disabled={state.unknownWords.length === 0}
-            onClick={() => dispatch({ type: "START_GAME" })}
+            onClick={() => {
+              if (state.unknownWords.length === 0) return;
+              dispatch({ type: "START_GAME" });
+            }}
           >
             Start Game
           </button>
