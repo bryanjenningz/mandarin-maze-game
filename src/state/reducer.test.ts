@@ -25,7 +25,7 @@ const defaultState: State = {
   mandarinDictionary: { traditional: [], simplified: [] },
   mandarinText: "",
   mandarinWords: [],
-  knownMandarinWords: [],
+  unknownWords: [],
   status: "ACTIVE",
   gameMapLevel: 0,
   gameMaps: [],
@@ -70,7 +70,7 @@ describe("reducer", () => {
   });
 
   describe("SET_MANDARIN_TEXT", () => {
-    it("sets mandarin text, sets mandarinWords, clears words in knownMandarinWords that aren't in mandarinWords", () => {
+    it("sets mandarin text, sets mandarinWords, clears words in unknownWords that aren't in mandarinWords", () => {
       const mandarinDictionary: Dictionary = {
         traditional: [
           "a a-simplified [a-pinyin] /a-meaning/",
@@ -107,7 +107,7 @@ describe("reducer", () => {
             context: "acd",
           },
         ],
-        knownMandarinWords: ["c", "d"],
+        unknownWords: ["c", "d"],
       };
       const action: Action = { type: "SET_MANDARIN_TEXT", mandarinText: "abc" };
       const newState: State = reducer(state, action);
@@ -128,7 +128,7 @@ describe("reducer", () => {
             context: "abc",
           },
         ],
-        knownMandarinWords: ["c"],
+        unknownWords: ["c"],
       };
       expect(newState).toEqual(expected);
     });
@@ -138,13 +138,13 @@ describe("reducer", () => {
     it("adds word to known words", () => {
       const state: State = {
         ...defaultState,
-        knownMandarinWords: ["a", "b", "c"],
+        unknownWords: ["a", "b", "c"],
       };
       const action: Action = { type: "TOGGLE_MANDARIN_WORD_KNOWN", word: "d" };
       const newState: State = reducer(state, action);
       const expected: State = {
         ...state,
-        knownMandarinWords: ["a", "b", "c", "d"],
+        unknownWords: ["a", "b", "c", "d"],
       };
       expect(newState).toEqual(expected);
     });
@@ -152,13 +152,13 @@ describe("reducer", () => {
     it("removes word from known words", () => {
       const state: State = {
         ...defaultState,
-        knownMandarinWords: ["a", "b", "c"],
+        unknownWords: ["a", "b", "c"],
       };
       const action: Action = { type: "TOGGLE_MANDARIN_WORD_KNOWN", word: "b" };
       const newState: State = reducer(state, action);
       const expected: State = {
         ...state,
-        knownMandarinWords: ["a", "c"],
+        unknownWords: ["a", "c"],
       };
       expect(newState).toEqual(expected);
     });

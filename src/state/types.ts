@@ -5,7 +5,7 @@ export type State = {
   mandarinDictionary: Dictionary;
   mandarinText: string;
   mandarinWords: MandarinWord[];
-  knownMandarinWords: string[];
+  unknownWords: string[];
   status: Status;
   gameMapLevel: number;
   gameMaps: GameMap[];

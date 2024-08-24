@@ -50,7 +50,7 @@ export const initState: State = {
   mandarinDictionary: { traditional: [], simplified: [] },
   mandarinText: initMandarinText,
   mandarinWords: [],
-  knownMandarinWords: [],
+  unknownWords: [],
   status: "START",
   gameMapLevel: 0,
   gameMaps,
@@ -88,23 +88,26 @@ export const reducer = (state: State, action: Action): State => {
         state.mandarinDictionary,
         mandarinText
       );
-      const knownMandarinWords: string[] = state.knownMandarinWords.filter(
+      const unknownWords: string[] = state.unknownWords.filter(
         (word) =>
           !!mandarinWords.find((mandarinWord) => mandarinWord.word === word)
       );
-      return { ...state, mandarinText, mandarinWords, knownMandarinWords };
+      return {
+        ...state,
+        mandarinText,
+        mandarinWords,
+        unknownWords,
+      };
     }
     case "TOGGLE_MANDARIN_WORD_KNOWN": {
-      const knownMandarinWords: string[] = (() => {
-        const hasWord = state.knownMandarinWords.includes(action.word);
+      const unknownWords: string[] = (() => {
+        const hasWord = state.unknownWords.includes(action.word);
         if (hasWord) {
-          return state.knownMandarinWords.filter(
-            (word) => word !== action.word
-          );
+          return state.unknownWords.filter((word) => word !== action.word);
         }
-        return [...state.knownMandarinWords, action.word];
+        return [...state.unknownWords, action.word];
       })();
-      return { ...state, knownMandarinWords };
+      return { ...state, unknownWords };
     }
     case "START_GAME": {
       return { ...state, status: "ACTIVE" };
