@@ -15,7 +15,7 @@ export const GameStart = ({ dispatch, state }: GameStartProps): JSX.Element => {
             Paste text with Mandarin words you want to learn
           </h2>
           <textarea
-            className="text-lg w-4/5 bg-gray-600 p-2"
+            className="text-lg w-4/5 bg-gray-600 p-2 rounded-lg"
             value={state.mandarinText}
             onChange={(e) => {
               dispatch({
