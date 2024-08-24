@@ -203,6 +203,14 @@ describe("reducer", () => {
       expect(newState).toEqual(expected);
     });
 
+    it("does nothing when 'p' is pressed at game start", () => {
+      const state: State = { ...defaultState, status: { type: "START" } };
+      const action: Action = { type: "KEY_DOWN", key: "p" };
+      const newState: State = reducer(state, action);
+      const expected: State = state;
+      expect(newState).toEqual(expected);
+    });
+
     it("resumes game when 'p' is pressed while paused", () => {
       const state: State = { ...defaultState, status: { type: "PAUSED" } };
       const action: Action = { type: "KEY_DOWN", key: "p" };
