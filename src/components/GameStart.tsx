@@ -48,8 +48,14 @@ export const GameStart = ({ dispatch, state }: GameStartProps): JSX.Element => {
               );
             })}
           </div>
+
           <button
-            className="py-2 px-4 rounded-lg bg-blue-800 text-white hover:brightness-110 transition duration-300 text-lg"
+            className={classNames(
+              "py-2 px-4 rounded-lg bg-blue-800 text-white hover:brightness-110 transition duration-300 text-lg",
+              state.unknownWords.length === 0 && "invisible"
+            )}
+            aria-hidden={state.unknownWords.length === 0}
+            disabled={state.unknownWords.length === 0}
             onClick={() => dispatch({ type: "START_GAME" })}
           >
             Start Game
