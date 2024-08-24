@@ -42,9 +42,7 @@ export const GameStart = ({ dispatch, state }: GameStartProps): JSX.Element => {
                     });
                   }}
                 >
-                  <div>{mandarinWord.word}</div>
-                  <div>{mandarinWord.pronunciation}</div>
-                  <div>{mandarinWord.meaning}</div>
+                  {mandarinWord.word}
                 </button>
               );
             })}
