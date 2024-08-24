@@ -30,7 +30,8 @@ export type MandarinWord = {
 export type Status =
   | { type: "START" }
   | { type: "ACTIVE" }
-  | { type: "PAUSED" };
+  | { type: "PAUSED" }
+  | { type: "SHOWING_NEW_WORD"; word: MandarinWord };
 
 export type Language = (typeof LANGUAGES)[number];
 
