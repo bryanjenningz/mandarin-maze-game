@@ -5,6 +5,7 @@ import type {
   Bullet,
   Exit,
   GameMap,
+  MandarinWord,
   Monster,
   MonsterMove,
   Player,
@@ -397,20 +398,34 @@ describe("reducer", () => {
         expect(newState).toEqual(expected);
       });
 
-      it("picks up item and removes monster if player overlaps with no health monster", () => {
+      it("shows new word and removes monster if player overlaps with no health monster", () => {
+        const mandarinWord: MandarinWord = {
+          word: "1",
+          pronunciation: "2",
+          meaning: "3",
+          context: "4",
+        };
         const player: Player = { x: 40, y: 30, size: 20, health: 100 };
         const monsters: Monster[] = [
           { x: 40, y: 49, size: 20, health: 0, target: null },
         ];
         const state: State = {
           ...defaultState,
+          status: { type: "ACTIVE" },
+          mandarinWords: [mandarinWord],
+          unknownWords: [mandarinWord.word],
           player,
           itemCount: 0,
           monsters,
         };
         const action: Action = tick();
         const newState: State = reducer(state, action);
-        const expected: State = { ...state, itemCount: 1, monsters: [] };
+        const expected: State = {
+          ...state,
+          status: { type: "SHOWING_NEW_WORD", word: mandarinWord },
+          itemCount: 1,
+          monsters: [],
+        };
         expect(newState).toEqual(expected);
       });
 
