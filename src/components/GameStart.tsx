@@ -24,7 +24,7 @@ export const GameStart = ({ dispatch, state }: GameStartProps): JSX.Element => {
               });
             }}
           ></textarea>
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-4 justify-center">
             {state.mandarinWords.map((mandarinWord, i) => {
               return (
                 <button
