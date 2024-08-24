@@ -73,7 +73,7 @@ export const Game = (): JSX.Element => {
     };
   }, []);
 
-  if (state.status === "START") {
+  if (state.status.type === "START") {
     return <GameStart dispatch={dispatch} state={state} />;
   }
 

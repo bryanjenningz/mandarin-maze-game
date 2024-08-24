@@ -26,7 +26,7 @@ const defaultState: State = {
   mandarinText: "",
   mandarinWords: [],
   unknownWords: [],
-  status: "ACTIVE",
+  status: { type: "ACTIVE" },
   gameMapLevel: 0,
   gameMaps: [],
   keysDown: new Set(),
@@ -166,10 +166,10 @@ describe("reducer", () => {
 
   describe("START_GAME", () => {
     it("sets status to ACTIVE", () => {
-      const state: State = { ...defaultState, status: "START" };
+      const state: State = { ...defaultState, status: { type: "START" } };
       const action: Action = { type: "START_GAME" };
       const newState: State = reducer(state, action);
-      const expected: State = { ...state, status: "ACTIVE" };
+      const expected: State = { ...state, status: { type: "ACTIVE" } };
       expect(newState).toEqual(expected);
     });
   });
@@ -192,24 +192,24 @@ describe("reducer", () => {
     });
 
     it("pauses game when 'p' is pressed while active", () => {
-      const state: State = { ...defaultState, status: "ACTIVE" };
+      const state: State = { ...defaultState, status: { type: "ACTIVE" } };
       const action: Action = { type: "KEY_DOWN", key: "p" };
       const newState: State = reducer(state, action);
       const expected: State = {
         ...state,
-        status: "PAUSED",
+        status: { type: "PAUSED" },
         keysDown: new Set(["p"]),
       };
       expect(newState).toEqual(expected);
     });
 
     it("resumes game when 'p' is pressed while paused", () => {
-      const state: State = { ...defaultState, status: "PAUSED" };
+      const state: State = { ...defaultState, status: { type: "PAUSED" } };
       const action: Action = { type: "KEY_DOWN", key: "p" };
       const newState: State = reducer(state, action);
       const expected: State = {
         ...state,
-        status: "ACTIVE",
+        status: { type: "ACTIVE" },
         keysDown: new Set(["p"]),
       };
       expect(newState).toEqual(expected);
@@ -261,7 +261,7 @@ describe("reducer", () => {
         const monsterBullets: Bullet[] = bullets;
         const state: State = {
           ...defaultState,
-          status: "PAUSED",
+          status: { type: "PAUSED" },
           bullets,
           monsterBullets,
         };
