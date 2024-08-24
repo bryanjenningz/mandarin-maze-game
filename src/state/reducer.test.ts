@@ -148,6 +148,20 @@ describe("reducer", () => {
       };
       expect(newState).toEqual(expected);
     });
+
+    it("removes word from known words", () => {
+      const state: State = {
+        ...defaultState,
+        knownMandarinWords: ["a", "b", "c"],
+      };
+      const action: Action = { type: "TOGGLE_MANDARIN_WORD_KNOWN", word: "b" };
+      const newState: State = reducer(state, action);
+      const expected: State = {
+        ...state,
+        knownMandarinWords: ["a", "c"],
+      };
+      expect(newState).toEqual(expected);
+    });
   });
 
   describe("START_GAME", () => {
