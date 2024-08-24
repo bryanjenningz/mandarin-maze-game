@@ -112,18 +112,29 @@ export const reducer = (state: State, action: Action): State => {
     case "START_GAME": {
       return { ...state, status: { type: "ACTIVE" } };
     }
-    case "KEY_DOWN": {
-      if (state.status.type === "START") return state;
-      const keysDown = new Set([...state.keysDown, action.key.toLowerCase()]);
-      const status: Status = (() => {
-        if (action.key === "p") {
-          if (state.status.type === "ACTIVE") return { type: "PAUSED" };
-          return { type: "ACTIVE" };
+    case "KEY_DOWN":
+      return ((): State => {
+        switch (state.status.type) {
+          case "START": {
+            return state;
+          }
+          case "ACTIVE":
+          case "PAUSED": {
+            const keysDown = new Set([
+              ...state.keysDown,
+              action.key.toLowerCase(),
+            ]);
+            const status: Status = (() => {
+              if (action.key === "p") {
+                if (state.status.type === "ACTIVE") return { type: "PAUSED" };
+                return { type: "ACTIVE" };
+              }
+              return state.status;
+            })();
+            return { ...state, status, keysDown };
+          }
         }
-        return state.status;
       })();
-      return { ...state, status, keysDown };
-    }
     case "KEY_UP": {
       const keysDown = new Set(
         [...state.keysDown].filter((key) => key !== action.key.toLowerCase())
