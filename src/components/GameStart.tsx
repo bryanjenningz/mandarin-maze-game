@@ -10,12 +10,10 @@ export const GameStart = ({ dispatch, state }: GameStartProps): JSX.Element => {
   return (
     <div className="text-white bg-black w-full h-[100svh] flex justify-center items-center">
       <div className="relative aspect-square w-full max-w-2xl bg-gray-800">
-        <div className="w-full h-full flex flex-col items-center gap-4 justify-center">
-          <h2 className="text-lg">
-            Paste text with Mandarin words you want to learn
-          </h2>
+        <div className="w-full h-full flex flex-col items-center gap-3 p-2 justify-center">
+          <h2>Paste Mandarin text you want to learn</h2>
           <textarea
-            className="text-lg w-4/5 bg-gray-600 p-2 rounded-lg resize-none"
+            className="text-lg w-4/5 min-h-20 bg-gray-600 p-2 rounded-lg resize-none"
             value={state.mandarinText}
             onChange={(e) => {
               dispatch({
@@ -25,7 +23,7 @@ export const GameStart = ({ dispatch, state }: GameStartProps): JSX.Element => {
             }}
           ></textarea>
           <h2>Select words you want to know</h2>
-          <div className="flex flex-wrap gap-4 justify-center">
+          <div className="flex flex-wrap gap-2 justify-center overflow-auto">
             {state.mandarinWords.map((mandarinWord, i) => {
               return (
                 <button
