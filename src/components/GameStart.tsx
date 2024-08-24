@@ -52,7 +52,7 @@ export const GameStart = ({ dispatch, state }: GameStartProps): JSX.Element => {
           <button
             className={classNames(
               "py-2 px-4 rounded-lg bg-blue-800 text-white hover:brightness-110 transition duration-300 text-lg",
-              state.unknownWords.length === 0 && "invisible"
+              state.unknownWords.length === 0 ? "opacity-0" : "opacity-100"
             )}
             aria-hidden={state.unknownWords.length === 0}
             disabled={state.unknownWords.length === 0}
