@@ -38,7 +38,7 @@ export const GameStart = ({ dispatch, state }: GameStartProps): JSX.Element => {
                   )}
                   onClick={() => {
                     dispatch({
-                      type: "SET_MANDARIN_WORD_KNOWN",
+                      type: "TOGGLE_MANDARIN_WORD_KNOWN",
                       word: mandarinWord.word,
                     });
                   }}

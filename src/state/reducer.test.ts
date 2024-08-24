@@ -134,13 +134,13 @@ describe("reducer", () => {
     });
   });
 
-  describe("SET_MANDARIN_WORD_KNOWN", () => {
+  describe("TOGGLE_MANDARIN_WORD_KNOWN", () => {
     it("adds word to known words", () => {
       const state: State = {
         ...defaultState,
         knownMandarinWords: ["a", "b", "c"],
       };
-      const action: Action = { type: "SET_MANDARIN_WORD_KNOWN", word: "d" };
+      const action: Action = { type: "TOGGLE_MANDARIN_WORD_KNOWN", word: "d" };
       const newState: State = reducer(state, action);
       const expected: State = {
         ...state,

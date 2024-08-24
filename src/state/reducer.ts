@@ -94,7 +94,7 @@ export const reducer = (state: State, action: Action): State => {
       );
       return { ...state, mandarinText, mandarinWords, knownMandarinWords };
     }
-    case "SET_MANDARIN_WORD_KNOWN": {
+    case "TOGGLE_MANDARIN_WORD_KNOWN": {
       const knownMandarinWords = [
         ...state.knownMandarinWords.filter((word) => word !== action.word),
         action.word,
