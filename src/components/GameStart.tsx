@@ -9,11 +9,11 @@ type GameStartProps = {
 export const GameStart = ({ dispatch, state }: GameStartProps): JSX.Element => {
   return (
     <div className="text-white bg-black w-full h-[100svh] flex justify-center items-center">
-      <div className="relative aspect-square w-full max-w-2xl bg-gray-800">
-        <div className="w-full h-full flex flex-col items-center gap-3 p-2 justify-center">
+      <div className="w-full h-screen max-w-2xl">
+        <div className="w-full h-full flex flex-col items-center gap-4 p-4 justify-center">
           <h2>Paste Mandarin text you want to learn</h2>
           <textarea
-            className="text-lg w-4/5 min-h-20 bg-gray-600 p-2 rounded-lg resize-none"
+            className="text-lg min-h-32 w-full bg-gray-600 p-2 rounded-lg resize-none"
             value={state.mandarinText}
             onChange={(e) => {
               dispatch({
