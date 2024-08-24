@@ -95,10 +95,15 @@ export const reducer = (state: State, action: Action): State => {
       return { ...state, mandarinText, mandarinWords, knownMandarinWords };
     }
     case "TOGGLE_MANDARIN_WORD_KNOWN": {
-      const knownMandarinWords = [
-        ...state.knownMandarinWords.filter((word) => word !== action.word),
-        action.word,
-      ];
+      const knownMandarinWords: string[] = (() => {
+        const hasWord = state.knownMandarinWords.includes(action.word);
+        if (hasWord) {
+          return state.knownMandarinWords.filter(
+            (word) => word !== action.word
+          );
+        }
+        return [...state.knownMandarinWords, action.word];
+      })();
       return { ...state, knownMandarinWords };
     }
     case "START_GAME": {
