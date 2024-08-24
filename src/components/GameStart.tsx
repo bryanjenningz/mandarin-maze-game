@@ -21,6 +21,7 @@ export const GameStart = ({ dispatch, state }: GameStartProps): JSX.Element => {
                 mandarinText: e.target.value,
               });
             }}
+            placeholder="Paste Mandarin text here"
           ></textarea>
           <h2>Select words you want to know</h2>
           <div className="flex flex-wrap gap-2 justify-center overflow-auto">
