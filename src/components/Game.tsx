@@ -10,6 +10,7 @@ import { parseDictionary } from "../dictionary/parseDictionary";
 import { GameStart } from "./GameStart";
 import { generateMonsterMoves } from "../state/random";
 import { NewWord } from "./NewWord";
+import { LevelReview } from "./LevelReview";
 
 export const Game = (): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, initState);
@@ -86,12 +87,33 @@ export const Game = (): JSX.Element => {
 
         <PlayerBlock player={state.player} />
 
-        {state.status.type === "SHOWING_NEW_WORD" && (
-          <NewWord
-            mandarinWord={state.status.word}
-            resumeGame={() => dispatch({ type: "START_GAME" })}
-          />
-        )}
+        {((): JSX.Element => {
+          switch (state.status.type) {
+            case "ACTIVE":
+            case "PAUSED": {
+              return <></>;
+            }
+            case "SHOWING_NEW_WORD": {
+              return (
+                <NewWord
+                  mandarinWord={state.status.word}
+                  resumeGame={() => dispatch({ type: "START_GAME" })}
+                />
+              );
+            }
+            case "SHOWING_LEVEL_REVIEW": {
+              const firstWord = state.status.words[0];
+              if (!firstWord) return <></>;
+              return (
+                <LevelReview
+                  mandarinWord={firstWord}
+                  passReview={() => dispatch({ type: "PASS_REVIEW" })}
+                  failReview={() => dispatch({ type: "FAIL_REVIEW" })}
+                />
+              );
+            }
+          }
+        })()}
       </div>
     </div>
   );
