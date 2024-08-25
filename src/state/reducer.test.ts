@@ -265,10 +265,39 @@ describe("reducer", () => {
       ],
     ];
     it.each(statuses)(
-      "Does nothing if the game status is not SHOWING_LEVEL_REVIEW (%j)",
+      "does nothing if the game status is not SHOWING_LEVEL_REVIEW (%j)",
       (status) => {
         const state: State = { ...defaultState, status };
         const action: Action = { type: "PASS_REVIEW" };
+        const newState: State = reducer(state, action);
+        const expected: State = state;
+        expect(newState).toEqual(expected);
+      }
+    );
+  });
+
+  describe("FAIL_REVIEW", () => {
+    const statuses: [Status][] = [
+      [{ type: "START" }],
+      [{ type: "ACTIVE" }],
+      [{ type: "PAUSED" }],
+      [
+        {
+          type: "SHOWING_NEW_WORD",
+          word: {
+            word: "w-2",
+            pronunciation: "p-2",
+            meaning: "m-2",
+            context: "c-2",
+          },
+        },
+      ],
+    ];
+    it.each(statuses)(
+      "does nothing if the game status is not SHOWING_LEVEL_REVIEW (%j)",
+      (status) => {
+        const state: State = { ...defaultState, status };
+        const action: Action = { type: "FAIL_REVIEW" };
         const newState: State = reducer(state, action);
         const expected: State = state;
         expect(newState).toEqual(expected);
