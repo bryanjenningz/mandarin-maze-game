@@ -362,25 +362,27 @@ describe("reducer", () => {
           };
         }
       );
+      const [word1, word2, word3, word4] = words;
+      if (!word1 || !word2 || !word3 || !word4) {
+        throw new Error("Invalid test! Expected words to be defined");
+      }
       const state: State = {
         ...defaultState,
-        status: { type: "SHOWING_LEVEL_REVIEW", words },
+        status: {
+          type: "SHOWING_LEVEL_REVIEW",
+          words: [word1, word2, word3, word4],
+        },
       };
-      const action: Action = { type: "PASS_REVIEW" };
+      const action: Action = { type: "FAIL_REVIEW" };
       const newState: State = reducer(state, action);
-      const expectedNewWords: MandarinWord[] = [
-        ...words.slice(1),
-        words[0],
-      ].filter(Boolean);
       const expected: State = {
         ...state,
         status: {
           type: "SHOWING_LEVEL_REVIEW",
-          words: expectedNewWords,
+          words: [word2, word3, word4, word1],
         },
       };
       expect(newState).toEqual(expected);
-      expect(expectedNewWords).toHaveLength(words.length);
     });
   });
 

@@ -144,15 +144,18 @@ export const reducer = (state: State, action: Action): State => {
       return { ...state, keysDown };
     }
     case "PASS_REVIEW": {
-      if (state.status.type !== "SHOWING_LEVEL_REVIEW") {
-        return state;
-      }
+      if (state.status.type !== "SHOWING_LEVEL_REVIEW") return state;
       const words: MandarinWord[] = state.status.words.slice(1);
       const status: Status = { type: "SHOWING_LEVEL_REVIEW", words };
       return { ...state, status };
     }
     case "FAIL_REVIEW": {
-      return state;
+      if (state.status.type !== "SHOWING_LEVEL_REVIEW") return state;
+      const firstWord = state.status.words[0];
+      if (!firstWord) return state;
+      const words: MandarinWord[] = [...state.status.words.slice(1), firstWord];
+      const status: Status = { type: "SHOWING_LEVEL_REVIEW", words };
+      return { ...state, status };
     }
     case "TICK": {
       if (state.status.type === "SHOWING_LEVEL_REVIEW") {
