@@ -319,7 +319,7 @@ describe("reducer", () => {
     });
 
     describe("game map level", () => {
-      it("increases map level and set the new state when the player is overlapping with an exit", () => {
+      it("increases map level and set the new state when the player is overlapping with an exit and status is ACTIVE", () => {
         const player: Player = { x: 0, y: 19, size: 20, health: 100 };
         const exits: Exit[] = [{ x: 0, y: 0, size: 20 }];
         const gameMap1 = [
@@ -333,6 +333,7 @@ describe("reducer", () => {
         const gameMaps: GameMap[] = [gameMap1, gameMap2];
         const state: State = {
           ...defaultState,
+          status: { type: "ACTIVE" },
           gameMapLevel: 0,
           gameMaps,
           player,
