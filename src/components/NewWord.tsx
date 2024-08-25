@@ -11,7 +11,7 @@ export const NewWord = ({
   resumeGame,
 }: NewWordProps): JSX.Element => {
   return (
-    <div className="relative bg-gray-800 text-white p-4 max-w-2xl w-full flex flex-col items-center justify-center gap-4 z-20">
+    <div className="absolute inset-0 bg-gray-800 text-white p-4 max-w-2xl w-full flex flex-col items-center justify-center gap-4 z-20">
       <h2 className="text-xl">You found a new word!</h2>
       <div className="flex gap-4">
         <div className="text-lg font-bold">{mandarinWord.word}</div>
