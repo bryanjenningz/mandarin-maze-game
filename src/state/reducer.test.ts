@@ -338,6 +338,20 @@ describe("reducer", () => {
         const expected: State = { ...state };
         expect(newState).toEqual(expected);
       });
+
+      it("changes the status to ACTIVE if there are no words left to review and status is SHOWING_LEVEL_REVIEW", () => {
+        const state: State = {
+          ...defaultState,
+          status: {
+            type: "SHOWING_LEVEL_REVIEW",
+            words: [],
+          },
+        };
+        const action: Action = tick();
+        const newState: State = reducer(state, action);
+        const expected: State = { ...state, status: { type: "ACTIVE" } };
+        expect(newState).toEqual(expected);
+      });
     });
 
     describe("game map level", () => {
