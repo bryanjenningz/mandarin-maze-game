@@ -116,7 +116,8 @@ export const reducer = (state: State, action: Action): State => {
       return ((): State => {
         switch (state.status.type) {
           case "START":
-          case "SHOWING_NEW_WORD": {
+          case "SHOWING_NEW_WORD":
+          case "SHOWING_LEVEL_REVIEW": {
             return state;
           }
           case "ACTIVE":

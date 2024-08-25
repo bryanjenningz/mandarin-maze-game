@@ -31,7 +31,8 @@ export type Status =
   | { type: "START" }
   | { type: "ACTIVE" }
   | { type: "PAUSED" }
-  | { type: "SHOWING_NEW_WORD"; word: MandarinWord };
+  | { type: "SHOWING_NEW_WORD"; word: MandarinWord }
+  | { type: "SHOWING_LEVEL_REVIEW"; words: MandarinWord[] };
 
 export type Language = (typeof LANGUAGES)[number];
 
