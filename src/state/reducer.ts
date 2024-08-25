@@ -147,7 +147,8 @@ export const reducer = (state: State, action: Action): State => {
       if (
         state.status.type === "PAUSED" ||
         state.status.type === "SHOWING_NEW_WORD" ||
-        state.status.type === "START"
+        state.status.type === "START" ||
+        state.status.type === "SHOWING_LEVEL_REVIEW"
       ) {
         return state;
       }
