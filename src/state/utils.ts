@@ -42,3 +42,11 @@ export const overlaps = (a: Box, b: Box): boolean => {
 export const inBounds = ({ x, y, size }: Box): boolean => {
   return x >= 0 && x + size <= SCREEN_SIZE && y >= 0 && y + size <= SCREEN_SIZE;
 };
+
+export const range = (low: number, high: number): number[] => {
+  const result: number[] = [];
+  for (let i = low; i < high; i += 1) {
+    result.push(i);
+  }
+  return result;
+};

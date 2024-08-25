@@ -22,6 +22,7 @@ import {
   SCREEN_SIZE,
 } from "./constants";
 import type { Dictionary } from "../dictionary/types";
+import { range } from "./utils";
 
 const defaultState: State = {
   mandarinDictionary: { traditional: [], simplified: [] },
@@ -283,6 +284,30 @@ describe("reducer", () => {
       const action: Action = { type: "PASS_REVIEW" };
       const newState: State = reducer(state, action);
       const expected: State = state;
+      expect(newState).toEqual(expected);
+    });
+
+    it("removes first word in review words", () => {
+      const words: MandarinWord[] = range(1, 5).map(
+        (i: number): MandarinWord => {
+          return {
+            word: `word-${i}`,
+            pronunciation: `pronunciation-${i}`,
+            meaning: `meaning-${i}`,
+            context: `context-${i}`,
+          };
+        }
+      );
+      const state: State = {
+        ...defaultState,
+        status: { type: "SHOWING_LEVEL_REVIEW", words },
+      };
+      const action: Action = { type: "PASS_REVIEW" };
+      const newState: State = reducer(state, action);
+      const expected: State = {
+        ...state,
+        status: { type: "SHOWING_LEVEL_REVIEW", words: words.slice(1) },
+      };
       expect(newState).toEqual(expected);
     });
   });
