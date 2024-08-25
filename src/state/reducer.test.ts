@@ -274,6 +274,17 @@ describe("reducer", () => {
         expect(newState).toEqual(expected);
       }
     );
+
+    it("does nothing if status is SHOWING_LEVEL_REVIEW but words are empty", () => {
+      const state: State = {
+        ...defaultState,
+        status: { type: "SHOWING_LEVEL_REVIEW", words: [] },
+      };
+      const action: Action = { type: "PASS_REVIEW" };
+      const newState: State = reducer(state, action);
+      const expected: State = state;
+      expect(newState).toEqual(expected);
+    });
   });
 
   describe("FAIL_REVIEW", () => {
@@ -303,6 +314,17 @@ describe("reducer", () => {
         expect(newState).toEqual(expected);
       }
     );
+
+    it("does nothing if status is SHOWING_LEVEL_REVIEW but words are empty", () => {
+      const state: State = {
+        ...defaultState,
+        status: { type: "SHOWING_LEVEL_REVIEW", words: [] },
+      };
+      const action: Action = { type: "FAIL_REVIEW" };
+      const newState: State = reducer(state, action);
+      const expected: State = state;
+      expect(newState).toEqual(expected);
+    });
   });
 
   describe("TICK", () => {
