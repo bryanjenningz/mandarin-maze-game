@@ -170,9 +170,18 @@ export const reducer = (state: State, action: Action): State => {
       const itemCount =
         state.itemCount + (state.monsters.length - monsters.length);
       const status: Status = (() => {
-        if (itemCount === state.itemCount || state.unknownWords.length === 0) {
-          return state.status;
+        if (state.unknownWords.length === 0) return state.status;
+        if (state.exits.some((exit) => overlaps(player, exit))) {
+          const MONSTERS_PER_LEVEL = 5;
+          const index =
+            (state.gameMapLevel * MONSTERS_PER_LEVEL) %
+            state.unknownWords.length;
+          return {
+            type: "SHOWING_LEVEL_REVIEW",
+            words: state.mandarinWords.slice(index, index + MONSTERS_PER_LEVEL),
+          };
         }
+        if (itemCount === state.itemCount) return state.status;
         const word =
           state.unknownWords[state.itemCount % state.unknownWords.length];
         if (!word) return state.status;
