@@ -487,12 +487,20 @@ describe("reducer", () => {
         expect(newState).toEqual(expected);
       });
 
-      it("player can go to an exit if there aren't any monsters", () => {
+      it("allows player to go to exit if there aren't any monsters, then it sets status to SHOWING_LEVEL_REVIEW", () => {
         const keysDown = new Set(["arrowup"]);
         const player: Player = { x: 0, y: 20, size: 20, health: 100 };
         const exits: Exit[] = [{ x: 0, y: 0, size: 20 }];
+        const mandarinWord: MandarinWord = {
+          word: "word-1",
+          pronunciation: "pronunciation-1",
+          meaning: "meaning-1",
+          context: "context-1",
+        };
         const state: State = {
           ...defaultState,
+          mandarinWords: [mandarinWord],
+          unknownWords: ["word-1"],
           keysDown,
           player,
           monsters: [],
@@ -500,7 +508,11 @@ describe("reducer", () => {
         };
         const action: Action = tick();
         const newState: State = reducer(state, action);
-        const expected: State = { ...state, player: { ...player, y: 19 } };
+        const expected: State = {
+          ...state,
+          player: { ...player, y: 19 },
+          status: { type: "SHOWING_LEVEL_REVIEW", words: [mandarinWord] },
+        };
         expect(newState).toEqual(expected);
       });
     });
