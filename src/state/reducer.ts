@@ -144,11 +144,16 @@ export const reducer = (state: State, action: Action): State => {
       return { ...state, keysDown };
     }
     case "TICK": {
+      if (state.status.type === "SHOWING_LEVEL_REVIEW") {
+        if (state.status.words.length === 0) {
+          return { ...state, status: { type: "ACTIVE" } };
+        }
+        return state;
+      }
       if (
         state.status.type === "PAUSED" ||
         state.status.type === "SHOWING_NEW_WORD" ||
-        state.status.type === "START" ||
-        state.status.type === "SHOWING_LEVEL_REVIEW"
+        state.status.type === "START"
       ) {
         return state;
       }
