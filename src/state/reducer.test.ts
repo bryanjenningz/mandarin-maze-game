@@ -350,6 +350,38 @@ describe("reducer", () => {
       const expected: State = state;
       expect(newState).toEqual(expected);
     });
+
+    it("moves first word in review words to the back", () => {
+      const words: MandarinWord[] = range(1, 5).map(
+        (i: number): MandarinWord => {
+          return {
+            word: `word-${i}`,
+            pronunciation: `pronunciation-${i}`,
+            meaning: `meaning-${i}`,
+            context: `context-${i}`,
+          };
+        }
+      );
+      const state: State = {
+        ...defaultState,
+        status: { type: "SHOWING_LEVEL_REVIEW", words },
+      };
+      const action: Action = { type: "PASS_REVIEW" };
+      const newState: State = reducer(state, action);
+      const expectedNewWords: MandarinWord[] = [
+        ...words.slice(1),
+        words[0],
+      ].filter(Boolean);
+      const expected: State = {
+        ...state,
+        status: {
+          type: "SHOWING_LEVEL_REVIEW",
+          words: expectedNewWords,
+        },
+      };
+      expect(newState).toEqual(expected);
+      expect(expectedNewWords).toHaveLength(words.length);
+    });
   });
 
   describe("TICK", () => {
