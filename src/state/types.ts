@@ -85,6 +85,8 @@ export type Action =
   | { type: "START_GAME" }
   | { type: "KEY_DOWN"; key: string }
   | { type: "KEY_UP"; key: string }
+  | { type: "PASS_REVIEW" }
+  | { type: "FAIL_REVIEW" }
   | { type: "TICK"; time: number; monsterMoves: MonsterMove[] };
 
 export type MonsterMove = {

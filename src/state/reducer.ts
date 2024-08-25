@@ -143,6 +143,12 @@ export const reducer = (state: State, action: Action): State => {
       );
       return { ...state, keysDown };
     }
+    case "PASS_REVIEW": {
+      return state;
+    }
+    case "FAIL_REVIEW": {
+      return state;
+    }
     case "TICK": {
       if (state.status.type === "SHOWING_LEVEL_REVIEW") {
         if (state.status.words.length === 0) {
