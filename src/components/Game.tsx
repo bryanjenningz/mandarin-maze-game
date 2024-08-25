@@ -10,6 +10,7 @@ import { parseDictionary } from "../dictionary/parseDictionary";
 import { GameStart } from "./GameStart";
 import { classNames } from "./utils";
 import { generateMonsterMoves } from "../state/random";
+import type { MandarinWord } from "../state/types";
 
 export const Game = (): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, initState);
@@ -87,44 +88,58 @@ export const Game = (): JSX.Element => {
         <PlayerBlock player={state.player} />
 
         {state.status.type === "SHOWING_NEW_WORD" && (
-          <div className="relative bg-gray-800 text-white p-4 max-w-2xl w-full flex flex-col items-center justify-center gap-4 z-20">
-            <h2 className="text-xl">You found a new word!</h2>
-            <div className="flex gap-4">
-              <div className="text-lg font-bold">{state.status.word.word}</div>
-              <div className="text-lg">{state.status.word.pronunciation}</div>
-            </div>
-            <div className="text-gray-200">{state.status.word.meaning}</div>
-            <div className="text-gray-200">
-              {((): JSX.Element => {
-                const word = state.status.word.word;
-                const wordIndex = state.status.word.context.indexOf(word);
-                return (
-                  <>
-                    {state.status.word.context.split("").map((ch, i) => {
-                      const highlighted =
-                        i >= wordIndex && i < wordIndex + word.length;
-                      return (
-                        <span
-                          key={`${ch}-${i}`}
-                          className={classNames(highlighted && "bg-blue-400")}
-                        >
-                          {ch}
-                        </span>
-                      );
-                    })}
-                  </>
-                );
-              })()}
-            </div>
-            <button
-              className="py-2 px-4 rounded-lg bg-blue-800 text-white hover:brightness-110 transition duration-300 text-lg"
-              onClick={() => dispatch({ type: "START_GAME" })}
-            >
-              Got it!
-            </button>
-          </div>
+          <NewWord
+            mandarinWord={state.status.word}
+            resumeGame={() => dispatch({ type: "START_GAME" })}
+          />
         )}
       </div>
+    </div>
+  );
+};
+
+type NewWordProps = {
+  mandarinWord: MandarinWord;
+  resumeGame: () => void;
+};
+
+const NewWord = ({ mandarinWord, resumeGame }: NewWordProps): JSX.Element => {
+  return (
+    <div className="relative bg-gray-800 text-white p-4 max-w-2xl w-full flex flex-col items-center justify-center gap-4 z-20">
+      <h2 className="text-xl">You found a new word!</h2>
+      <div className="flex gap-4">
+        <div className="text-lg font-bold">{mandarinWord.word}</div>
+        <div className="text-lg">{mandarinWord.pronunciation}</div>
+      </div>
+      <div className="text-gray-200">{mandarinWord.meaning}</div>
+      <div className="text-gray-200">
+        {((): JSX.Element => {
+          const word = mandarinWord.word;
+          const wordIndex = mandarinWord.context.indexOf(word);
+          return (
+            <>
+              {mandarinWord.context.split("").map((ch, i) => {
+                const highlighted =
+                  i >= wordIndex && i < wordIndex + word.length;
+                return (
+                  <span
+                    key={`${ch}-${i}`}
+                    className={classNames(highlighted && "bg-blue-400")}
+                  >
+                    {ch}
+                  </span>
+                );
+              })}
+            </>
+          );
+        })()}
+      </div>
+      <button
+        className="py-2 px-4 rounded-lg bg-blue-800 text-white hover:brightness-110 transition duration-300 text-lg"
+        onClick={resumeGame}
+      >
+        Got it!
+      </button>
     </div>
   );
 };
