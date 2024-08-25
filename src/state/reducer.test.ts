@@ -316,6 +316,28 @@ describe("reducer", () => {
         const expected: State = { ...state };
         expect(newState).toEqual(expected);
       });
+
+      it("doesn't update if status is SHOWING_LEVEL_REVIEW", () => {
+        const bullets: Bullet[] = [
+          { x: 50, y: 50, dx: 1, dy: 1, size: BULLET_SIZE },
+        ];
+        const monsterBullets: Bullet[] = bullets;
+        const state: State = {
+          ...defaultState,
+          status: {
+            type: "SHOWING_LEVEL_REVIEW",
+            words: [
+              { word: "a", pronunciation: "b", meaning: "c", context: "d" },
+            ],
+          },
+          bullets,
+          monsterBullets,
+        };
+        const action: Action = tick();
+        const newState: State = reducer(state, action);
+        const expected: State = { ...state };
+        expect(newState).toEqual(expected);
+      });
     });
 
     describe("game map level", () => {
