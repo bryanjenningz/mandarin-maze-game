@@ -1,7 +1,5 @@
 import { useEffect, useReducer } from "react";
 import { initState, reducer } from "../state/reducer";
-import { BLOCK_SIZE } from "../state/constants";
-import type { Monster, MonsterMove, Target } from "../state/types";
 import { closestMonster } from "../state/utils";
 import { PlayerBlock } from "./PlayerBlock";
 import { BulletBlock } from "./BulletBlock";
@@ -11,38 +9,7 @@ import { loadDictionary } from "../dictionary/loadDictionary";
 import { parseDictionary } from "../dictionary/parseDictionary";
 import { GameStart } from "./GameStart";
 import { classNames } from "./utils";
-
-const RANDOM_TARGET_TILE_RANGE = 5;
-
-/** Generates an integer between low and high inclusive, so generateInt(2, 5) can be 2, 3, 4, or 5 */
-const generateInt = (low: number, high: number): number => {
-  return Math.floor(Math.random() * (high - low + 1)) + low;
-};
-
-const generateTarget = ({ x, y }: Monster): Target | null => {
-  if (Math.random() < 0.98) return null;
-  return {
-    x: generateInt(
-      x - RANDOM_TARGET_TILE_RANGE * BLOCK_SIZE,
-      x + RANDOM_TARGET_TILE_RANGE * BLOCK_SIZE
-    ),
-    y: generateInt(
-      y - RANDOM_TARGET_TILE_RANGE * BLOCK_SIZE,
-      y + RANDOM_TARGET_TILE_RANGE * BLOCK_SIZE
-    ),
-  };
-};
-
-const generateMonsterMove = (monster: Monster): MonsterMove => {
-  return {
-    shoot: Math.random() < 0.02,
-    target: generateTarget(monster),
-  };
-};
-
-const generateMonsterMoves = (monsters: Monster[]): MonsterMove[] => {
-  return monsters.map(generateMonsterMove);
-};
+import { generateMonsterMoves } from "../state/random";
 
 export const Game = (): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, initState);
