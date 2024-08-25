@@ -12,11 +12,24 @@ import { parseDictionary } from "../dictionary/parseDictionary";
 import { GameStart } from "./GameStart";
 import { classNames } from "./utils";
 
+const RANDOM_TARGET_TILE_RANGE = 5;
+
+/** Generates an integer between low and high inclusive, so generateInt(2, 5) can be 2, 3, 4, or 5 */
+const generateInt = (low: number, high: number): number => {
+  return Math.floor(Math.random() * (high - low + 1)) + low;
+};
+
 const generateTarget = ({ x, y }: Monster): Target | null => {
   if (Math.random() < 0.98) return null;
   return {
-    x: x + (Math.floor(Math.random() * 11) - 3) * BLOCK_SIZE,
-    y: y + (Math.floor(Math.random() * 11) - 3) * BLOCK_SIZE,
+    x: generateInt(
+      x - RANDOM_TARGET_TILE_RANGE * BLOCK_SIZE,
+      x + RANDOM_TARGET_TILE_RANGE * BLOCK_SIZE
+    ),
+    y: generateInt(
+      y - RANDOM_TARGET_TILE_RANGE * BLOCK_SIZE,
+      y + RANDOM_TARGET_TILE_RANGE * BLOCK_SIZE
+    ),
   };
 };
 
