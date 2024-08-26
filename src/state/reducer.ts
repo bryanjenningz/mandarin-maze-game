@@ -198,7 +198,14 @@ export const reducer = (state: State, action: Action): State => {
             state.unknownWords.length;
           return {
             type: "SHOWING_LEVEL_REVIEW",
-            words: state.mandarinWords.slice(index, index + MONSTERS_PER_LEVEL),
+            words: state.unknownWords
+              .slice(index, index + MONSTERS_PER_LEVEL)
+              .map((unknownWord) => {
+                return state.mandarinWords.find(
+                  (mandarinWord) => mandarinWord.word === unknownWord
+                );
+              })
+              .filter(Boolean),
           };
         }
         if (itemCount === state.itemCount) return state.status;
