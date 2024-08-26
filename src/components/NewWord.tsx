@@ -1,5 +1,7 @@
+import { useEffect } from "react";
 import type { MandarinWord } from "../state/types";
 import { classNames } from "./utils";
+import { textToSpeech } from "../dictionary/textToSpeech";
 
 type NewWordProps = {
   mandarinWord: MandarinWord;
@@ -10,6 +12,10 @@ export const NewWord = ({
   mandarinWord,
   resumeGame,
 }: NewWordProps): JSX.Element => {
+  useEffect(() => {
+    textToSpeech(mandarinWord.word);
+  }, []);
+
   return (
     <div className="absolute inset-0 bg-gray-800 text-white p-4 max-w-2xl w-full flex flex-col items-center justify-center gap-4 z-20">
       <h2 className="text-xl">You found a new word!</h2>
