@@ -673,10 +673,22 @@ describe("reducer", () => {
           meaning: "meaning-1",
           context: "context-1",
         };
+        const mandarinWord2: MandarinWord = {
+          word: "word-2",
+          pronunciation: "pronunciation-2",
+          meaning: "meaning-2",
+          context: "context-2",
+        };
+        const mandarinWord3: MandarinWord = {
+          word: "word-3",
+          pronunciation: "pronunciation-3",
+          meaning: "meaning-3",
+          context: "context-3",
+        };
         const state: State = {
           ...defaultState,
-          mandarinWords: [mandarinWord],
-          unknownWords: ["word-1"],
+          mandarinWords: [mandarinWord, mandarinWord2, mandarinWord3],
+          unknownWords: ["word-1", "word-3"],
           keysDown,
           player,
           monsters: [],
@@ -687,7 +699,10 @@ describe("reducer", () => {
         const expected: State = {
           ...state,
           player: { ...player, y: 19 },
-          status: { type: "SHOWING_LEVEL_REVIEW", words: [mandarinWord] },
+          status: {
+            type: "SHOWING_LEVEL_REVIEW",
+            words: [mandarinWord, mandarinWord3],
+          },
         };
         expect(newState).toEqual(expected);
       });
