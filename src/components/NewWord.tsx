@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import type { MandarinWord } from "../state/types";
 import { classNames } from "./utils";
 import { textToSpeech } from "../dictionary/textToSpeech";
+import { PlayAudioButton } from "./PlayAudioButton";
 
 type NewWordProps = {
   mandarinWord: MandarinWord;
@@ -22,6 +23,7 @@ export const NewWord = ({
       <div className="flex gap-4">
         <div className="text-lg font-bold">{mandarinWord.word}</div>
         <div className="text-lg">{mandarinWord.pronunciation}</div>
+        <PlayAudioButton text={mandarinWord.word} />
       </div>
       <div className="text-gray-200">{mandarinWord.meaning}</div>
       <div className="text-gray-200">
