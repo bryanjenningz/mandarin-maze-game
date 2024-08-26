@@ -1,6 +1,8 @@
+import { useEffect } from "react";
 import type { MandarinWord } from "../state/types";
 import { PlayAudioButton } from "./PlayAudioButton";
 import { WordContext } from "./WordContext";
+import { textToSpeech } from "../dictionary/textToSpeech";
 
 type LevelReviewProps = {
   mandarinWord: MandarinWord;
@@ -13,6 +15,10 @@ export const LevelReview = ({
   passReview,
   failReview,
 }: LevelReviewProps): JSX.Element => {
+  useEffect(() => {
+    textToSpeech(mandarinWord.word);
+  }, [mandarinWord.word]);
+
   return (
     <div className="absolute inset-0 bg-gray-800 text-white p-4 max-w-2xl w-full flex flex-col items-center justify-center gap-4 z-20">
       <h2 className="text-2xl">{mandarinWord.word}</h2>
