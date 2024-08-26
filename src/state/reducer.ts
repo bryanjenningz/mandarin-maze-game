@@ -44,7 +44,7 @@ const textToMandarinWords = (
 };
 
 export const initMandarinText =
-  "他們以前連飯都吃不飽，現在生活條件已經改善了很多";
+  "中國經濟自疫情過後並未有效復甦，內需消費與投資力道疲弱，房地產市場泡沫、金融風險壓力加劇、加上地方政府債務等燙手山芋，為什麼中國政府無法解決這些問題？這幾年習近平自我感覺良好，鼓吹東升西降的「新質生產力」已成空談？中國已經陷入了中等收入陷阱了嗎？美國共和黨大選綱領「將取消中國最惠國的待遇」如果實施，對中國經濟會產生什麼結構性影響？";
 
 export const initState: State = {
   mandarinDictionary: { traditional: [], simplified: [] },
