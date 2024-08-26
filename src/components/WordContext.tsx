@@ -17,7 +17,7 @@ export const WordContext = ({
   );
   const wordIndexContextSlice = contextSlice.indexOf(word);
   return (
-    <>
+    <p>
       {"..."}
       {contextSlice.split("").map((ch, i) => {
         const highlighted =
@@ -32,6 +32,6 @@ export const WordContext = ({
         );
       })}
       {"..."}
-    </>
+    </p>
   );
 };

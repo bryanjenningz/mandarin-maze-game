@@ -1,5 +1,6 @@
 import type { MandarinWord } from "../state/types";
 import { PlayAudioButton } from "./PlayAudioButton";
+import { WordContext } from "./WordContext";
 
 type LevelReviewProps = {
   mandarinWord: MandarinWord;
@@ -18,7 +19,7 @@ export const LevelReview = ({
       <PlayAudioButton text={mandarinWord.word} />
       <div>{mandarinWord.pronunciation}</div>
       <div>{mandarinWord.meaning}</div>
-      <div>{mandarinWord.context}</div>
+      <WordContext mandarinWord={mandarinWord} />
       <div className="w-full flex gap-4">
         <button
           className="grow py-2 px-4 bg-red-800 hover:brightness-110 transition duration-300 rounded-lg text-white"
