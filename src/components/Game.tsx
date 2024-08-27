@@ -8,9 +8,9 @@ import { WallBlock } from "./WallBlock";
 import { loadDictionary } from "../dictionary/loadDictionary";
 import { parseDictionary } from "../dictionary/parseDictionary";
 import { GameStart } from "./GameStart";
-import { generateMonsterMoves } from "../state/random";
 import { NewWord } from "./NewWord";
 import { LevelReview } from "./LevelReview";
+import { useTick } from "../hooks/useTick";
 
 export const Game = (): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, initState);
@@ -38,22 +38,7 @@ export const Game = (): JSX.Element => {
     };
   }, []);
 
-  useEffect(() => {
-    let unmounted = false;
-    const update = () => {
-      if (unmounted) return;
-      dispatch({
-        type: "TICK",
-        time: Date.now(),
-        monsterMoves: generateMonsterMoves(state.monsters),
-      });
-      requestAnimationFrame(update);
-    };
-    update();
-    return () => {
-      unmounted = true;
-    };
-  }, []);
+  useTick(state.monsters, dispatch);
 
   if (state.status.type === "START") {
     return <GameStart dispatch={dispatch} state={state} />;
