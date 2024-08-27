@@ -35,3 +35,7 @@ Learn Mandarin words by playing a maze shooter game!
 <p>Once you learn all the words, you go to the next level where there are more enemies to defeat and more words to learn!</p>
 
 <img src="screenshots/screenshot-8.png" alt="" style="width: 300px">
+
+## Credits
+
+[CC-CEDICT](https://www.mdbg.net/chinese/dictionary?page=cedict) for the Mandarin Chinese dictionary text file
