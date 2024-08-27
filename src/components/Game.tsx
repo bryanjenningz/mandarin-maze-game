@@ -11,6 +11,7 @@ import { GameStart } from "./GameStart";
 import { NewWord } from "./NewWord";
 import { LevelReview } from "./LevelReview";
 import { useTick } from "../hooks/useTick";
+import { useKeyboard } from "../hooks/useKeyboard";
 
 export const Game = (): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, initState);
@@ -23,20 +24,7 @@ export const Game = (): JSX.Element => {
     })();
   }, []);
 
-  useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-      dispatch({ type: "KEY_DOWN", key: e.key });
-    };
-    const onKeyUp = (e: KeyboardEvent) => {
-      dispatch({ type: "KEY_UP", key: e.key });
-    };
-    window.addEventListener("keydown", onKeyDown);
-    window.addEventListener("keyup", onKeyUp);
-    return () => {
-      window.removeEventListener("keydown", onKeyDown);
-      window.removeEventListener("keyup", onKeyUp);
-    };
-  }, []);
+  useKeyboard(dispatch);
 
   useTick(state.monsters, dispatch);
 
