@@ -1,6 +1,6 @@
 # Mandarin Maze Game
 
-Enter in Mandarin words you want to learn then play a maze game to learn them.
+Learn Mandarin words by playing a maze shooter game!
 
 ## How to play the game
 
