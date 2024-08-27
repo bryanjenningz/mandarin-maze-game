@@ -1,11 +1,11 @@
 {
-  "name": "2D Maze Game",
+  "name": "Mandarin Maze Game",
   "short_name": "Maze Game",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#000",
   "theme_color": "#000",
-  "description": "Build, play, and share your own 2D maze game.",
+  "description": "Enter in Mandarin words you want to learn then play a maze game to learn them.",
   "icons": [
     {
       "src": "/favicon-16x16.png",
