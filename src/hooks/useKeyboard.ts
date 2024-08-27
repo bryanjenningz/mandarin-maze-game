@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import type { Action } from "../state/types";
 
-export const useKeyboard = (dispatch: React.Dispatch<Action>) => {
+export const useKeyboard = (dispatch: React.Dispatch<Action>): void => {
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       dispatch({ type: "KEY_DOWN", key: e.key });

@@ -1,31 +1,21 @@
-import { useEffect, useReducer } from "react";
+import { useReducer } from "react";
 import { initState, reducer } from "../state/reducer";
 import { closestMonster } from "../state/utils";
 import { PlayerBlock } from "./PlayerBlock";
 import { BulletBlock } from "./BulletBlock";
 import { MonsterBlock } from "./MonsterBlock";
 import { WallBlock } from "./WallBlock";
-import { loadDictionary } from "../dictionary/loadDictionary";
-import { parseDictionary } from "../dictionary/parseDictionary";
 import { GameStart } from "./GameStart";
 import { NewWord } from "./NewWord";
 import { LevelReview } from "./LevelReview";
 import { useTick } from "../hooks/useTick";
 import { useKeyboard } from "../hooks/useKeyboard";
+import { useDictionary } from "../hooks/useDictionary";
 
 export const Game = (): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, initState);
-
-  useEffect(() => {
-    void (async () => {
-      const dictionaryText = await loadDictionary();
-      const mandarinDictionary = parseDictionary(dictionaryText);
-      dispatch({ type: "SET_MANDARIN_DICTIONARY", mandarinDictionary });
-    })();
-  }, []);
-
+  useDictionary(dispatch);
   useKeyboard(dispatch);
-
   useTick(state.monsters, dispatch);
 
   if (state.status.type === "START") {
