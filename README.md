@@ -1,3 +1,3 @@
-# 2D Maze Game
+# Mandarin Maze Game
 
-Build, play, and share your own 2D maze game.
+Enter in Mandarin words you want to learn then play a maze game to learn them.
