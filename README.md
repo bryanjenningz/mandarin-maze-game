@@ -12,7 +12,7 @@ Enter in Mandarin words you want to learn then play a maze game to learn them.
 
 <img src="screenshots/screenshot-2.png" alt="" style="width: 300px">
 
-<p>Move around using the arrow keys and shoot by holding down the "w" key.</p>
+<p>Move around using the arrow keys, shoot by holding down the "w" key, and pause/resume the game by pressing the "p" key.</p>
 
 <img src="screenshots/screenshot-3.png" alt="" style="width: 300px">
 
