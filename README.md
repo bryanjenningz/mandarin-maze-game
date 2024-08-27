@@ -2,6 +2,8 @@
 
 Learn Mandarin words by playing a maze shooter game!
 
+Written with [React](https://react.dev), [TypeScript](https://www.typescriptlang.org), [Astro](https://astro.build), and [TailwindCSS](https://tailwindcss.com).
+
 ## How to play the game
 
 <p>Paste in Mandarin text you want to learn.</p>
