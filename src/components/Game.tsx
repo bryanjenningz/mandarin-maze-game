@@ -25,7 +25,7 @@ export const Game = (): JSX.Element => {
   const closest = closestMonster(state.player, state.monsters);
 
   return (
-    <div className="text-white bg-black w-full h-[100svh] flex justify-center items-center">
+    <div className="text-white bg-black w-full h-[100svh] flex flex-col justify-center items-center">
       <div className="relative aspect-square w-full max-w-2xl bg-gray-800">
         {state.walls.map((wall, i) => {
           return <WallBlock key={i} wall={wall} />;
@@ -78,6 +78,10 @@ export const Game = (): JSX.Element => {
           }
         })()}
       </div>
+
+      <p className="text-white text-center">
+        {`Use arrow keys to move, "w" to shoot, "p" to pause.`}
+      </p>
     </div>
   );
 };
