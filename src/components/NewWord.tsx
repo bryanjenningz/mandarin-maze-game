@@ -29,12 +29,6 @@ export const NewWord = ({
       <div className="text-gray-200">
         <WordContext mandarinWord={mandarinWord} />
       </div>
-      <button
-        className="py-2 px-4 rounded-lg bg-blue-800 text-white hover:brightness-110 transition duration-300 text-lg"
-        onClick={resumeGame}
-      >
-        Got it!
-      </button>
       <a
         className="py-2 px-4 rounded-lg text-blue-400 hover:brightness-110 transition duration-300 text-sm"
         target="_blank"
@@ -43,6 +37,12 @@ export const NewWord = ({
       >
         Listen on Youglish
       </a>
+      <button
+        className="py-2 px-4 rounded-lg bg-blue-800 text-white hover:brightness-110 transition duration-300 text-lg"
+        onClick={resumeGame}
+      >
+        Got it!
+      </button>
     </div>
   );
 };
