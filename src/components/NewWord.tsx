@@ -35,6 +35,14 @@ export const NewWord = ({
       >
         Got it!
       </button>
+      <a
+        className="py-2 px-4 rounded-lg text-blue-400 hover:brightness-110 transition duration-300 text-sm"
+        target="_blank"
+        rel="noreferrer"
+        href={`https://youglish.com/pronounce/${mandarinWord.word}/chinese`}
+      >
+        Listen on Youglish
+      </a>
     </div>
   );
 };
