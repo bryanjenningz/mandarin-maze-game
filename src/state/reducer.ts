@@ -220,13 +220,9 @@ export const reducer = (state: State, action: Action): State => {
       })();
       const { bullets, lastBulletFiredAt } = updateBullets(state, action.time);
       const monsterBullets = updateMonsterBullets(state, action.monsterMoves);
-      const keysDown = state.keysDown.has("d")
-        ? new Set([...state.keysDown].filter((x) => x !== "d"))
-        : state.keysDown;
       return {
         ...state,
         status,
-        keysDown,
         player,
         itemCount,
         monsters,
