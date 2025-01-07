@@ -15,7 +15,7 @@ export const useTick = (
         time: Date.now(),
         monsterMoves: generateMonsterMoves(monsters),
       });
-      requestAnimationFrame(update);
+      setTimeout(update, 15);
     };
     update();
     return () => {
